@@ -20,7 +20,7 @@ model = ChatOpenAI(
 
 output_parser = StrOutputParser()
 
-def translate_once(origin_content):
+def translate_once(prompt, origin_content):
     chain = prompt | model | output_parser
     response = chain.invoke({"input": origin_content})
     out_content = common_tools.extract_translation(response)
@@ -31,10 +31,10 @@ def translate_once(origin_content):
     return result
 
 # 步骤二：处理内容
-def process_chunks(chunks):
+def process_chunks(prompt, chunks):
     processed_chunks = []
     for chunk in chunks:
-        modified_chunk = translate_once(chunk)
+        modified_chunk = translate_once(prompt, chunk)
         processed_chunks.append(modified_chunk)
     return processed_chunks
 
@@ -45,13 +45,13 @@ def merge_and_save_chunks(chunks, filename):
 
 def translate():
     prompt_content = common_tools.read_file('./translate_prompt.md')
-    origin_content = common_tools.read_file('/Users/Daglas/Desktop/暂存数据.md')
+    origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
     prompt = ChatPromptTemplate.from_messages([
         ("system", prompt_content),
         ("user", "{input}")
     ])
     chunks = common_tools.split_text_by_length(origin_content, 2000)
-    processed_chunks = process_chunks(chunks)
+    processed_chunks = process_chunks(prompt, chunks)
     merge_and_save_chunks(processed_chunks, '/Users/Daglas/Desktop/output.md')
 
 if __name__ == '__main__':
