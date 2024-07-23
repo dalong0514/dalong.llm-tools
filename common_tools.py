@@ -17,13 +17,23 @@ def modify_text(text):
         .replace('“', '「')\
         .replace('”', '」')\
         .replace('・', '·')\
-        .replace('， ', '，')\
+        .replace(', ', '，')\
         .replace('。 ', '。')\
         .replace('’', '\'')\
         .replace(': ', '：')\
         .replace(') ', '）')\
         .replace(' (', '（')\
-        .replace('  ', ' ')
+        .replace('  ', ' ')\
+        .replace(' "', '「')\
+        .replace('、"', '、「')\
+        .replace('" ', '」')\
+        .replace('"，', '」，')\
+        .replace('"、', '」、')\
+        .replace('"（', '」（')\
+        .replace(')，', '），')\
+        .replace(')。', '）。')\
+        .replace('》(', '》（')\
+        .replace('"。', '」。')
     new_text = new_text.strip()
     new_text = re.sub(r'(?<=[\u4e00-\u9fa5])\s+(?=[\u4e00-\u9fa5])', '', new_text)
     return new_text
@@ -50,6 +60,23 @@ def split_text_by_length(text, max_length=1000):
 
     return segments
 
+def split_text_by_char_length(text, max_length=1000):
+    segments = []
+    current_segment = ""
+
+    for char in text:
+        # 检查加上新字符后长度是否超过最大值
+        if len(current_segment) + 1 > max_length:
+            segments.append(current_segment)
+            current_segment = char  # 开始新的段落
+        else:
+            current_segment += char
+
+    # 确保最后的段落也被加入到segments中
+    if current_segment:
+        segments.append(current_segment)
+
+    return segments
 
 def extract_translation(text):
     # 正则表达式匹配意译部分
