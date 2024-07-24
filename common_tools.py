@@ -80,10 +80,13 @@ def split_text_by_char_length(text, max_length=1000):
 
 def extract_translation(text):
     # 正则表达式匹配意译部分
-    pattern = r'### 意译\s+```(.*?)```'
+    pattern = r'(?:### |)意译\s*(?:```([\s\S]*?)```|([^#]*?))(?=\n###|\Z)'
+    # pattern = r'### 意译\s+```(.*?)```'
     match = re.search(pattern, text, re.DOTALL)
     if match:
-        return match.group(1).strip()
+        # 检查两个捕获组，返回非空的那个
+        result = match.group(1) or match.group(2)
+        return result.strip() if result else "未找到意译内容"
     return "未找到意译内容"
 
 if __name__ == "__main__":
