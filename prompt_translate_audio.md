@@ -6,7 +6,6 @@
 {AUDIO_TRANSCRIPT}
 </audio_transcript>
 严格按照如下格式返回，"[xxx]"表示占位符：
-### 意译
-```
+<refined_translation>
 [意译结果]
-```
+</refined_translation>
