@@ -78,6 +78,20 @@ def split_text_by_char_length(text, max_length=1000):
 
     return segments
 
+def split_text_by_newline(text):
+    """
+    将大段文本按换行符分割成数组。
+
+
+    参数:
+    text (str): 要分割的文本
+
+    返回:
+    list: 分割后的文本数组
+    """
+    return text.split('\n\n')
+
+
 def extract_translation(text):
     pattern = r'<step3_refined_translation>([\s\S]*?)(?:</step3_refined_translation>|\Z)'
     match = re.search(pattern, text, re.DOTALL)

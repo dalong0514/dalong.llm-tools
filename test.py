@@ -1,15 +1,12 @@
 import time
 import common_tools as common_tools
 
-def test1():
-    origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
-    chunks = common_tools.split_text_by_length(origin_content, 1200)
-    for chunk in chunks:
-        print(chunk + '\n\n\n')
-
 def test():
     origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
-    content = common_tools.extract_translation(origin_content)
+    content = common_tools.split_text_by_newline(origin_content)
+    with open('/Users/Daglas/Desktop/output.md', 'w', encoding='utf-8') as file:
+        for paragraph in content:
+            file.write(paragraph + '\nKK\n')
     print(content)
 
 if __name__ == '__main__':

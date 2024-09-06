@@ -25,8 +25,8 @@ def translate_once(prompt, origin_content, filename):
     out_content = common_tools.extract_translation(response)
     out_content = common_tools.modify_text(out_content)
     with open(filename, 'a', encoding='utf-8') as file:
-#         file.write('\n' + origin_content + '\n\n' + out_content + '\n')
-        file.write(out_content + '\n\n')
+        file.write('\n' + origin_content + '\n\n' + out_content + '\n')
+        # file.write(out_content + '\n\n')
 
 # 步骤二：批量处理内容
 def process_chunks(prompt, chunks, filename):
@@ -34,7 +34,7 @@ def process_chunks(prompt, chunks, filename):
         translate_once(prompt, chunk, filename)
 
 def translate():
-    prompt_content = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate.md')
+    prompt_content = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_ch2en.md')
     origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
     prompt = ChatPromptTemplate.from_messages([
         ("system", prompt_content),
