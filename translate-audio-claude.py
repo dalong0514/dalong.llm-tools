@@ -10,7 +10,8 @@ import common_tools as common_tools
 api_key = api.claude_api_key()
 # 将API Key保存为环境变量
 os.environ["ANTHROPIC_API_KEY"] = api_key
-model_name='claude-3-5-sonnet-20240620'
+model_name='claude-3-5-sonnet-20241022'
+# model_name='claude-3-5-sonnet-20240620'
 
 model = ChatAnthropic(
     model_name=model_name,

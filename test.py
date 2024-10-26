@@ -6,7 +6,7 @@ def test():
     content = common_tools.split_text_by_newline(origin_content)
     with open('/Users/Daglas/Desktop/output.md', 'w', encoding='utf-8') as file:
         for paragraph in content:
-            file.write(paragraph + '\nKK\n')
+            file.write(paragraph + '\n##KK\n')
     print(content)
 
 if __name__ == '__main__':

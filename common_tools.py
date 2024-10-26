@@ -80,8 +80,7 @@ def split_text_by_char_length(text, max_length=1000):
 
 def split_text_by_newline(text):
     """
-    将大段文本按换行符分割成数组。
-
+    将大段文本按换行符分割成数组，并合并短文本段落。
 
     参数:
     text (str): 要分割的文本
@@ -89,7 +88,21 @@ def split_text_by_newline(text):
     返回:
     list: 分割后的文本数组
     """
-    return text.split('\n\n')
+    segments = text.split('\n\n')
+    merged_segments = []
+    i = 0
+    while i < len(segments):
+        current_segment = segments[i]
+        # 如果当前段落小于50个字符，且不是最后一个段落
+        if len(current_segment) < 160 and i + 1 < len(segments):
+            # 合并当前段落和下一个段落
+            merged_segment = current_segment + '\n\n' + segments[i + 1]
+            merged_segments.append(merged_segment)
+            i += 2  # 跳过下一个段落
+        else:
+            merged_segments.append(current_segment)
+            i += 1
+    return merged_segments
 
 
 def extract_translation(text):
