@@ -28,6 +28,11 @@ def zhipu_api_key():
         config = json.load(f)
     return config['zhipu_key']
 
+def qwen_api_key():
+    with open(finename) as f:
+        config = json.load(f)
+    return config['qwen_key']
+
 def read_file(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         content = file.read()

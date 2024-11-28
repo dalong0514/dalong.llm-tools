@@ -1,23 +1,21 @@
 # -*- coding:utf-8 -*-
-from langchain_anthropic import ChatAnthropic
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
-import time, os
+import time, os, re
 import api_key as api
 import common_tools as common_tools
 
-api_key = api.claude_api_key()
-# 将API Key保存为环境变量
-os.environ["ANTHROPIC_API_KEY"] = api_key
-model_name='claude-3-5-haiku-20241022'
-# model_name='claude-3-5-sonnet-20241022'
+api_key = api.deepseek_api_key()
+base_url= 'https://api.deepseek.com/v1'
+model_name='deepseek-chat'
 
-model = ChatAnthropic(
-    model_name=model_name,
-    max_tokens = 8192,
-    extra_headers = {"anthropic-beta": "max-tokens-3-5-sonnet-2024-07-15"}
+model = ChatOpenAI(
+    base_url=base_url,
+    api_key=api_key,
+    model_name=model_name
 )
+
 output_parser = StrOutputParser()
 
 def translate_once(prompt, origin_content, filename):
