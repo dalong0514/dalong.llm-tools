@@ -2,18 +2,17 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-from langchain_core.runnables import RunnablePassthrough
 import time, os, re
 import api_key as api
 import common_tools as common_tools
 
-api_key = api.deepseek_api_key()
-base_url= 'https://api.deepseek.com/v1'
-model_name='deepseek-chat'
+api_key = api.openai_api_key()
+# 将API Key保存为环境变量
+os.environ["OPENAI_API_KEY"] = api_key
+# model_name='gpt-4o-mini'
+model_name='gpt-4o'
 
 model = ChatOpenAI(
-    base_url=base_url,
-    api_key=api_key,
     model_name=model_name
 )
 
@@ -23,7 +22,7 @@ def translate_once(prompt, origin_content, filename):
     chain = prompt | model | output_parser
     response = chain.invoke({"AUDIO_TRANSCRIPT": origin_content})
     out_content = extract_translation(response)
-    out_content = common_tools.modify_text(out_content)
+    # out_content = response
     with open(filename, 'a', encoding='utf-8') as file:
         file.write(out_content + '\n\n')
 
@@ -39,7 +38,7 @@ def extract_translation(text):
     return "未找到意译内容"
 
 def translate():
-    prompt_content = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio.md')
+    prompt_content = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio_en.md')
     origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
     prompt = ChatPromptTemplate.from_messages([
         ("user", prompt_content)
