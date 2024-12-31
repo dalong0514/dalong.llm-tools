@@ -18,6 +18,11 @@ def gemini_api_key():
         config = json.load(f)
     return config['gemini_key']
 
+def ai302_api_key():
+    with open(finename) as f:
+        config = json.load(f)
+    return config['ai302_key']
+
 def deepseek_api_key():
     with open(finename) as f:
         config = json.load(f)
