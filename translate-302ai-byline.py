@@ -8,7 +8,8 @@ import common_tools as common_tools
 
 api_key = api.ai302_api_key()
 base_url= 'https://api.302.ai/v1'
-model_name='claude-3-5-sonnet-20241022'
+model_name='gemini-2.0-flash-exp'
+# model_name='claude-3-5-sonnet-20241022'
 # model_name='gpt-4o'
 
 model = ChatOpenAI(

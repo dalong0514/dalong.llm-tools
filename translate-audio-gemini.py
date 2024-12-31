@@ -2,35 +2,33 @@
 # from langchain_openai import ChatOpenAI
 # from langchain_core.prompts import ChatPromptTemplate
 # from langchain_core.output_parsers import StrOutputParser
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
+# import google.generativeai as genai
 import time, os, re
 import api_key as api
 import common_tools as common_tools
-
+from google import genai
+from google.genai import types
 
 api_key = api.gemini_api_key()
-os.environ["GOOGLE_API_KEY"] = api_key
+# os.environ["GOOGLE_API_KEY"] = api_key
 # model_name = 'gemini-1.5-flash'
+# Only run this block for Google AI API
+client = genai.Client(api_key=api_key)
+# Only run this block for Vertex AI API
+
+
 
 # output_parser = StrOutputParser()
 
 def test():
-    # llm = ChatGoogleGenerativeAI(model=model_name)
-    # response = llm.invoke("Sing a ballad of LangChain.")
-    # print(response)
-    llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-pro"
+    client = genai.Client(
+        vertexai=True, project='your-project-id', location='us-central1'
     )
-    messages = [
-        (
-            "system",
-            "You are a helpful assistant that translates English to French. Translate the user sentence.",
-        ),
-        ("human", "I love programming."),
-    ]
-    ai_msg = llm.invoke(messages)
-    print(ai_msg.content)
-
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-exp', contents='What is your name?'
+    )
+    print(response.text)
 
 # def translate_once(prompt, origin_content, filename):
 #     chain = prompt | model | output_parser
