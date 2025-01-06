@@ -1,34 +1,33 @@
 # -*- coding:utf-8 -*-
-# from langchain_openai import ChatOpenAI
-# from langchain_core.prompts import ChatPromptTemplate
-# from langchain_core.output_parsers import StrOutputParser
-# from langchain_google_genai import ChatGoogleGenerativeAI
-# import google.generativeai as genai
 import time, os, re
 import api_key as api
 import common_tools as common_tools
-from google import genai
-from google.genai import types
+from vertexai import init
+from vertexai.generative_models import (
+    GenerativeModel,
+    GenerationConfig,
+    Part
+)
 
-api_key = api.gemini_api_key()
-# os.environ["GOOGLE_API_KEY"] = api_key
-# model_name = 'gemini-1.5-flash'
-# Only run this block for Google AI API
-client = genai.Client(api_key=api_key)
-# Only run this block for Vertex AI API
+# 初始化 Google Cloud 项目 ID 和区域
+init(
+    project="gen-lang-client-0760690769",  # 替换为你的 Google Cloud 项目 ID
+    location="us-central1"  # 替换为你的区域，例如 "us-central1"
+)
 
+# os.environ["GOOGLE_CLOUD_PROJECT"] = "northern-shield-446616-k9"
+# os.environ["GOOGLE_CLOUD_PROJECT"] = "gen-lang-client-0760690769"
 
-
-# output_parser = StrOutputParser()
+gemini_model = GenerativeModel(
+    "gemini-1.5-flash",
+    generation_config=GenerationConfig(temperature=0),
+)
+chat = gemini_model.start_chat()
 
 def test():
-    client = genai.Client(
-        vertexai=True, project='your-project-id', location='us-central1'
-    )
-    response = client.models.generate_content(
-        model='gemini-2.0-flash-exp', contents='What is your name?'
-    )
-    print(response.text)
+    response = chat.send_message("What is the current exchange rate for USD vs EUR ?")
+    answer = response.candidates[0].content.parts[0].text
+    print(answer)
 
 # def translate_once(prompt, origin_content, filename):
 #     chain = prompt | model | output_parser
