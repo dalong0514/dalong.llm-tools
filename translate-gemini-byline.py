@@ -40,7 +40,10 @@ def translate_once(model, origin_content, filename):
 def process_chunks(model, chunks, filename):
     for i, chunk in enumerate(chunks):
         print(f"Processing chunk {i+1}/{len(chunks)}")
-        translate_once(model, chunk, filename)
+        if chunk.strip():  # 检查chunk是否为空或仅包含空白字符
+            translate_once(model, chunk, filename)
+        else:
+            print(f"Skipping empty chunk {i+1}")
         # Add delay between requests to avoid rate limiting
         time.sleep(1)  # Adjust this value as needed
 
