@@ -82,6 +82,53 @@ def split_translate(args):  # Modified to accept args
     )
     chunks = common_tools.split_text_by_dot_length(origin_content, 20000)
     split_process_chunks(model, chunks, args.output_file)
+    translate(args.output_file)
+    # 删除临时md文件
+    if os.path.exists(args.output_file):
+        try:
+            os.remove(args.output_file)
+            print(f"已删除临时分割的md文件: {args.output_file}")
+        except OSError as e:
+            print(f"删除临时分割的md文件失败: {e}")
+
+def translate_once(model, origin_content, filename):
+    with open(filename, 'a', encoding='utf-8') as file:
+        file.write(origin_content + '\n\n')
+    try:
+        response = model.generate_content(origin_content)
+        # Convert response to text first
+        response_text = response.text if hasattr(response, 'text') else str(response)
+        out_content = common_tools.extract_translation(response_text)
+        out_content = common_tools.modify_text(out_content)
+        with open(filename, 'a', encoding='utf-8') as file:
+            file.write(out_content + '\n\n')
+    except Exception as e:
+        print(f"Error processing chunk: {e}")
+        # Wait and retry if it's a rate limit error
+        if "429" in str(e):
+            print("Rate limit exceeded, waiting 60 seconds...")
+            time.sleep(60)
+            return translate_once(model, origin_content, filename)
+        return None
+
+# 步骤二：批量处理内容
+def process_chunks(model, chunks, filename):
+    for i, chunk in enumerate(chunks):
+        print(f"Processing chunk {i+1}/{len(chunks)}")
+        translate_once(model, chunk, filename)
+        # Add delay between requests to avoid rate limiting
+        time.sleep(1)  # Adjust this value as needed
+
+def translate(input_filename):
+    system_prompt = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate.md')
+    origin_content = common_tools.read_file(input_filename)
+    chunks = common_tools.split_text_by_long_newline(origin_content)
+    model = genai.GenerativeModel(
+        model_name = model_name,
+        system_instruction = system_prompt
+    )
+    process_chunks(model, chunks, '/Users/Daglas/Desktop/output.md')
+
 
 if __name__ == "__main__":
     initialize_gemini()
