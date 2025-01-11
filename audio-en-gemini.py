@@ -3,6 +3,7 @@ import os, time, re
 from pathlib import Path
 import google.generativeai as genai
 from dotenv import load_dotenv
+import argparse
 import common_tools as common_tools
 
 model_name = "gemini-2.0-flash-exp"
@@ -16,12 +17,12 @@ def initialize_gemini():
         raise ValueError("GOOGLE_API_KEY environment variable is not set")
     genai.configure(api_key=os.environ["GOOGLE_API_KEY"], transport="rest")
 
-def translate_once(model, origin_content, filename):
+def split_translate_once(model, origin_content, filename):
     try:
         response = model.generate_content(origin_content)
         # Convert response to text first
         response_text = response.text if hasattr(response, 'text') else str(response)
-        out_content = extract_translation(response_text)
+        out_content = split_extract_translation(response_text)
         with open(filename, 'a', encoding='utf-8') as file:
             file.write(out_content + '\n\n')
     except Exception as e:
@@ -30,10 +31,10 @@ def translate_once(model, origin_content, filename):
         if "429" in str(e):
             print("Rate limit exceeded, waiting 60 seconds...")
             time.sleep(60)
-            return translate_once(model, origin_content, filename)
+            return split_translate_once(model, origin_content, filename)
         return None
 
-def extract_translation(text):
+def split_extract_translation(text):
     pattern = r'<refined_translation>([\s\S]*?)(?:</refined_translation>|\Z)'
     match = re.search(pattern, text, re.DOTALL)
     if match:
@@ -41,28 +42,53 @@ def extract_translation(text):
     return "整理内容"
 
 # 步骤二：批量处理内容
-def process_chunks(model, chunks, filename):
+def split_process_chunks(model, chunks, filename):
     for i, chunk in enumerate(chunks):
         print(f"Processing chunk {i+1}/{len(chunks)}")
-        translate_once(model, chunk, filename)
+        split_translate_once(model, chunk, filename)
         # Add delay between requests to avoid rate limiting
         time.sleep(1)  
 
-def translate():
-    system_prompt = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio_en.md')
-    origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
+def parse_arguments():
+    """
+    解析命令行参数
+    :return: 包含参数的命名空间
+    """
+    parser = argparse.ArgumentParser(description="整理英文版音频转录文本")
+    parser.add_argument('input_file', type=str, 
+                       default='/Users/Daglas/Desktop/input.md',
+                       help='输入文本文件路径')
+    parser.add_argument('--output_file', type=str, 
+                       default=None,
+                       help='输出文件路径')
+    parser.add_argument('--prompt_file', type=str,
+                       default='/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio_en.md',
+                       help='翻译提示词文件路径')
+    return parser.parse_args()
+
+def split_translate(args):  # Modified to accept args
+    system_prompt = common_tools.read_file(args.prompt_file)
+    origin_content = common_tools.read_file(args.input_file)
+    
+    # 如果没有指定输出文件，使用输入文件同目录下相同文件名的 md 文件
+    if args.output_file is None:
+        input_filename = os.path.basename(args.input_file)
+        output_filename = os.path.splitext(input_filename)[0] + '.md'
+        args.output_file = os.path.join(os.path.dirname(args.input_file), output_filename)
+    
     model = genai.GenerativeModel(
         model_name = model_name,
         system_instruction = system_prompt
     )
     chunks = common_tools.split_text_by_dot_length(origin_content, 20000)
-    process_chunks(model, chunks, '/Users/Daglas/Desktop/output.md')
+    split_process_chunks(model, chunks, args.output_file)
 
 if __name__ == "__main__":
     initialize_gemini()
+    args = parse_arguments()  # Add this line
     start_time = time.time()
     print('waiting...\n')
-    translate()
+    split_translate(args)  # Pass args to split_translate
     end_time = time.time()
     elapsed_time = end_time - start_time
     if elapsed_time < 60:
