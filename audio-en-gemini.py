@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-import os, time
+import os, time, re
 from pathlib import Path
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -17,14 +17,11 @@ def initialize_gemini():
     genai.configure(api_key=os.environ["GOOGLE_API_KEY"], transport="rest")
 
 def translate_once(model, origin_content, filename):
-    with open(filename, 'a', encoding='utf-8') as file:
-        file.write(origin_content + '\n\n')
     try:
         response = model.generate_content(origin_content)
         # Convert response to text first
         response_text = response.text if hasattr(response, 'text') else str(response)
-        out_content = common_tools.extract_translation(response_text)
-        out_content = common_tools.modify_text(out_content)
+        out_content = extract_translation(response_text)
         with open(filename, 'a', encoding='utf-8') as file:
             file.write(out_content + '\n\n')
     except Exception as e:
@@ -36,22 +33,29 @@ def translate_once(model, origin_content, filename):
             return translate_once(model, origin_content, filename)
         return None
 
+def extract_translation(text):
+    pattern = r'<refined_translation>([\s\S]*?)(?:</refined_translation>|\Z)'
+    match = re.search(pattern, text, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    return "整理内容"
+
 # 步骤二：批量处理内容
 def process_chunks(model, chunks, filename):
     for i, chunk in enumerate(chunks):
         print(f"Processing chunk {i+1}/{len(chunks)}")
         translate_once(model, chunk, filename)
         # Add delay between requests to avoid rate limiting
-        time.sleep(1)  # Adjust this value as needed
+        time.sleep(1)  
 
 def translate():
-    system_prompt = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate.md')
+    system_prompt = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio_en.md')
     origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
-    chunks = common_tools.split_text_by_long_newline(origin_content)
     model = genai.GenerativeModel(
         model_name = model_name,
         system_instruction = system_prompt
     )
+    chunks = common_tools.split_text_by_dot_length(origin_content, 20000)
     process_chunks(model, chunks, '/Users/Daglas/Desktop/output.md')
 
 if __name__ == "__main__":

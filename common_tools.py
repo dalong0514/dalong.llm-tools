@@ -78,6 +78,29 @@ def split_text_by_char_length(text, max_length=1000):
 
     return segments
 
+
+def split_text_by_dot_length(text, max_length=1000):
+    segments = []
+    current_segment = ""
+    words = text.split('. ')  # 按英文句号分割文本为单词列表
+
+    for word in words:
+        # 检查加上新单词后长度是否超过最大值
+        if len(current_segment) + len(word) + 1 > max_length:  # 加1是考虑空格
+            segments.append(current_segment.strip())
+            current_segment = word  # 开始新的段落
+        else:
+            # 如果不是第一个单词，加上空格来连接
+            if current_segment:
+                current_segment += ' '
+            current_segment += word
+
+    # 确保最后的段落也被加入到segments中
+    if current_segment:
+        segments.append(current_segment.strip())
+
+    return segments
+
 def split_text_by_newline(text):
     """
     将大段文本按换行符分割成数组，并合并短文本段落。
