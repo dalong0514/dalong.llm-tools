@@ -17,8 +17,6 @@ def initialize_gemini():
     genai.configure(api_key=os.environ["GOOGLE_API_KEY"], transport="rest")
 
 def translate_once(model, origin_content, filename):
-    with open(filename, 'a', encoding='utf-8') as file:
-        file.write(origin_content + '\n\n')
     try:
         response = model.generate_content(origin_content)
         # Convert response to text first
@@ -26,7 +24,7 @@ def translate_once(model, origin_content, filename):
         out_content = common_tools.extract_translation(response_text)
         out_content = common_tools.modify_text(out_content)
         with open(filename, 'a', encoding='utf-8') as file:
-            file.write(out_content + '\n\n')
+            file.write('\n' + origin_content + '\n\n' + out_content + '\n')
     except Exception as e:
         print(f"Error processing chunk: {e}")
         # Wait and retry if it's a rate limit error
