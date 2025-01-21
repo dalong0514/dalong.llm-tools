@@ -4,6 +4,8 @@ from pathlib import Path
 import google.generativeai as genai
 from dotenv import load_dotenv
 import common_tools as common_tools
+import pangu
+import argparse
 
 model_name = "gemini-2.0-flash-exp"
 
@@ -16,13 +18,16 @@ def initialize_gemini():
         raise ValueError("GOOGLE_API_KEY environment variable is not set")
     genai.configure(api_key=os.environ["GOOGLE_API_KEY"], transport="rest")
 
-def translate_once(model, origin_content, filename):
+def translate_once(model, origin_content, filename, mode):
     try:
         response = model.generate_content(origin_content)
         # Convert response to text first
         response_text = response.text if hasattr(response, 'text') else str(response)
         out_content = common_tools.extract_translation(response_text)
-        out_content = common_tools.modify_text(out_content)
+        if mode == 'zh':
+            out_content = common_tools.modify_text(out_content)
+        else:
+            out_content = pangu.spacing_text(out_content)
         with open(filename, 'a', encoding='utf-8') as file:
             file.write('\n' + origin_content + '\n\n' + out_content + '\n')
     except Exception as e:
@@ -35,17 +40,17 @@ def translate_once(model, origin_content, filename):
         return None
 
 # 步骤二：批量处理内容
-def process_chunks(model, chunks, filename):
+def process_chunks(model, chunks, filename, mode):
     for i, chunk in enumerate(chunks):
         print(f"Processing chunk {i+1}/{len(chunks)}")
         if chunk.strip():  # 检查chunk是否为空或仅包含空白字符
-            translate_once(model, chunk, filename)
+            translate_once(model, chunk, filename, mode)
         else:
             print(f"Skipping empty chunk {i+1}")
         # Add delay between requests to avoid rate limiting
         time.sleep(1)  # Adjust this value as needed
 
-def translate():
+def translate(mode):
     system_prompt = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate.md')
     origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
     chunks = common_tools.split_text_by_long_newline(origin_content)
@@ -53,13 +58,27 @@ def translate():
         model_name = model_name,
         system_instruction = system_prompt
     )
-    process_chunks(model, chunks, '/Users/Daglas/Desktop/output.md')
+    process_chunks(model, chunks, '/Users/Daglas/Desktop/output.md', mode)
+
+
+def parse_arguments():
+    """
+    解析命令行参数
+    :return: 包含参数的命名空间
+    """
+    parser = argparse.ArgumentParser(description="翻译文本")
+    parser.add_argument('--mode', type=str,
+                       default='zh',
+                       help='处理模式')
+    return parser.parse_args()
 
 if __name__ == "__main__":
+    args = parse_arguments()
+    mode = args.mode
     initialize_gemini()
     start_time = time.time()
     print('waiting...\n')
-    translate()
+    translate(mode)
     end_time = time.time()
     elapsed_time = end_time - start_time
     if elapsed_time < 60:

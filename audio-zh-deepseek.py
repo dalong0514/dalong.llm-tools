@@ -39,21 +39,6 @@ def extract_translation(text):
         return match.group(1).strip()
     return "未找到意译内容"
 
-def parse_arguments():
-    """
-    解析命令行参数
-    :return: 包含参数的命名空间
-    """
-    parser = argparse.ArgumentParser(description="翻译音频转录文本")
-    parser.add_argument('input_file', type=str, help='输入文本文件路径')
-    parser.add_argument('--output_file', type=str, 
-                       default=None,
-                       help='输出文件路径')
-    parser.add_argument('--prompt_file', type=str,
-                       default='/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio.md',
-                       help='翻译提示词文件路径')
-    return parser.parse_args()
-
 def translate(args):
     prompt_content = common_tools.read_file(args.prompt_file)
     origin_content = common_tools.read_file(args.input_file)
@@ -69,6 +54,21 @@ def translate(args):
     
     chunks = common_tools.split_text_by_char_length(origin_content, 800)
     process_chunks(prompt, chunks, args.output_file)
+
+def parse_arguments():
+    """
+    解析命令行参数
+    :return: 包含参数的命名空间
+    """
+    parser = argparse.ArgumentParser(description="翻译音频转录文本")
+    parser.add_argument('input_file', type=str, help='输入文本文件路径')
+    parser.add_argument('--output_file', type=str, 
+                       default=None,
+                       help='输出文件路径')
+    parser.add_argument('--prompt_file', type=str,
+                       default='/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio.md',
+                       help='翻译提示词文件路径')
+    return parser.parse_args()
 
 if __name__ == '__main__':
     args = parse_arguments()
