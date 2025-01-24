@@ -36,7 +36,7 @@ def translate_once(model, origin_content, filename, mode):
         if "429" in str(e):
             print("Rate limit exceeded, waiting 60 seconds...")
             time.sleep(60)
-            return translate_once(model, origin_content, filename)
+            return translate_once(model, origin_content, filename, mode)
         return None
 
 # 步骤二：批量处理内容

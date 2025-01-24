@@ -7,8 +7,8 @@ import api_key as api
 import common_tools as common_tools
 
 api_key = api.qwen_api_key()
-base_url = 'https://bd79-117-147-119-155.ngrok-free.app/v1'
-model_name = 'qwen2.5:72b'
+base_url = 'https://a7b6-117-147-118-179.ngrok-free.app/v1'
+model_name = 'deepseek-r1:70b'
 
 model = ChatOpenAI(
     base_url=base_url,
@@ -28,8 +28,12 @@ def translate_once(prompt, origin_content, filename):
 
 # 步骤二：批量处理内容
 def process_chunks(prompt, chunks, filename):
-    for chunk in chunks:
-        translate_once(prompt, chunk, filename)
+    for i, chunk in enumerate(chunks):
+        print(f"Processing chunk {i+1}/{len(chunks)}")
+        if chunk.strip():  # 检查chunk是否为空或仅包含空白字符
+            translate_once(prompt, chunk, filename)
+        else:
+            print(f"Skipping empty chunk {i+1}")
 
 def translate():
     prompt_content = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate.md')
@@ -46,4 +50,8 @@ if __name__ == '__main__':
     print('waiting...\n')
     translate()
     end_time = time.time()
-    print('Time Used: ' + str((end_time - start_time)/60) + 'min')
+    elapsed_time = end_time - start_time
+    if elapsed_time < 60:
+        print(f'Time Used: {elapsed_time:.2f} seconds')
+    else:
+        print(f'Time Used: {elapsed_time/60:.2f} minutes')
