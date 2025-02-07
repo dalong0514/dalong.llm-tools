@@ -8,7 +8,8 @@ import common_tools as common_tools
 
 api_key = api.deepseek_api_key()
 base_url= 'https://api.deepseek.com/v1'
-model_name='deepseek-chat'
+model_name='deepseek-reasoner'
+# model_name='deepseek-chat'
 
 model = ChatOpenAI(
     base_url=base_url,
@@ -32,7 +33,7 @@ def process_chunks(prompt, chunks, filename):
         translate_once(prompt, chunk, filename)
 
 def translate():
-    prompt_content = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate.md')
+    prompt_content = common_tools.read_file('/Users/Daglas/dalong.github/dalong.langchain/prompt_translate.md')
     origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
     prompt = ChatPromptTemplate.from_messages([
         ("system", prompt_content),

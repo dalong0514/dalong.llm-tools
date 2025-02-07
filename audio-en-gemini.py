@@ -49,23 +49,6 @@ def split_process_chunks(model, chunks, filename):
         # Add delay between requests to avoid rate limiting
         time.sleep(1)  
 
-def parse_arguments():
-    """
-    解析命令行参数
-    :return: 包含参数的命名空间
-    """
-    parser = argparse.ArgumentParser(description="整理英文版音频转录文本")
-    parser.add_argument('input_file', type=str, 
-                       default='/Users/Daglas/Desktop/input.md',
-                       help='输入文本文件路径')
-    parser.add_argument('--output_file', type=str, 
-                       default=None,
-                       help='输出文件路径')
-    parser.add_argument('--prompt_file', type=str,
-                       default='/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio_en.md',
-                       help='翻译提示词文件路径')
-    return parser.parse_args()
-
 def split_translate(args):  # Modified to accept args
     system_prompt = common_tools.read_file(args.prompt_file)
     origin_content = common_tools.read_file(args.input_file)
@@ -84,12 +67,12 @@ def split_translate(args):  # Modified to accept args
     split_process_chunks(model, chunks, args.output_file)
     translate(args.output_file)
     # 删除临时md文件
-    if os.path.exists(args.output_file):
-        try:
-            os.remove(args.output_file)
-            print(f"已删除临时分割的md文件: {args.output_file}")
-        except OSError as e:
-            print(f"删除临时分割的md文件失败: {e}")
+    # if os.path.exists(args.output_file):
+    #     try:
+    #         os.remove(args.output_file)
+    #         print(f"已删除临时分割的md文件: {args.output_file}")
+    #     except OSError as e:
+    #         print(f"删除临时分割的md文件失败: {e}")
 
 def translate_once(model, origin_content, filename):
     with open(filename, 'a', encoding='utf-8') as file:
@@ -123,7 +106,7 @@ def process_chunks(model, chunks, filename):
         time.sleep(1)  # Adjust this value as needed
 
 def translate(input_filename):
-    system_prompt = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate.md')
+    system_prompt = common_tools.read_file('/Users/Daglas/dalong.github/dalong.langchain/prompt_translate.md')
     origin_content = common_tools.read_file(input_filename)
     chunks = common_tools.split_text_by_long_newline(origin_content)
     model = genai.GenerativeModel(
@@ -132,6 +115,22 @@ def translate(input_filename):
     )
     process_chunks(model, chunks, '/Users/Daglas/Desktop/output.md')
 
+def parse_arguments():
+    """
+    解析命令行参数
+    :return: 包含参数的命名空间
+    """
+    parser = argparse.ArgumentParser(description="整理英文版音频转录文本")
+    parser.add_argument('input_file', type=str, 
+                       default='/Users/Daglas/Desktop/input.md',
+                       help='输入文本文件路径')
+    parser.add_argument('--output_file', type=str, 
+                       default=None,
+                       help='输出文件路径')
+    parser.add_argument('--prompt_file', type=str,
+                       default='/Users/Daglas/dalong.github/dalong.langchain/prompt_translate_audio_en.md',
+                       help='翻译提示词文件路径')
+    return parser.parse_args()
 
 if __name__ == "__main__":
     initialize_gemini()

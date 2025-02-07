@@ -51,7 +51,7 @@ def process_chunks(model, chunks, filename, mode):
         time.sleep(1)  # Adjust this value as needed
 
 def translate(mode):
-    system_prompt = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate.md')
+    system_prompt = common_tools.read_file('/Users/Daglas/dalong.github/dalong.langchain/prompt_translate.md')
     origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
     chunks = common_tools.split_text_by_long_newline(origin_content)
     model = genai.GenerativeModel(
