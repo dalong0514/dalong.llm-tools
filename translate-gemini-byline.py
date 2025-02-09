@@ -34,8 +34,8 @@ def translate_once(model, origin_content, filename, mode):
         print(f"Error processing chunk: {e}")
         # Wait and retry if it's a rate limit error
         if "429" in str(e):
-            print("Rate limit exceeded, waiting 60 seconds...")
-            time.sleep(60)
+            print("Rate limit exceeded, waiting 30 seconds...")
+            time.sleep(30)
             return translate_once(model, origin_content, filename, mode)
         return None
 

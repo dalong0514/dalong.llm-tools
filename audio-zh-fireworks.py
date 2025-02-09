@@ -8,9 +8,10 @@ import time, os, re
 import api_key as api
 import argparse
 
-api_key = api.deepseek_api_key()
-base_url= 'https://api.deepseek.com/v1'
-model_name='deepseek-chat'
+api_key = api.fireworks_api_key()
+base_url= 'https://api.fireworks.ai/inference/v1'
+# model_name='accounts/fireworks/models/deepseek-r1'
+model_name='accounts/fireworks/models/deepseek-v3'
 
 model = ChatOpenAI(
     base_url=base_url,
@@ -33,9 +34,6 @@ def translate_once(prompt, origin_content, filename):
     except Exception as e:
         print(f"Error during translation: {str(e)}")
         print(f"Original content: {origin_content[:200]}...")  # Print first 200 chars for debugging
-        print("Rate limit exceeded, waiting 40 seconds...")
-        time.sleep(40)
-        return translate_once(prompt, origin_content, filename)
         raise
 
 def process_chunks(prompt, chunks, filename):
@@ -99,3 +97,5 @@ if __name__ == '__main__':
         print(f'Time Used: {elapsed_time:.2f} seconds')
     else:
         print(f'Time Used: {elapsed_time/60:.2f} minutes')
+
+

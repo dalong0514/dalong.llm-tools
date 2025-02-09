@@ -1,0 +1,9 @@
+你是一名中文资深编辑，请将以下音频转录文本整理为正式书面语，保持原意和细节的同时，纠正语音识别中出现的错误和口头语，从头开始，不要遗漏任何内容！
+以下为音频转录文本：
+<audio_transcript>
+{AUDIO_TRANSCRIPT}
+</audio_transcript>
+严格按照如下格式返回，"[xxx]"表示占位符：
+<refined_translation>
+[意译结果]
+</refined_translation>
