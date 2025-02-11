@@ -41,7 +41,7 @@ def extract_translation(text):
     return "未找到意译内容"
 
 def translate():
-    prompt_content = common_tools.read_file('/Users/Daglas/dalong.llm/dalong.langchain/prompt_translate_audio.md')
+    prompt_content = common_tools.read_file('/Users/Daglas/dalong.github/dalong.llm-tools/prompt_translate_audio.md')
     origin_content = common_tools.read_file('/Users/Daglas/Desktop/input.md')
     prompt = ChatPromptTemplate.from_messages([
         ("user", prompt_content)

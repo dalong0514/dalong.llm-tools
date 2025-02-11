@@ -82,7 +82,7 @@ def parse_arguments():
                        default=None,
                        help='输出文件路径')
     parser.add_argument('--prompt_file', type=str,
-                       default='/Users/Daglas/dalong.github/dalong.langchain/prompt_translate_audio.md',
+                       default='/Users/Daglas/dalong.github/dalong.llm-tools/prompt_translate_audio.md',
                        help='翻译提示词文件路径')
     return parser.parse_args()
 

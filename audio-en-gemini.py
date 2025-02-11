@@ -106,7 +106,7 @@ def process_chunks(model, chunks, filename):
         time.sleep(1)  # Adjust this value as needed
 
 def translate(input_filename):
-    system_prompt = common_tools.read_file('/Users/Daglas/dalong.github/dalong.langchain/prompt_translate.md')
+    system_prompt = common_tools.read_file('/Users/Daglas/dalong.github/dalong.llm-tools/prompt_translate.md')
     origin_content = common_tools.read_file(input_filename)
     chunks = common_tools.split_text_by_long_newline(origin_content)
     model = genai.GenerativeModel(
@@ -128,7 +128,7 @@ def parse_arguments():
                        default=None,
                        help='输出文件路径')
     parser.add_argument('--prompt_file', type=str,
-                       default='/Users/Daglas/dalong.github/dalong.langchain/prompt_translate_audio_en.md',
+                       default='/Users/Daglas/dalong.github/dalong.llm-tools/prompt_translate_audio_en.md',
                        help='翻译提示词文件路径')
     return parser.parse_args()
 
