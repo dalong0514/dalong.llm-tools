@@ -2,7 +2,7 @@
 import os, time, sys
 import google.generativeai as genai
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.helper import get_api_key_google
+from src.helper import get_api_key
 from src.utils import read_file, split_text_by_long_newline, modify_text, modify_text_en, extract_translation
 import argparse
 
@@ -54,8 +54,8 @@ system_prompt = '''
 如果没有输出完整需要不停的输入 continue 直到结束。
 '''
 
-api_key_google = get_api_key_google()
-genai.configure(api_key=api_key_google, transport="rest")
+api_key = get_api_key("google")
+genai.configure(api_key=api_key, transport="rest")
 model = genai.GenerativeModel(
     model_name = "gemini-2.0-flash-exp",
     system_instruction = system_prompt

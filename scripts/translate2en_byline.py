@@ -1,15 +1,15 @@
 # -*- coding:utf-8 -*-
+import time, os, sys, re
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-import time, os, re
-import api_key as api
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.helper import get_api_key, get_base_url
 import common_tools as common_tools
 
-api_key = api.ai302_api_key()
-base_url= 'https://api.302.ai/v1'
-model_name='gemini-2.0-flash-exp'
-# model_name='claude-3-5-sonnet-20241022'
+api_key = get_api_key()
+base_url= get_base_url()
+model_name='claude-3-5-sonnet-20241022'
 # model_name='gpt-4o'
 
 model = ChatOpenAI(
