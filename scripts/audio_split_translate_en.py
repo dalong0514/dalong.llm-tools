@@ -4,7 +4,7 @@ from pathlib import Path
 import google.generativeai as genai
 import argparse
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import src.common_tools as common_tools
+import src.utils as common_tools
 from src.helper import get_api_key
 
 

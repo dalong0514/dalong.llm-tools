@@ -67,6 +67,11 @@ def translate_once(model, origin_content, filename, mode):
         # Convert response to text first
         response_text = response.text if hasattr(response, 'text') else str(response)
         out_content = extract_translation(response_text)
+        while out_content == "未找到意译内容":
+            response = model.generate_content(origin_content)
+            esponse_text = response.text if hasattr(response, 'text') else str(response)
+            out_content = extract_translation(esponse_text)
+        
         if mode == 'zh':
             out_content = modify_text(out_content)
         else:
