@@ -125,14 +125,16 @@ def split_translate(args):  # Modified to accept args
         input_filename = os.path.basename(args.input_file)
         output_filename = os.path.splitext(input_filename)[0] + '.md'
         args.output_file = os.path.join(os.path.dirname(args.input_file), output_filename)
+        split_filename = os.path.splitext(input_filename)[0] + '_origin.md'
+        split_file = os.path.join(os.path.dirname(args.input_file), split_filename)
     
     model = genai.GenerativeModel(
         model_name = model_name,
         system_instruction = prompt_split
     )
     chunks = common_tools.split_text_by_dot_length(origin_content, 20000)
-    split_process_chunks(model, chunks, args.output_file)
-    translate(args.output_file)
+    split_process_chunks(model, chunks, split_file)
+    translate(split_file, args.output_file)
     # 删除临时md文件
     # if os.path.exists(args.output_file):
     #     try:
@@ -172,14 +174,14 @@ def process_chunks(model, chunks, filename):
         # Add delay between requests to avoid rate limiting
         time.sleep(1)  # Adjust this value as needed
 
-def translate(input_filename):
+def translate(input_filename, output_filename):
     origin_content = common_tools.read_file(input_filename)
     chunks = common_tools.split_text_by_long_newline(origin_content)
     model = genai.GenerativeModel(
         model_name = model_name,
         system_instruction = system_prompt
     )
-    process_chunks(model, chunks, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "working", "output.md"))
+    process_chunks(model, chunks, output_filename)
 
 def parse_arguments():
     """
