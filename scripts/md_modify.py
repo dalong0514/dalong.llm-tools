@@ -13,7 +13,7 @@ def modify_single_file_content(args):
     with open(file_name, 'w', encoding='UTF-8') as file_obj:
         for line in lines:
             if line != '\n':
-                new_content = modify_text_en(line) if args.mode == 'en' else modify_text(line)
+                new_content = modify_text_en(line) if args.language == 'en' else modify_text(line)
                 file_obj.write(new_content + "\n\n")
 
 def parse_arguments():
@@ -22,7 +22,7 @@ def parse_arguments():
     :return: 包含参数的命名空间
     """
     parser = argparse.ArgumentParser(description="整理文字格式")
-    parser.add_argument('--mode', type=str, default='zh', 
+    parser.add_argument('--language', type=str, default='zh', 
                        help='音频语言代码 (默认: zh/en)')
     return parser.parse_args()
 

@@ -152,6 +152,13 @@ def translate_once(model, origin_content, filename):
         response_text = response.text if hasattr(response, 'text') else str(response)
         out_content = common_tools.extract_translation(response_text)
         out_content = common_tools.modify_text(out_content)
+
+        while out_content == "未找到意译内容":
+            response = model.generate_content(origin_content)
+            response_text = response.text if hasattr(response, 'text') else str(response)
+            out_content = common_tools.extract_translation(response_text)
+            out_content = common_tools.modify_text(out_content)
+
         with open(filename, 'a', encoding='utf-8') as file:
             file.write(out_content + '\n\n')
     except Exception as e:
