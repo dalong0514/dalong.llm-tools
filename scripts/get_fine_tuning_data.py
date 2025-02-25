@@ -3,28 +3,43 @@ import time
 import json
 
 
-def get_fine_tuing_data():
-    # 获取原始字符串
-    # 读取指定文件内容
-    file_path = '/Users/Daglas/dalong.github/dalong.chatrecord/chatrecord-fine-tuning/20250225125253RAG-用一份数据集进行大模型微调fine-tuning需要将数据集分成训练集和测试集建议按什么比例来划分.md'
+def read_file_content(file_path):
+    """读取指定文件内容并返回字符串"""
     with open(file_path, 'r', encoding='utf-8') as f:
-        original_str = f.read()
+        return f.read()
+
+def extract_qa_pairs(content):
+    """从内容中提取question和answer"""
+    question_start = content.find('[question]:') + len('[question]:')
+    question_end = content.find('[index_names]:')
+    question = content[question_start:question_end].strip()
+
+    answer_start = content.find('[answer]:') + len('[answer]:')
+    answer_end = content.find('[source_datas]:')
+    answer = content[answer_start:answer_end].strip()
+
+    return question, answer
+
+def save_to_json(data, output_path):
+    """将数据保存为json文件"""
+    with open(output_path, 'w', encoding='utf-8') as f:
+        f.write(data)
+    print(data)
+
+def get_fine_tuing_data():
+    # 文件路径
+    input_path = '/Users/Daglas/dalong.github/dalong.chatrecord/chatrecord-fine-tuning/20250225125253RAG-用一份数据集进行大模型微调fine-tuning需要将数据集分成训练集和测试集建议按什么比例来划分.md'
+    output_path = '/Users/Daglas/Desktop/output.json'
+
+    # 获取文件内容
+    content = read_file_content(input_path)
 
     # 提取question和answer
-    question_start = original_str.find('[question]:') + len('[question]:')
-    question_end = original_str.find('[index_names]:')
-    question = original_str[question_start:question_end].strip()
+    question, answer = extract_qa_pairs(content)
 
-    answer_start = original_str.find('[answer]:') + len('[answer]:')
-    answer_end = original_str.find('[source_datas]:')
-    answer = original_str[answer_start:answer_end].strip()
-
-    # 组装为json
+    # 组装为json并保存
     output = json.dumps({question: answer}, ensure_ascii=False, indent=2)
-    # 将output写入指定文件
-    with open('/Users/Daglas/Desktop/output.json', 'w', encoding='utf-8') as f:
-        f.write(output)
-    print(output)
+    save_to_json(output, output_path)
 
 
 if __name__ == '__main__':
