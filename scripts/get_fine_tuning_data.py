@@ -38,7 +38,7 @@ def get_fine_tuing_data():
     question, answer = extract_qa_pairs(content)
 
     # 组装为json并保存
-    output = json.dumps({question: answer}, ensure_ascii=False, indent=2)
+    output = json.dumps({"question": question, "answer": answer}, ensure_ascii=False, indent=2)
     save_to_json(output, output_path)
 
 
