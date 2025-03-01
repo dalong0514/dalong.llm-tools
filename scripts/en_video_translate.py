@@ -6,6 +6,7 @@ import argparse
 import subprocess
 import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.utils import get_all_files_from_directory
 import src.utils as common_tools
 from src.helper import get_api_key
 
