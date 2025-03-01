@@ -8,11 +8,11 @@ def replace_space(args):
     # 读取输入文件内容
     origin_content = args.input_string
     
-    # 剔除冒号、逗号等标点符号
-    cleaned_content = re.sub(r'[：:，,、；;。.！!？?()（）]', '', origin_content)
+    # 剔除冒号、逗号等标点符号，包括|
+    cleaned_content = re.sub(r'[：:，,、；;。.！!？?()（）|]', '', origin_content)
     
-    # 将空格替换为-
-    replaced_content = cleaned_content.replace(' ', '-')
+    # 将多个空格替换为单个-
+    replaced_content = re.sub(r'\s+', '-', cleaned_content)
 
     # 将结果复制到剪贴板
     pyperclip.copy(replaced_content)

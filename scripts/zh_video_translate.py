@@ -5,6 +5,7 @@ from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from src.helper import get_api_key, get_base_url
+from src.utils import get_all_files_from_directory
 import src.utils as common_tools
 import argparse
 import subprocess
@@ -33,9 +34,9 @@ prompt_translate = '''
 </refined_translation>
 '''
 
-api_key = get_api_key()
-base_url= get_base_url()
-model_name = "deepseek-v3-huoshan"
+api_key = get_api_key("deepseek")
+base_url= get_base_url("deepseek")
+model_name = "deepseek-chat"
 
 model = ChatOpenAI(
     base_url=base_url,
