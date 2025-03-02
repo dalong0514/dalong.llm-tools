@@ -56,8 +56,8 @@ system_prompt = '''
 '''
 
 api_key = get_api_key()
-base_url= get_base_url()
-model_name='gemini-2.0-flash'
+base_url = get_base_url()
+model_name = "gemini-2.0-flash"
 
 model = ChatOpenAI(
     base_url=base_url,
