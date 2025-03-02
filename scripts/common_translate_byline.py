@@ -73,13 +73,22 @@ def translate_once(prompt_template, origin_content):
     response = model.invoke(prompt)
     out_content = common_tools.extract_translation(response.content)
     out_content = common_tools.modify_text(out_content)
+    while out_content == "未找到意译内容":
+        response = model.invoke(prompt)
+        out_content = common_tools.extract_translation(response.content)
+        out_content = common_tools.modify_text(out_content)
+        
     with open(out_file_name, 'a', encoding='utf-8') as file:
         file.write('\n' + origin_content + '\n\n' + out_content + '\n')
 
 # 步骤二：批量处理内容
 def process_chunks(prompt_template, chunks):
-    for chunk in chunks:
-        translate_once(prompt_template, chunk)
+    for i, chunk in enumerate(chunks):
+        print(f"Processing chunk {i+1}/{len(chunks)}")
+        if chunk.strip():  # 检查chunk是否为空或仅包含空白字符
+            translate_once(prompt_template, chunk)
+        else:
+            print(f"Skipping empty chunk {i+1}")
 
 def translate():
     origin_content = common_tools.read_file(input_file_name)
