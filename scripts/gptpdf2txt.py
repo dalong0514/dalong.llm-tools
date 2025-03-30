@@ -8,7 +8,7 @@ from gptpdf import parse_pdf
 
 api_key = get_api_key()
 base_url = get_base_url()
-model_name = "gemini-2.0-flash"
+model_name = "gpt-4o"
 
 def get_out_filename(pdf_path):
     file_name = os.path.basename(pdf_path)
