@@ -2,6 +2,7 @@
 import pangu
 import re
 from pathlib import Path
+import os
 
 def read_file(filename):
     """读取指定文件的内容
@@ -37,18 +38,6 @@ def get_all_files_from_directory(directory_path, file_extension=None):
 
 
 def modify_text(text):
-    """处理中文文本的格式，包括标点符号的规范化
-    
-    Args:
-        text (str): 需要处理的文本内容
-        
-    Returns:
-        str: 处理后的文本，包括：
-        - 中英文之间添加空格
-        - 将英文引号转换为中文引号
-        - 将英文标点转换为中文标点
-        - 删除中文之间的多余空格
-    """
     # 去 \n 是转 pdf 时启用
     # line = line.replace('\n', '')
     text = pangu.spacing_text(text)
@@ -82,17 +71,6 @@ def modify_text(text):
     return new_text
 
 def modify_text_en(line):
-    """处理英文文本的格式，包括标点符号的规范化
-    
-    Args:
-        line (str): 需要处理的英文文本内容
-        
-    Returns:
-        str: 处理后的文本，包括：
-        - 将中文引号转换为英文引号
-        - 规范化标点符号
-        - 删除多余空格
-    """
     # 去 \n 是转 pdf 时启用
     # line = line.replace('\n', '')
     line = pangu.spacing_text(line)
@@ -251,6 +229,27 @@ def extract_translation(text):
         return match.group(1).strip()
     return "未找到意译内容"
 
+def read_prompt_file(prompt_filename):
+    """读取 prompt 文件夹下的指定 prompt 文件内容
+    
+    Args:
+        prompt_filename (str): 要读取的 prompt 文件名，默认为 prompt_translate
+    
+    Returns:
+        str: 指定 prompt 文件的内容
+    """
+    # 获取项目根目录路径
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # 构建指定 prompt 文件的完整路径
+    prompt_file_path = os.path.join(project_root, "prompt", f"{prompt_filename}.md")
+    
+    if not os.path.exists(prompt_file_path):
+        raise FileNotFoundError(f"文件不存在: {prompt_file_path}")
+    
+    with open(prompt_file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+    return content
+
 
 if __name__ == "__main__":
-    modify_text()
+    print(read_prompt_file("prompt_translate"))
