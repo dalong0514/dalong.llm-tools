@@ -67,9 +67,6 @@ system_prompt = '''
   - 晦涩难懂，不易理解，可以尝试给出解释
 3. 根据第一步直译的结果和第二步指出的问题，重新进行意译，保证内容的原意的基础上，使其更易于理解，更符合中文的表达习惯，同时保持原有的格式不变
 
-以下是要翻译的内容:
-{AUDIO_TRANSCRIPT}
-
 严格按照如下格式返回，"[xxx]"表示占位符：
 
 <step1_initial_translation>
@@ -92,7 +89,6 @@ model_name = "deepseek-chat"
 model = ChatOpenAI(
     base_url=base_url,
     api_key=api_key,
-    temperature=0.6,
     model_name=model_name
 )
 
@@ -100,11 +96,11 @@ def translate_once(model, origin_content, filename):
     with open(filename, 'a', encoding='utf-8') as file:
         file.write(origin_content + '\n\n')
     try:
-
         prompt_template = ChatPromptTemplate([
-            ("system", system_prompt)
+            ("system", system_prompt),
+            ("user", "{content}")
         ])
-        prompt = prompt_template.invoke({"AUDIO_TRANSCRIPT": origin_content})
+        prompt = prompt_template.invoke({"content": origin_content})
         response = model.invoke(prompt)
         response_text = response.content
 

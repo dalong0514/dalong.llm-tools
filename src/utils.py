@@ -4,6 +4,14 @@ import re
 from pathlib import Path
 
 def read_file(filename):
+    """读取指定文件的内容
+    
+    Args:
+        filename (str): 要读取的文件路径
+        
+    Returns:
+        str: 文件的内容
+    """
     with open(filename, 'r', encoding='utf-8') as file:
         content = file.read()
     return content
@@ -29,18 +37,29 @@ def get_all_files_from_directory(directory_path, file_extension=None):
 
 
 def modify_text(text):
-    """处理文字的格式"""
+    """处理中文文本的格式，包括标点符号的规范化
+    
+    Args:
+        text (str): 需要处理的文本内容
+        
+    Returns:
+        str: 处理后的文本，包括：
+        - 中英文之间添加空格
+        - 将英文引号转换为中文引号
+        - 将英文标点转换为中文标点
+        - 删除中文之间的多余空格
+    """
     # 去 \n 是转 pdf 时启用
     # line = line.replace('\n', '')
     text = pangu.spacing_text(text)
-    new_text = text.replace(' “', '“')\
-        .replace('” ', '”')\
-        .replace('“', '「')\
-        .replace('”', '」')\
+    new_text = text.replace(' "', '"')\
+        .replace('" ', '"')\
+        .replace('"', '「')\
+        .replace('"', '」')\
         .replace('・', '·')\
         .replace(', ', '，')\
         .replace('。 ', '。')\
-        .replace('’', '\'')\
+        .replace(''', '\'')\
         .replace(': ', '：')\
         .replace(') ', '）')\
         .replace(' (', '（')\
@@ -63,22 +82,41 @@ def modify_text(text):
     return new_text
 
 def modify_text_en(line):
-    """处理文字的格式"""
+    """处理英文文本的格式，包括标点符号的规范化
+    
+    Args:
+        line (str): 需要处理的英文文本内容
+        
+    Returns:
+        str: 处理后的文本，包括：
+        - 将中文引号转换为英文引号
+        - 规范化标点符号
+        - 删除多余空格
+    """
     # 去 \n 是转 pdf 时启用
     # line = line.replace('\n', '')
     line = pangu.spacing_text(line)
-    new_line = line.replace('“', '"')\
-        .replace('”', '"')\
+    new_line = line.replace('"', '"')\
+        .replace('"', '"')\
         .replace('・', '·')\
         .replace('， ', '，')\
         .replace('。 ', '。')\
-        .replace('’', '\'')\
+        .replace(''', '\'')\
         .replace('  ', ' ')
     new_line = new_line.strip()
     new_line = re.sub(r'(?<=[\u4e00-\u9fa5])\s+(?=[\u4e00-\u9fa5])', '', new_line)
     return new_line
 
 def split_text_by_length(text, max_length=1000):
+    """根据最大长度分割文本，保持段落完整性
+    
+    Args:
+        text (str): 要分割的文本
+        max_length (int, optional): 每个段落的最大长度，默认为1000
+        
+    Returns:
+        list: 分割后的文本段落列表
+    """
     paragraphs = text.split('\n')  # 根据换行符分割段落
     segments = []
     current_segment = ""
@@ -101,6 +139,15 @@ def split_text_by_length(text, max_length=1000):
     return segments
 
 def split_text_by_char_length(text, max_length=1000):
+    """按字符长度分割文本，每个段落不超过指定长度
+    
+    Args:
+        text (str): 要分割的文本
+        max_length (int, optional): 每个段落的最大字符数，默认为1000
+        
+    Returns:
+        list: 分割后的文本段落列表
+    """
     segments = []
     current_segment = ""
 
@@ -120,6 +167,15 @@ def split_text_by_char_length(text, max_length=1000):
 
 
 def split_text_by_dot_length(text, max_length=1000):
+    """按英文句号分割文本，每个段落不超过指定长度
+    
+    Args:
+        text (str): 要分割的文本
+        max_length (int, optional): 每个段落的最大长度，默认为1000
+        
+    Returns:
+        list: 分割后的文本段落列表
+    """
     segments = []
     current_segment = ""
     words = text.split('. ')  # 按英文句号分割文本为单词列表
@@ -142,27 +198,27 @@ def split_text_by_dot_length(text, max_length=1000):
     return segments
 
 def split_text_by_newline(text):
-    """
-    将大段文本按换行符分割成数组，并合并短文本段落。
-
-    参数:
-    text (str): 要分割的文本
-
-    返回:
-    list: 分割后的文本数组
+    """将文本按双换行符分割成段落数组
+    
+    Args:
+        text (str): 要分割的文本
+        
+    Returns:
+        list: 分割后的文本段落列表
     """
     segments = text.split('\n\n')
     return segments
 
 def split_text_by_long_newline(text):
-    """
-    将大段文本按换行符分割成数组，并合并短文本段落。
-
-    参数:
-    text (str): 要分割的文本
-
-    返回:
-    list: 分割后的文本数组
+    """将文本按双换行符分割，并合并过短的段落
+    
+    Args:
+        text (str): 要分割的文本
+        
+    Returns:
+        list: 分割后的文本段落列表，其中：
+        - 长度小于160字符的相邻段落会被合并
+        - 保持段落的语义完整性
     """
     segments = text.split('\n\n')
     merged_segments = []
@@ -181,6 +237,14 @@ def split_text_by_long_newline(text):
     return merged_segments
 
 def extract_translation(text):
+    """从文本中提取翻译内容
+    
+    Args:
+        text (str): 包含翻译标记的文本
+        
+    Returns:
+        str: 提取出的翻译内容，如果未找到则返回"未找到意译内容"
+    """
     pattern = r'<step3_refined_translation>([\s\S]*?)(?:</step3_refined_translation>|\Z)'
     match = re.search(pattern, text, re.DOTALL)
     if match:
