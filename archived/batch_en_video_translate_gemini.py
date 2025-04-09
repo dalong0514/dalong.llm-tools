@@ -184,7 +184,7 @@ def split_translate(txt_output):
         model_name = model_name,
         system_instruction = prompt_split
     )
-    chunks = common_tools.split_text_by_dot_length(origin_content, 20000)
+    chunks = common_tools.split_text_by_dot_length(origin_content, 10000)
     split_process_chunks(model, chunks, split_file)
     translate(split_file, output_file)
 
