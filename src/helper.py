@@ -43,6 +43,7 @@ def get_base_url(service="default"):
     key_mapping = {
         "default": "BASE_URL",
         "local": "LOCAL_BASE_URL",
+        "openai": "OPENAI_BASE_URL",
         "grok": "GROK_BASE_URL",
         "deepseek": "DEEPSEEK_BASE_URL",
         "mistral": "MISTRAL_API_KEY",
