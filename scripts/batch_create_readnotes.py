@@ -3,10 +3,10 @@ import time
 
 def batch_create_readnotes():
     first_num = 1
-    num = 13
+    num = 19
     base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20250101复制书籍"
-    book_name = "2025074The_Ultra_Scale_Playbook_Training_LLMs_on_GPU_Clusters"
-    default_content = "Nouamane Tazi.(2025).2025074The-Ultra-Scale-Playbook-Training-LLMs-on-GPU-Clusters.Hugging Face => Conclusions"
+    book_name = "2025082Reinforcement_Learning"
+    default_content = "Richard S. Sutton.(2018).2025082Reinforcement_Learning2Ed.The MIT Press => Introduction"
     
     for i in range(0, num):
         # 格式化序号，确保是4位数字，前两位是批次号，后两位是01

@@ -1,44 +1,38 @@
 # -*- coding:utf-8 -*-
 import os, time, sys
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
+import google.generativeai as genai
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.helper import get_api_key, get_base_url
-from src.utils import read_file, split_text_by_long_newline, modify_text, extract_translation, read_prompt_file
+from src.helper import get_api_key
+from src.utils import read_file, split_text_by_long_newline, modify_text, modify_text_en, extract_translation, read_prompt_file
 import argparse
 
 system_prompt = read_prompt_file("prompt_translate")
 
-api_key = get_api_key("deepseek")
-base_url= get_base_url("deepseek")
-model_name = "deepseek-chat"
-
-model = ChatOpenAI(
-    base_url=base_url,
-    api_key=api_key,
-    model_name=model_name
+api_key = get_api_key("google")
+genai.configure(api_key=api_key, transport="rest")
+model = genai.GenerativeModel(
+    # model_name = "gemini-2.0-flash-exp",
+    model_name = "gemini-2.5-flash-preview-04-17",
+    system_instruction = system_prompt
 )
 
 def translate_once(model, origin_content, filename, mode):
     try:
-        prompt_template = ChatPromptTemplate([
-            ("system", system_prompt),
-            ("user", "{content}")
-        ])
-        prompt = prompt_template.invoke({"content": origin_content})
-        response = model.invoke(prompt)
-        response_text = response.content
-
+        response = model.generate_content(origin_content)
+        # Convert response to text first
+        response_text = response.text if hasattr(response, 'text') else str(response)
         out_content = extract_translation(response_text)
         while out_content == "未找到意译内容":
-            response = model.invoke(prompt)
-            response_text = response.content
+            response = model.generate_content(origin_content)
+            response_text = response.text if hasattr(response, 'text') else str(response)
             out_content = extract_translation(response_text)
-
-        out_content = modify_text(out_content)
+        
+        if mode == 'zh':
+            out_content = modify_text(out_content)
+        else:
+            out_content = modify_text_en(out_content)
         with open(filename, 'a', encoding='utf-8') as file:
-            # file.write(origin_content + '\n\n' + out_content + '\n')
-            file.write(f"{origin_content}\n\n{out_content}\n\n")
+            file.write('\n' + origin_content + '\n\n' + out_content + '\n')
     except Exception as e:
         print(f"Error processing chunk: {e}")
         # Wait and retry if it's a rate limit error

@@ -12,9 +12,9 @@ def batch_insert_num(start, end, date, file_path):
             # 写入标题，如 ### 91
             file.write(f"### {formatted_number}\n\n")
             # 写入日期
-            file.write(f"{date}\n")
+            # file.write(f"{date}\n")
             # file.write(f"阳志平 {date}\n")
-            # file.write(f"方军 {date}\n")
+            file.write(f"方军 {date}\n")
             # 写入两个单元之间的5行空格
             file.write("\n" * 5)
         print("Data written successfully.")
