@@ -31,6 +31,7 @@ def get_api_key(service="default"):
         "google": "GOOGLE_API_KEY",
         "grok": "GROK_API_KEY",
         "deepseek": "DEEPSEEK_API_KEY",
+        "bailian": "BAILIAN_API_KEY",
         "mistral": "MISTRAL_API_KEY",
         "fireworks": "FIREWORKS_API_KEY",
         "silicon": "SILICON_API_KEY",
@@ -46,7 +47,8 @@ def get_base_url(service="default"):
         "openai": "OPENAI_BASE_URL",
         "grok": "GROK_BASE_URL",
         "deepseek": "DEEPSEEK_BASE_URL",
-        "mistral": "MISTRAL_API_KEY",
+        "bailian": "BAILIAN_BASE_URL",
+        "mistral": "MISTRAL_BASE_URL",
         "fireworks": "FIREWORKS_BASE_URL",
         "silicon": "SILICON_BASE_URL",
         "weaviate": "WCD_URL"
