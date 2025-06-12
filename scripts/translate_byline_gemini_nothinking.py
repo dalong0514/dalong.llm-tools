@@ -8,6 +8,7 @@ import src.utils as utils
 import argparse
 
 system_prompt = utils.read_prompt_file("prompt_translate")
+# system_prompt = utils.read_prompt_file("prompt_translate_common")
 
 api_key = get_api_key("google")
 client = genai.Client(api_key=api_key)
@@ -15,7 +16,7 @@ client = genai.Client(api_key=api_key)
 def translate_once(origin_content, filename, mode):
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash-preview-04-17",
+            model="gemini-2.5-flash-preview-05-20",
             contents=origin_content,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
@@ -28,7 +29,7 @@ def translate_once(origin_content, filename, mode):
         out_content = utils.extract_translation(response_text)
         while out_content == "未找到意译内容":
             response = client.models.generate_content(
-                model="gemini-2.5-flash-preview-04-17",
+                model="gemini-2.5-flash-preview-05-20",
                 contents=origin_content,
                 config=types.GenerateContentConfig(
                     system_instruction=system_prompt,

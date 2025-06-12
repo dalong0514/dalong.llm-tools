@@ -4,9 +4,9 @@ import time
 def batch_create_readnotes():
     first_num = 1
     num = 9
-    base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20190101复制书籍"
-    book_name = "2019859七堂极简物理课"
-    default_content = "Carlo Rovelli.(2016).2019859七堂极简物理课.(文铮等译).湖南科学技术出版社 => Introduction"
+    base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20250101复制书籍"
+    book_name = "2025071Build_a_Large_Language_Model"
+    default_content = "Sebastian Raschka.(2025).2025071Build_a_Large_Language_Model.Manning Publications Co => 00"
     
     for i in range(0, num):
         # 格式化序号，确保是4位数字，前两位是批次号，后两位是01

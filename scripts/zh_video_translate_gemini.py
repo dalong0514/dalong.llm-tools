@@ -20,7 +20,7 @@ client = genai.Client(api_key=api_key)
 
 def gemini_model(contents):
     response = client.models.generate_content(
-        model="gemini-2.5-flash-preview-04-17",
+        model="gemini-2.5-flash-preview-05-20",
         contents=contents,
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,

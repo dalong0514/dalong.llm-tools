@@ -189,7 +189,7 @@ def split_text_by_newline(text):
     segments = text.split('\n\n')
     return segments
 
-def split_text_by_long_newline(text):
+def split_text_by_long_newline(text, min_length=160):
     """将文本按双换行符分割，并合并过短的段落
     
     Args:
@@ -206,7 +206,7 @@ def split_text_by_long_newline(text):
     while i < len(segments):
         current_segment = segments[i]
         # 如果当前段落小于150个字符，且不是最后一个段落
-        if len(current_segment) < 160 and i + 1 < len(segments):
+        if len(current_segment) < min_length and i + 1 < len(segments):
             # 合并当前段落和下一个段落
             merged_segment = current_segment + '\n\n' + segments[i + 1]
             merged_segments.append(merged_segment)
