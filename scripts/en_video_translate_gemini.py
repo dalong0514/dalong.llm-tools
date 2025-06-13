@@ -80,7 +80,7 @@ def translate(input_filename, output_filename):
 def split_translate_once(origin_content, filename):
     try:
         response = client.models.generate_content(
-            model=model_name,
+            model="gemini-2.5-pro-preview-05-06",
             contents=origin_content,
             config=types.GenerateContentConfig(
                 system_instruction=prompt_split,

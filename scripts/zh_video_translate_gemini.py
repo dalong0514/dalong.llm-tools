@@ -16,11 +16,13 @@ system_prompt = read_prompt_file("prompt_translate_audio_gemini")
 
 api_key = get_api_key("google")
 client = genai.Client(api_key=api_key)
+model_name = "gemini-2.5-pro-preview-05-06"
+# model_name = "gemini-2.5-flash-preview-05-20"
 
 
 def gemini_model(contents):
     response = client.models.generate_content(
-        model="gemini-2.5-flash-preview-05-20",
+        model=model_name,
         contents=contents,
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,

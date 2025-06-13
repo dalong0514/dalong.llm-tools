@@ -7,6 +7,7 @@ requires-python = ">=3.10"
 dependencies = [
     "google-genai==1.13.0",
     "google-generativeai==0.8.3",
+    "insanely-fast-whisper==0.0.15",
     "langchain-openai==0.3.22",
     "llama-index==0.12.16",
     "llama-index-llms-gemini==0.4.10",

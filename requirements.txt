@@ -15,3 +15,4 @@ trulens-apps-llamaindex==1.4.0
 yt-dlp==2024.12.23
 pangu==4.0.6.1
 pyperclip==1.9.0
+insanely-fast-whisper==0.0.15
