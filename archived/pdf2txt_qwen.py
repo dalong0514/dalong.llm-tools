@@ -6,9 +6,9 @@ from src.helper import get_api_key, get_base_url
 from gptpdf import parse_pdf
 
 
-api_key = get_api_key()
-base_url = get_base_url()
-model_name = "gpt-4.1"
+api_key = get_api_key("bailian")
+base_url = get_base_url("bailian")
+model_name = "qwen-vl-plus"
 
 def get_out_filename(pdf_path):
     file_name = os.path.basename(pdf_path)

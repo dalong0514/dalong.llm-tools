@@ -16,6 +16,7 @@ system_prompt = common_tools.read_prompt_file("prompt_translate")
 
 api_key = get_api_key("google")
 client = genai.Client(api_key=api_key)
+# model_name = "gemini-2.5-pro-preview-05-06"
 model_name = "gemini-2.5-flash-preview-05-20"
 
 
@@ -80,7 +81,7 @@ def translate(input_filename, output_filename):
 def split_translate_once(origin_content, filename):
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-pro-preview-05-06",
+            model="gemini-2.5-flash-preview-05-20",
             contents=origin_content,
             config=types.GenerateContentConfig(
                 system_instruction=prompt_split,
