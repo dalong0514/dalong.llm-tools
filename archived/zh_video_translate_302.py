@@ -4,7 +4,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
-import google.generativeai as genai
 from src.helper import get_api_key, get_base_url
 from src.utils import read_prompt_file
 from src.utils import get_all_files_from_directory
@@ -17,80 +16,48 @@ import json
 
 prompt_translate = read_prompt_file("prompt_translate_audio")
 
+api_key = get_api_key()
+base_url= get_base_url()
+model_name = "claude-sonnet-4-20250514"
 
-api_key = get_api_key("google")
-genai.configure(api_key=api_key, transport="rest")
-model_name = "gemini-2.5-flash-preview-04-17"
-# model_name = "gemini-2.0-flash-exp"
-
-model = genai.GenerativeModel(
-    model_name = model_name,
-    system_instruction = prompt_translate
+model = ChatOpenAI(
+    base_url=base_url,
+    api_key=api_key,
+    model_name=model_name
 )
 
-def translate_once(origin_content, filename, max_retries=5, initial_delay=22):
-    """
-    翻译单个文本块，包含错误处理和重试机制
-    :param origin_content: 要翻译的文本
-    :param filename: 输出文件名
-    :param max_retries: 最大重试次数
-    :param initial_delay: 初始等待时间（秒）
-    :return: 是否成功
-    """
-    retry_count = 0
-    current_delay = initial_delay
-    
-    while retry_count < max_retries:
-        try:
-            response = model.generate_content(f"以下为音频转录文本：\n\n{origin_content}")
-            response_text = response.text if hasattr(response, 'text') else str(response)
-            out_content = common_tools.extract_translation(response_text)
-            
-            # 如果翻译内容为空，重试
-            if out_content == "未找到意译内容":
-                retry_count += 1
-                print(f"未找到翻译内容，重试 {retry_count}/{max_retries}")
-                time.sleep(current_delay)
-                current_delay *= 2  # 指数退避
-                continue
-                
-            out_content = common_tools.modify_text(out_content)
-            with open(filename, 'a', encoding='utf-8') as file:
-                file.write(out_content + '\n\n')
-            return True
-            
-        except Exception as e:
-            error_str = str(e)
-            retry_count += 1
-            
-            if "429" in error_str or "quota" in error_str.lower():
-                print(f"API 配额限制，等待 {current_delay} 秒后重试 ({retry_count}/{max_retries})")
-                time.sleep(current_delay)
-                current_delay *= 2  # 指数退避
-            else:
-                print(f"翻译错误: {error_str}")
-                print(f"原始内容: {origin_content[:200]}...")
-                if retry_count < max_retries:
-                    print(f"等待 {current_delay} 秒后重试 ({retry_count}/{max_retries})")
-                    time.sleep(current_delay)
-                    current_delay *= 2
-                else:
-                    print("达到最大重试次数，放弃翻译")
-                    return False
-    
-    return False
+output_parser = StrOutputParser()
 
-def process_chunks(chunks, filename):
+def translate_once(prompt, origin_content, filename):
+    try:
+        chain = prompt | model | output_parser
+        response = chain.invoke({"AUDIO_TRANSCRIPT": origin_content})
+        if not response:
+            raise ValueError("Empty response from API")
+        out_content = extract_translation(response)
+        while out_content == "未找到意译内容":
+            response = chain.invoke({"AUDIO_TRANSCRIPT": origin_content})
+            out_content = extract_translation(response)
+        out_content = common_tools.modify_text(out_content)
+        with open(filename, 'a', encoding='utf-8') as file:
+            file.write(out_content + '\n\n')
+    except Exception as e:
+        print(f"Error during translation: {str(e)}")
+        print(f"Original content: {origin_content[:200]}...")  # Print first 200 chars for debugging
+        print("Rate limit exceeded, waiting 40 seconds...")
+        time.sleep(40)
+        return translate_once(prompt, origin_content, filename)
+        raise
+
+def process_chunks(prompt, chunks, filename):
     for i, chunk in enumerate(chunks):
-        print(f"处理第 {i+1}/{len(chunks)} 个文本块")
+        print(f"Processing chunk {i+1}/{len(chunks)}")
         if chunk.strip():  # 检查chunk是否为空或仅包含空白字符
-            success = translate_once(chunk, filename)
-            if not success:
-                print(f"警告：第 {i+1} 个文本块翻译失败")
+            translate_once(prompt, chunk, filename)
         else:
-            print(f"跳过空文本块 {i+1}")
-        # 在文本块之间添加延迟以避免触发速率限制
-        time.sleep(5)  # 增加延迟到2秒
+            print(f"Skipping empty chunk {i+1}")
+        # Add delay between requests to avoid rate limiting
+        time.sleep(1)  # Adjust this value as needed
 
 def extract_translation(text):
     pattern = r'<refined_translation>([\s\S]*?)(?:</refined_translation>|\Z)'
@@ -101,13 +68,16 @@ def extract_translation(text):
 
 def translate(txt_output):
     origin_content = common_tools.read_file(txt_output)
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", prompt_translate)
+    ])
     
     input_filename = os.path.basename(txt_output)
     output_filename = os.path.splitext(input_filename)[0] + '_origin.md'
     output_file = os.path.join(os.path.dirname(txt_output), output_filename)
     
     chunks = common_tools.split_text_by_char_length(origin_content, 800)
-    process_chunks(chunks, output_file)
+    process_chunks(prompt, chunks, output_file)
 
 
 def extract_text_from_json(json_file, output_txt=None):
@@ -146,10 +116,22 @@ def convert_video_to_wav(input_file, output_file=None):
     :return: 输出文件路径
     """
     if output_file is None:
-        output_file = os.path.splitext(input_file)[0] + '.wav'
+        base_name = os.path.splitext(input_file)[0]
+        output_file = base_name + '_converted.wav'
+    
+    # 如果输入文件已经是wav格式且路径相同，创建一个新的输出路径
+    if os.path.abspath(input_file) == os.path.abspath(output_file):
+        base_name = os.path.splitext(output_file)[0]
+        output_file = base_name + '_converted.wav'
+    
+    # 检查输入文件是否存在
+    if not os.path.exists(input_file):
+        print(f"输入文件不存在: {input_file}")
+        return None
     
     command = [
         'ffmpeg',
+        '-y',  # 自动覆盖输出文件
         '-i', input_file,
         '-ar', '16000',  # 采样率
         '-ac', '1',      # 单声道
@@ -210,12 +192,13 @@ def video_to_text(input_video, model_path, output_dir=None, language="zh"):
     # 转换视频为音频
     if output_dir:
         base_name = os.path.basename(input_video)
-        audio_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.wav')
+        audio_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '_converted.wav')
     else:
         audio_output = None
         
     wav_file = convert_video_to_wav(input_video, audio_output)
     if not wav_file:
+        print("音频转换失败")
         return None
         
     # 转录音频为文本
@@ -225,32 +208,37 @@ def video_to_text(input_video, model_path, output_dir=None, language="zh"):
     else:
         json_output = None
         
-    result = transcribe_audio(wav_file, model_path, json_output, language=language)
+    json_result = transcribe_audio(wav_file, model_path, json_output, language=language)
     
     # 删除临时wav文件
-    if result and os.path.exists(wav_file):
+    if json_result and os.path.exists(wav_file):
         try:
             os.remove(wav_file)
             print(f"已删除临时音频文件: {wav_file}")
         except OSError as e:
             print(f"删除音频文件失败: {e}")
     
-    # 在原有代码最后添加文本提取
-    if result:
+    # 提取文本
+    if json_result:
         if output_dir:
-            base_name = os.path.basename(result)
+            base_name = os.path.basename(json_result)
             txt_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.txt')
         else:
             txt_output = None
             
-        final_result = extract_text_from_json(result, txt_output)
+        final_result = extract_text_from_json(json_result, txt_output)
         return final_result
-    
-    return txt_output
+    else:
+        print("音频转录失败")
+        return None
 
 def video_translate(args):
     txt_output = video_to_text(args.input_video, args.model_path, args.output_dir, args.language)
-    translate(txt_output)
+    if txt_output and os.path.exists(txt_output):
+        translate(txt_output)
+    else:
+        print("视频转文本失败，无法进行翻译")
+        return None
 
 
 def parse_arguments():

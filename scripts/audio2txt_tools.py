@@ -14,10 +14,22 @@ def convert_video_to_wav(input_file, output_file=None):
     :return: 输出文件路径
     """
     if output_file is None:
-        output_file = os.path.splitext(input_file)[0] + '.wav'
+        base_name = os.path.splitext(input_file)[0]
+        output_file = base_name + '_converted.wav'
+    
+    # 如果输入文件已经是wav格式且路径相同，创建一个新的输出路径
+    if os.path.abspath(input_file) == os.path.abspath(output_file):
+        base_name = os.path.splitext(output_file)[0]
+        output_file = base_name + '_converted.wav'
+    
+    # 检查输入文件是否存在
+    if not os.path.exists(input_file):
+        print(f"输入文件不存在: {input_file}")
+        return None
     
     command = [
         'ffmpeg',
+        '-y',  # 自动覆盖输出文件
         '-i', input_file,
         '-ar', '16000',  # 采样率
         '-ac', '1',      # 单声道
@@ -106,12 +118,13 @@ def video_to_text(input_video, model_path, output_dir=None, language="zh"):
     # 转换视频为音频
     if output_dir:
         base_name = os.path.basename(input_video)
-        audio_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.wav')
+        audio_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '_converted.wav')
     else:
         audio_output = None
         
     wav_file = convert_video_to_wav(input_video, audio_output)
     if not wav_file:
+        print("音频转换失败")
         return None
         
     # 转录音频为文本
@@ -121,28 +134,29 @@ def video_to_text(input_video, model_path, output_dir=None, language="zh"):
     else:
         json_output = None
         
-    result = transcribe_audio(wav_file, model_path, json_output, language=language)
+    json_result = transcribe_audio(wav_file, model_path, json_output, language=language)
     
     # 删除临时wav文件
-    if result and os.path.exists(wav_file):
+    if json_result and os.path.exists(wav_file):
         try:
             os.remove(wav_file)
             print(f"已删除临时音频文件: {wav_file}")
         except OSError as e:
             print(f"删除音频文件失败: {e}")
     
-    # 在原有代码最后添加文本提取
-    if result:
+    # 提取文本
+    if json_result:
         if output_dir:
-            base_name = os.path.basename(result)
+            base_name = os.path.basename(json_result)
             txt_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.txt')
         else:
             txt_output = None
             
-        final_result = extract_text_from_json(result, txt_output)
+        final_result = extract_text_from_json(json_result, txt_output)
         return final_result
-    
-    return txt_output
+    else:
+        print("音频转录失败")
+        return None
 
 
 def parse_arguments():

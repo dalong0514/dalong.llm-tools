@@ -79,7 +79,11 @@ def translate(txt_output):
 
 def video_translate(args):
     txt_output = video_to_text(args.input_video, args.model_path, args.output_dir, args.language)
-    translate(txt_output)
+    if txt_output and os.path.exists(txt_output):
+        translate(txt_output)
+    else:
+        print("视频转文本失败，无法进行翻译")
+        return None
 
 
 def parse_arguments():
