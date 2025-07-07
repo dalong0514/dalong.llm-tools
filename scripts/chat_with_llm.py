@@ -9,9 +9,10 @@ import argparse
 
 # system_prompt = read_prompt_file("prompt_chat")
 
-api_key = get_api_key("openai")
-base_url= get_base_url("openai")
-model_name = "o3"
+api_key = get_api_key()
+base_url= get_base_url()
+model_name = "claude-opus-4-20250514"
+# model_name = "o3"
 
 model = ChatOpenAI(
     base_url=base_url,

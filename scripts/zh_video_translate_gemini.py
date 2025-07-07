@@ -73,7 +73,7 @@ def translate(txt_output):
     output_filename = os.path.splitext(input_filename)[0] + '_origin.md'
     output_file = os.path.join(os.path.dirname(txt_output), output_filename)
     
-    chunks = common_tools.split_text_by_char_length(origin_content, 800)
+    chunks = common_tools.split_text_by_char_length(origin_content, 1000)
     process_chunks(chunks, output_file)
 
 

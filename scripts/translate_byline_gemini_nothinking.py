@@ -35,7 +35,7 @@ def translate_once(origin_content, filename, mode):
                 contents=origin_content,
                 config=types.GenerateContentConfig(
                     system_instruction=system_prompt,
-                    thinking_config=types.ThinkingConfig(thinking_budget=0)
+                    thinking_config=types.ThinkingConfig(thinking_budget=512)
                 )
             )
             response_text = response.text if hasattr(response, 'text') else str(response)
