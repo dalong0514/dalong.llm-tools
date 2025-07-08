@@ -171,4 +171,5 @@ cython_debug/
 .pypirc
 
 # working space
-working
+working/
+information_anlaysis/
