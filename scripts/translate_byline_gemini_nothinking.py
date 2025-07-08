@@ -12,7 +12,7 @@ system_prompt = utils.read_prompt_file("prompt_translate")
 
 api_key = get_api_key("google")
 client = genai.Client(api_key=api_key)
-# model_name = "gemini-2.5-pro-preview-05-06"
+# model_name = "gemini-2.5-pro"
 model_name = "gemini-2.5-flash-preview-05-20"
 
 def translate_once(origin_content, filename, mode):
@@ -22,7 +22,7 @@ def translate_once(origin_content, filename, mode):
             contents=origin_content,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
-                thinking_config=types.ThinkingConfig(thinking_budget=0)
+                thinking_config=types.ThinkingConfig(thinking_budget=512)
             )
         )
         # thinkingBudget 必须是介于 0 到 24576 之间的整数
