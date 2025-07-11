@@ -13,10 +13,13 @@ import argparse
 
 system_prompt = read_prompt_file("prompt_translate_audio_gemini")
 
+prompt_split = common_tools.read_prompt_file("prompt_split_en")
+prompt_translate = common_tools.read_prompt_file("prompt_translate")
+
+
 api_key = get_api_key("google")
 client = genai.Client(api_key=api_key)
 model_name = "gemini-2.5-pro"
-# model_name = "gemini-2.5-pro-preview-05-06"
 # model_name = "gemini-2.5-flash-preview-05-20"
 
 
@@ -35,7 +38,7 @@ def gemini_model(contents):
     return response_text
 
 
-def process_once(origin_content, filename):
+def zh_audio_process_once(origin_content, filename):
     try:
         response_text = gemini_model(origin_content)
         if not response_text:
@@ -53,19 +56,63 @@ def process_once(origin_content, filename):
         print(f"Original content: {origin_content[:200]}...")  # Print first 200 chars for debugging
         print("Rate limit exceeded, waiting 40 seconds...")
         time.sleep(40)
-        return process_once(origin_content, filename)
+        return zh_audio_process_once(origin_content, filename)
         raise
 
-def audio_process(origin_content, filename):
-    chunks = common_tools.split_text_by_char_length(origin_content, 800)
+def zh_audio_process(origin_content, filename):
+    chunks = common_tools.split_text_by_char_length(origin_content, 1000)
     for i, chunk in enumerate(chunks):
         print(f"Processing chunk {i+1}/{len(chunks)}")
         if chunk.strip():  # 检查chunk是否为空或仅包含空白字符
-            process_once(chunk, filename)
+            zh_audio_process_once(chunk, filename)
         else:
             print(f"Skipping empty chunk {i+1}")
         # Add delay between requests to avoid rate limiting
         time.sleep(1)  # Adjust this value as needed
+
+
+def en_audio_process(origin_content, filename):
+    chunks = common_tools.split_text_by_dot_length(origin_content, 10000)
+    for i, chunk in enumerate(chunks):
+        print(f"Processing chunk {i+1}/{len(chunks)}")
+        if chunk.strip():  # 检查chunk是否为空或仅包含空白字符
+            en_audio_split_process_once(chunk, filename)
+        else:
+            print(f"Skipping empty chunk {i+1}")
+        # Add delay between requests to avoid rate limiting
+        time.sleep(1)  # Adjust this value as needed
+
+
+def en_audio_split_process_once(origin_content, filename):
+    try:
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=origin_content,
+            config=types.GenerateContentConfig(
+                system_instruction=prompt_split,
+                thinking_config=types.ThinkingConfig(thinking_budget=0)
+            )
+        )
+        # Convert response to text first
+        response_text = response.text if hasattr(response, 'text') else str(response)
+        out_content = split_extract_translation(response_text)
+        with open(filename, 'a', encoding='utf-8') as file:
+            file.write(out_content + '\n\n')
+    except Exception as e:
+        print(f"Error processing chunk: {e}")
+        # Wait and retry if it's a rate limit error
+        if "429" in str(e):
+            print("Rate limit exceeded, waiting 30 seconds...")
+            time.sleep(30)
+            return en_audio_split_process_once(origin_content, filename)
+        return None
+
+def split_extract_translation(text):
+    pattern = r'<refined_translation>([\s\S]*?)(?:</refined_translation>|\Z)'
+    match = re.search(pattern, text, re.DOTALL)
+    if match:
+        return match.group(1).strip()
+    return "整理内容"
 
 
 def parse_arguments():
@@ -89,4 +136,5 @@ if __name__ == "__main__":
     args = parse_arguments()
     origin_content = common_tools.read_file(args.input_file)
     output_filename = os.path.splitext(args.input_file)[0] + '_origin.md'
-    audio_process(origin_content, output_filename)
+    # zh_audio_process(origin_content, output_filename)
+    en_audio_process(origin_content, output_filename)

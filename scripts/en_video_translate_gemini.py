@@ -127,7 +127,7 @@ def split_translate(txt_output):
     split_filename = os.path.splitext(input_filename)[0] + '_origin.md'
     split_file = os.path.join(os.path.dirname(txt_output), split_filename)
 
-    chunks = common_tools.split_text_by_dot_length(origin_content, 20000)
+    chunks = common_tools.split_text_by_dot_length(origin_content, 10000)
     split_process_chunks(chunks, split_file)
     translate(split_file, output_file)
 
