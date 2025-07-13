@@ -12,8 +12,8 @@ system_prompt = utils.read_prompt_file("prompt_translate")
 
 api_key = get_api_key("google")
 client = genai.Client(api_key=api_key)
-model_name = "gemini-2.5-pro"
-# model_name = "gemini-2.5-flash"
+# model_name = "gemini-2.5-pro"
+model_name = "gemini-2.5-flash"
 
 def translate_once(origin_content, filename, mode):
     try:
