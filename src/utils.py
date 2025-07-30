@@ -158,7 +158,7 @@ def split_text_by_dot_length(text, max_length=1000):
     """
     segments = []
     current_segment = ""
-    words = text.split('. ')  # 按英文句号分割文本为单词列表
+    words = text.split('.')  # 按英文句号分割文本为单词列表
 
     for word in words:
         # 检查加上新单词后长度是否超过最大值

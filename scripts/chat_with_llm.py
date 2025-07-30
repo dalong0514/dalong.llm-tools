@@ -17,7 +17,8 @@ model_name = "claude-opus-4-20250514"
 model = ChatOpenAI(
     base_url=base_url,
     api_key=api_key,
-    model_name=model_name
+    model_name=model_name,
+    streaming=True
 )
 
 def chat_with_llm():
@@ -30,8 +31,15 @@ def chat_with_llm():
             ("user", "{content}")
         ])
         prompt = prompt_template.invoke({"content": prompt_content})
-        response = model.invoke(prompt)
-        out_content = response.content
+
+        # 使用流式方式获取响应
+        out_content = ""
+        for chunk in model.stream(prompt):
+            content = chunk.content
+            if content:
+                print(content, end='', flush=True)  # 流式打印，不换行
+                out_content += content
+        print("\n")  # 打印完成后添加换行
 
         # out_content = modify_text(out_content)
         with open(output_file_name, 'a', encoding='utf-8') as file:
