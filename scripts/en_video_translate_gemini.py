@@ -9,9 +9,8 @@ import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.helper import get_api_key
 import src.utils as common_tools
+from split_audio_glm import split_translate_once
 
-
-prompt_split = common_tools.read_prompt_file("prompt_split_en")
 system_prompt = common_tools.read_prompt_file("prompt_translate")
 
 api_key = get_api_key("google")
@@ -77,38 +76,6 @@ def translate(input_filename, output_filename):
     chunks = common_tools.split_text_by_long_newline(origin_content)
     process_chunks(chunks, output_filename)
 
-
-def split_translate_once(origin_content, filename):
-    try:
-        response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=origin_content,
-            config=types.GenerateContentConfig(
-                system_instruction=prompt_split,
-                thinking_config=types.ThinkingConfig(thinking_budget=0)
-            )
-        )
-        # Convert response to text first
-        response_text = response.text if hasattr(response, 'text') else str(response)
-        out_content = split_extract_translation(response_text)
-        with open(filename, 'a', encoding='utf-8') as file:
-            file.write(out_content + '\n\n')
-    except Exception as e:
-        print(f"Error processing chunk: {e}")
-        # Wait and retry if it's a rate limit error
-        if "429" in str(e):
-            print("Rate limit exceeded, waiting 30 seconds...")
-            time.sleep(30)
-            return split_translate_once(origin_content, filename)
-        return None
-
-def split_extract_translation(text):
-    pattern = r'<refined_translation>([\s\S]*?)(?:</refined_translation>|\Z)'
-    match = re.search(pattern, text, re.DOTALL)
-    if match:
-        return match.group(1).strip()
-    return "整理内容"
-
 # 步骤二：批量处理内容
 def split_process_chunks(chunks, filename):
     for i, chunk in enumerate(chunks):
@@ -127,7 +94,7 @@ def split_translate(txt_output):
     split_filename = os.path.splitext(input_filename)[0] + '_origin.md'
     split_file = os.path.join(os.path.dirname(txt_output), split_filename)
 
-    chunks = common_tools.split_text_by_dot_length(origin_content, 10000)
+    chunks = common_tools.split_text_by_dot_length(origin_content, 5000)
     split_process_chunks(chunks, split_file)
     translate(split_file, output_file)
 

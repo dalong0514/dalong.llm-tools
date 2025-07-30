@@ -12,6 +12,7 @@ system_prompt = common_tools.read_prompt_file("prompt_split_audio")
 api_key = get_api_key("zhipu")
 base_url= get_base_url("zhipu")
 model_name = "glm-4.5-flash"
+# model_name = "glm-4.5-air"
 
 model = ChatOpenAI(
     base_url=base_url,
@@ -20,6 +21,28 @@ model = ChatOpenAI(
     streaming=True
 )
 
+def split_translate_once(content, output_file_name):
+    try:
+        prompt_template = ChatPromptTemplate([
+            ("system", system_prompt),
+            ("user", "{content}")
+        ])
+        prompt = prompt_template.invoke({"content": content})
+        response = model.invoke(prompt)
+        out_content = response.content
+        # 写入文件
+        with open(output_file_name, 'a', encoding='utf-8') as file:
+            file.write(out_content)
+
+    except Exception as e:
+        print(f"Error processing chunk: {e}")
+        # Wait and retry if it's a rate limit error
+        if "400" in str(e):
+            print("Rate limit exceeded, waiting 30 seconds...")
+            time.sleep(30)
+            return split_translate_once(content, output_file_name)
+        return None
+
 def split_audio_once(content, output_file_name):
     try:
         prompt_template = ChatPromptTemplate([
@@ -27,24 +50,15 @@ def split_audio_once(content, output_file_name):
             ("user", "{content}")
         ])
         prompt = prompt_template.invoke({"content": content})
-        
-        # 使用流式方式获取响应
-        out_content = ""
-        for chunk in model.stream(prompt):
-            content = chunk.content
-            if content:
-                print(content, end='', flush=True)  # 流式打印，不换行
-                out_content += content
-        
-        print("\n")  # 打印完成后添加换行
-
+        response = model.invoke(prompt)
+        out_content = response.content
         # 写入文件
         with open(output_file_name, 'a', encoding='utf-8') as file:
             file.write(out_content)
     except Exception as e:
         print(f"Error processing chunk: {e}")
         # Wait and retry if it's a rate limit error
-        if "429" in str(e):
+        if "400" in str(e):
             print("Rate limit exceeded, waiting 30 seconds...")
             time.sleep(30)
             return split_audio_once(content, output_file_name)
@@ -55,8 +69,11 @@ def split_audio():
     output_file_name = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "working", "output.md")
     content = read_file(file_name)
     chunks = common_tools.split_text_by_dot_length(content, 5000)
-    for chunk in chunks:
+    for i, chunk in enumerate(chunks):
+        print(f"Processing chunk {i+1}/{len(chunks)}")
         split_audio_once(chunk, output_file_name)
+        # Add delay between requests to avoid rate limiting
+        time.sleep(1)  
 
 if __name__ == "__main__":
     start_time = time.time()
