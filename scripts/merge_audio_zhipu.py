@@ -9,10 +9,9 @@ import src.utils as common_tools
 
 system_prompt = "merge the line-broken statements into complete sentences. Requirements: 1) Preserve the original text without modifying any content, just merge the sentences! 2) Merge 3-5 sentences into one paragraph. 3) If there are multiple speakers, insert a line break when switching speakers."
 
-api_key = get_api_key("local")
-base_url= get_base_url("local")
-model_name = "gemma3:12b-it-qat"
-# model_name = "gemma3:27b"
+api_key = get_api_key("zhipu")
+base_url= get_base_url("zhipu")
+model_name = "glm-4.5-flash"
 
 model = ChatOpenAI(
     base_url=base_url,
@@ -55,7 +54,7 @@ def merge_audio():
     file_name = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "working", "input.md")
     output_file_name = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "working", "output.md")
     content = read_file(file_name)
-    chunks = common_tools.split_text_by_dot_length(content, 1000)
+    chunks = common_tools.split_text_by_dot_length(content, 2000)
     for chunk in chunks:
         chat_with_llm(chunk, output_file_name)
 

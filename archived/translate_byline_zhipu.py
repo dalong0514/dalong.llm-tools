@@ -7,11 +7,11 @@ from src.helper import get_api_key, get_base_url
 from src.utils import read_file, split_text_by_long_newline, modify_text, extract_translation, read_prompt_file
 import argparse
 
-system_prompt = "使用简体中文重写以下内容"
+system_prompt = read_prompt_file("prompt_translate")
 
-api_key = get_api_key("deepseek")
-base_url= get_base_url("deepseek")
-model_name = "deepseek-reasoner"
+api_key = get_api_key("zhipu")
+base_url= get_base_url("zhipu")
+model_name = "glm-4.5-air"
 
 model = ChatOpenAI(
     base_url=base_url,
@@ -29,7 +29,13 @@ def translate_once(model, origin_content, filename, mode):
         response = model.invoke(prompt)
         response_text = response.content
 
-        out_content = modify_text(response_text)
+        out_content = extract_translation(response_text)
+        while out_content == "未找到意译内容":
+            response = model.invoke(prompt)
+            response_text = response.content
+            out_content = extract_translation(response_text)
+
+        out_content = modify_text(out_content)
         with open(filename, 'a', encoding='utf-8') as file:
             # file.write(origin_content + '\n\n' + out_content + '\n')
             file.write(f"{origin_content}\n\n{out_content}\n\n")
