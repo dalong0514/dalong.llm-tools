@@ -108,4 +108,12 @@ if __name__ == "__main__":
     # 如果没有指定输出目录，使用视频文件所在目录
     if args.output_dir is None:
         args.output_dir = os.path.dirname(args.input_video)
+    start_time = time.time()
+    print('waiting...\n')
     video_translate(args)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    if elapsed_time < 60:
+        print(f'Time Used: {elapsed_time:.2f} seconds')
+    else:
+        print(f'Time Used: {elapsed_time/60:.2f} minutes')
