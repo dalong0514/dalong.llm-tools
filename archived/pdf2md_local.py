@@ -8,7 +8,7 @@ from gptpdf import parse_pdf
 
 api_key = get_api_key("local")
 base_url = get_base_url("local")
-model_name = "qwen2.5vl:7b"
+model_name = "gemma3:27b-it-qat"
 
 def get_out_filename(pdf_path):
     file_name = os.path.basename(pdf_path)

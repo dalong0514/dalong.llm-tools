@@ -11,7 +11,7 @@ system_prompt = read_prompt_file("prompt_translate")
 
 api_key = get_api_key("bailian")
 base_url= get_base_url("bailian")
-model_name = "qwen3-235b-a22b"
+model_name = "qwen3-30b-a3b-instruct-2507"
 
 model = ChatOpenAI(
     base_url=base_url,
