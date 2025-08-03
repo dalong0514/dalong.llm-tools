@@ -20,7 +20,7 @@ prompt_translate = common_tools.read_prompt_file("prompt_translate")
 api_key = get_api_key("google")
 client = genai.Client(api_key=api_key)
 model_name = "gemini-2.5-pro"
-# model_name = "gemini-2.5-flash-preview-05-20"
+# model_name = "gemini-2.5-flash"
 
 
 def gemini_model(contents):

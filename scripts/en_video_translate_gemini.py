@@ -9,7 +9,8 @@ import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.helper import get_api_key
 import src.utils as common_tools
-from split_audio_glm import split_translate_once
+from split_audio_gemini import split_translate_once
+from audio2txt_tools import video_to_text
 
 system_prompt = common_tools.read_prompt_file("prompt_translate")
 
@@ -98,63 +99,6 @@ def split_translate(txt_output):
     split_process_chunks(chunks, split_file)
     translate(split_file, output_file)
 
-
-def extract_text_from_json(json_file, output_txt=None):
-    """
-    从转录的json文件中提取纯文本内容
-    :param json_file: 输入的json文件路径
-    :param output_txt: 输出的txt文件路径（可选）
-    :return: 输出文件路径
-    """
-    if output_txt is None:
-        output_txt = os.path.splitext(json_file)[0] + '.txt'
-    
-    try:
-        with open(json_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        # 提取所有chunks中的text并拼接
-        # full_text = ' '.join(chunk['text'] for chunk in data['chunks'])
-        # 直接提取text字段
-        full_text = data['text']
-
-        with open(output_txt, 'w', encoding='utf-8') as f:
-            f.write(full_text)
-        
-        print(f"文本提取成功！输出文件: {output_txt}")
-        return output_txt
-    except Exception as e:
-        print(f"文本提取失败: {e}")
-        return None
-
-def convert_video_to_wav(input_file, output_file=None):
-    """
-    将视频文件转换为WAV音频
-    :param input_file: 输入视频文件路径
-    :param output_file: 输出音频文件路径（可选）
-    :return: 输出文件路径
-    """
-    if output_file is None:
-        output_file = os.path.splitext(input_file)[0] + '.wav'
-    
-    command = [
-        'ffmpeg',
-        '-i', input_file,
-        '-ar', '16000',  # 采样率
-        '-ac', '1',      # 单声道
-        '-c:a', 'pcm_s16le',  # 音频编码
-        output_file
-    ]
-    
-    try:
-        subprocess.run(command, check=True)
-        print(f"转换成功！输出文件: {output_file}")
-        return output_file
-    except subprocess.CalledProcessError as e:
-        print(f"转换失败: {e}")
-        return None
-
-
 def transcribe_audio(input_audio, model_path, output_json=None, language="zh", device="mps", batch_size=4):
     """
     使用insanely-fast-whisper将音频转录为文本
@@ -186,56 +130,6 @@ def transcribe_audio(input_audio, model_path, output_json=None, language="zh", d
     except subprocess.CalledProcessError as e:
         print(f"转录失败: {e}")
         return None
-
-def video_to_text(input_video, model_path, output_dir=None, language="zh"):
-    """
-    将视频文件转换为文本
-    :param input_video: 输入视频文件路径
-    :param model_path: whisper模型路径
-    :param output_dir: 输出目录（可选）
-    :param language: 语言代码
-    :return: 转录结果文件路径
-    """
-    # 转换视频为音频
-    if output_dir:
-        base_name = os.path.basename(input_video)
-        audio_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.wav')
-    else:
-        audio_output = None
-        
-    wav_file = convert_video_to_wav(input_video, audio_output)
-    if not wav_file:
-        return None
-        
-    # 转录音频为文本
-    if output_dir:
-        base_name = os.path.basename(wav_file)
-        json_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.json')
-    else:
-        json_output = None
-        
-    result = transcribe_audio(wav_file, model_path, json_output, language=language)
-    
-    # 删除临时wav文件
-    if result and os.path.exists(wav_file):
-        try:
-            os.remove(wav_file)
-            print(f"已删除临时音频文件: {wav_file}")
-        except OSError as e:
-            print(f"删除音频文件失败: {e}")
-    
-    # 在原有代码最后添加文本提取
-    if result:
-        if output_dir:
-            base_name = os.path.basename(result)
-            txt_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.txt')
-        else:
-            txt_output = None
-            
-        final_result = extract_text_from_json(result, txt_output)
-        return final_result
-    
-    return txt_output
 
 def video_translate(args):
     txt_output = video_to_text(args.input_video, args.model_path, args.output_dir, args.language)

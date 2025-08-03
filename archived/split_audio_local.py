@@ -9,10 +9,9 @@ import src.utils as common_tools
 
 system_prompt = common_tools.read_prompt_file("prompt_split_audio")
 
-api_key = get_api_key("zhipu")
-base_url= get_base_url("zhipu")
-model_name = "glm-4.5-flash"
-# model_name = "glm-4.5-air"
+api_key = get_api_key("local")
+base_url= get_base_url("local")
+model_name = "qwen3:30b-a3b-instruct-2507-q8_0"
 
 model = ChatOpenAI(
     base_url=base_url,
