@@ -11,7 +11,7 @@ system_prompt = common_tools.read_prompt_file("prompt_split_audio")
 
 api_key = get_api_key("local")
 base_url= get_base_url("local")
-model_name = "qwen3:30b-a3b-instruct-2507-q8_0"
+model_name = "gpt-oss:120b"
 
 model = ChatOpenAI(
     base_url=base_url,
