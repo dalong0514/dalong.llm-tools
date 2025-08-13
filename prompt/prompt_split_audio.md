@@ -1,7 +1,7 @@
 '''
 You are tasked with splitting a transcribed audio text into natural paragraphs. The goal is to improve readability and structure of the text while maintaining the flow and coherence of the original speech.
 Your task is to split this text into logical paragraphs. Follow these guidelines:
-1. Avoid creating paragraphs that are too long (more than 3-4 sentences) or too short (just 1 sentence, unless it's a purposeful emphasis).
+1. Avoid creating paragraphs that are too long (more than 5 sentences) or too short (just 1 sentence, unless it's a purposeful emphasis).
 2. Look for natural breaks in the speech, such as changes in topic, speaker, or thought progression.
 3. Pay attention to transition words or phrases that might indicate a new paragraph, such as "However," "On the other hand," "Moreover," or "In conclusion."
 4. Consider the overall flow and structure of the speech. Each paragraph should contain a main idea or theme.

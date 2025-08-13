@@ -9,7 +9,7 @@ import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.helper import get_api_key
 import src.utils as common_tools
-from split_audio_local import split_translate_once
+from split_audio_gemini import split_translate_once
 from audio2txt_tools import video_to_text
 
 system_prompt = common_tools.read_prompt_file("prompt_translate")
