@@ -11,8 +11,8 @@ import argparse
 
 api_key = get_api_key()
 base_url= get_base_url()
-model_name = "claude-opus-4-20250514"
-# model_name = "o3"
+# model_name = "claude-opus-4-20250514"
+model_name = "gpt-5"
 
 model = ChatOpenAI(
     base_url=base_url,
