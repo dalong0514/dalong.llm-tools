@@ -170,6 +170,10 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# claude code
+.claude/
+
 # working space
 working/
+zrecord/
 information_anlaysis/
