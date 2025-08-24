@@ -156,7 +156,13 @@ def extract_video_urls_from_lesson(html_content, base_url, lesson_number):
                         video_urls.append(match)
                     else:
                         # 构建JWPlayer URL
-                        jw_url = f"https://content.jwplatform.com/players/{match}"
+                        # 如果match以//开头，说明是协议相对URL
+                        if match.startswith('//'):
+                            jw_url = 'https:' + match
+                        else:
+                            # 确保match不以斜杠开头
+                            clean_match = match.lstrip('/')
+                            jw_url = f"https://content.jwplatform.com/players/{clean_match}"
                         video_urls.append(jw_url)
     
     # 2. 查找视频标题
@@ -367,9 +373,29 @@ def download_skilljar_course(course_url, output_path="/Users/Daglas/Desktop/skil
     # 下载所有视频
     download_videos(all_video_urls, output_path)
 
+def clean_video_url(url):
+    """清理视频URL，移除重复的路径和无效部分"""
+    # 处理重复的jwplatform路径
+    if 'content.jwplatform.com/players//content.jwplatform.com/players/' in url:
+        # 使用正则表达式直接提取正确的player ID
+        import re
+        player_match = re.search(r'players/(rLVnV1aS-[A-Za-z0-9]+\.js)', url)
+        if player_match:
+            url = f'https://content.jwplatform.com/players/{player_match.group(1)}'
+    
+    # 移除查询参数中的title信息（如果存在）
+    if '?title=' in url:
+        url = url.split('?title=')[0]
+    
+    return url
+
 def download_videos(video_urls, output_path):
     """下载视频列表"""
     print("\n开始自动下载...")
+    
+    # 清理URL列表
+    cleaned_urls = [clean_video_url(url) for url in video_urls]
+    video_urls = list(set(cleaned_urls))  # 再次去重
     
     success_count = 0
     failed_urls = []
