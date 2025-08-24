@@ -3,12 +3,21 @@
 """
 Skilljar视频下载脚本
 用于下载anthropic.skilljar.com上的Claude Code in Action课程视频
+支持下载整个课程或单个页面视频
+
+用法:
+1. 下载整个课程: python skilljar_download.py [输出目录]
+2. 下载单个页面: python skilljar_download.py [页面URL] [输出目录]
+
+示例:
+- 下载整个课程到默认目录: python skilljar_download.py
+- 下载整个课程到指定目录: python skilljar_download.py /path/to/output
+- 下载单个页面: python skilljar_download.py https://anthropic.skilljar.com/claude-code-in-action/303235 /path/to/output
 """
 
 import os
 import sys
 import re
-import json
 import time
 from urllib.parse import urljoin, urlparse
 from yt_dlp import YoutubeDL
@@ -214,11 +223,12 @@ def download_video(video_url, output_path="/Users/Daglas/Desktop/skilljar_videos
         'noplaylist': True,
         'quiet': False,
         'no_warnings': False,
-        'retries': 10,
-        'socket_timeout': 30,
+        'retries': 3,  # 减少重试次数避免长时间等待
+        'socket_timeout': 15,  # 缩短超时时间
         'merge_output_format': 'mp4',
         'http_headers': HEADERS,
         'ignoreerrors': True,  # 忽略错误继续下载其他视频
+        'timeout': 30,  # 总超时时间
     }
     
     try:
@@ -232,7 +242,13 @@ def download_video(video_url, output_path="/Users/Daglas/Desktop/skilljar_videos
                 print(f"❌ 无法获取视频信息")
                 return False
     except Exception as e:
-        print(f"❌ 下载失败: {e}")
+        error_msg = str(e)
+        if "timed out" in error_msg or "timeout" in error_msg:
+            print(f"⏰ 下载超时: {video_url}")
+        elif "404" in error_msg or "Not Found" in error_msg:
+            print(f"🔍 视频不存在: {video_url}")
+        else:
+            print(f"❌ 下载失败: {error_msg}")
         return False
 
 def download_skilljar_course(course_url, output_path="/Users/Daglas/Desktop/skilljar_videos"):
@@ -398,26 +414,115 @@ def download_videos(video_urls, output_path):
         print("4. 视频URL需要动态生成或授权")
         print("\n建议手动访问课程页面检查视频访问权限")
 
+def download_single_page_video(page_url, output_path="/Users/Daglas/Desktop/skilljar_videos"):
+    """下载单个网页中的视频"""
+    print(f"开始处理单个页面: {page_url}")
+    
+    # 获取页面内容
+    html_content = get_page_content(page_url)
+    if not html_content:
+        print("无法获取页面内容")
+        return
+    
+    # 保存HTML内容用于调试
+    debug_html_path = os.path.join(output_path, "debug_single_page.html")
+    os.makedirs(output_path, exist_ok=True)
+    with open(debug_html_path, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    print(f"页面内容已保存到: {debug_html_path}")
+    
+    # 直接提取视频URL
+    video_urls = extract_video_urls_from_lesson(html_content, page_url, 1)
+    
+    if not video_urls:
+        print("未找到视频链接，尝试直接提取视频...")
+        
+        # 尝试其他提取方法
+        # soup = BeautifulSoup(html_content, 'html.parser')  # 暂时注释掉未使用的变量
+        
+        # 检查是否有视频处理中的消息
+        if "video is still being processed" in html_content:
+            print("⚠️  视频仍在处理中，可能需要等待或需要认证")
+        
+        print("\n建议手动分析方法:")
+        print("1. 打开浏览器开发者工具 (F12)")
+        print("2. 访问页面")
+        print("3. 在网络(Network)标签页中筛选mp4/m3u8文件")
+        print("4. 找到视频URL后，可以手动添加到下载列表中")
+        
+        manual_list_path = os.path.join(output_path, "manual_video_list.txt")
+        with open(manual_list_path, 'w', encoding='utf-8') as f:
+            f.write("# 手动添加视频URL到这里，每行一个\n")
+            f.write("# 示例: https://example.com/video.mp4\n")
+        print(f"手动下载模板已创建: {manual_list_path}")
+        return
+    
+    print(f"找到 {len(video_urls)} 个可能的视频链接:")
+    for i, url in enumerate(video_urls, 1):
+        print(f"  {i}. {url}")
+    
+    # 保存URL列表
+    url_list_path = os.path.join(output_path, "single_page_video_urls.txt")
+    with open(url_list_path, 'w', encoding='utf-8') as f:
+        for url in video_urls:
+            f.write(f"{url}\n")
+    print(f"视频URL列表已保存到: {url_list_path}")
+    
+    # 下载视频
+    download_videos(video_urls, output_path)
+
 def main():
     """主函数"""
-    # Skilljar课程URL
-    course_url = "https://anthropic.skilljar.com/claude-code-in-action"
-    
-    # 输出目录
+    # 默认输出目录
     output_path = "/Users/Daglas/Desktop/skilljar_videos"
     
-    # 从命令行参数获取自定义路径
+    # 解析命令行参数
     if len(sys.argv) > 1:
-        output_path = sys.argv[1]
+        # 第一个参数可能是URL或输出路径
+        first_arg = sys.argv[1]
+        
+        if first_arg.startswith('http'):
+            # 第一个参数是URL
+            target_url = first_arg
+            
+            # 检查是否有第二个参数（输出路径）
+            if len(sys.argv) > 2:
+                output_path = sys.argv[2]
+        else:
+            # 第一个参数是输出路径，使用默认URL
+            output_path = first_arg
+            target_url = "https://anthropic.skilljar.com/claude-code-in-action"
+    else:
+        # 没有参数，使用默认值
+        target_url = "https://anthropic.skilljar.com/claude-code-in-action"
     
     print("Skilljar视频下载工具")
     print("=" * 50)
-    print(f"课程URL: {course_url}")
+    print(f"目标URL: {target_url}")
     print(f"输出目录: {output_path}")
     print("=" * 50)
     
-    # 开始下载
-    download_skilljar_course(course_url, output_path)
+    # 判断是课程页面还是单个页面
+    # 更可靠的检测方法：检查URL路径部分是否有数字ID
+    parsed_url = urlparse(target_url)
+    path_parts = parsed_url.path.strip('/').split('/')
+    
+    # 单个页面的特征：路径包含数字ID且不是课程主页
+    is_single_page = (
+        "/claude-code-in-action/" in target_url and
+        len(path_parts) >= 2 and
+        path_parts[-1].isdigit() and  # 最后一部分是数字
+        path_parts[0] == "claude-code-in-action"
+    )
+    
+    if is_single_page:
+        # 单个课程页面
+        print("检测到单个课程页面，开始下载单个视频...")
+        download_single_page_video(target_url, output_path)
+    else:
+        # 课程主页
+        print("检测到课程主页，开始下载整个课程...")
+        download_skilljar_course(target_url, output_path)
 
 if __name__ == "__main__":
     main()
