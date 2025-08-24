@@ -41,14 +41,90 @@ def get_page_content(url):
         print(f"获取页面内容失败: {e}")
         return None
 
-def extract_video_urls(html_content, base_url):
-    """从HTML内容中提取视频URL"""
+def extract_lesson_urls(html_content, base_url):
+    """从HTML内容中提取所有课程章节的URL"""
+    lesson_urls = []
+    
+    if not html_content:
+        return lesson_urls
+    
+    soup = BeautifulSoup(html_content, 'html.parser')
+    
+    # 方法1: 查找data-url属性的课程链接
+    for li in soup.find_all('li', {'data-url': True}):
+        data_url = li.get('data-url', '')
+        if data_url and '/claude-code-in-action/' in data_url:
+            full_url = urljoin(base_url, data_url)
+            if full_url not in lesson_urls:
+                lesson_urls.append(full_url)
+    
+    # 方法2: 查找课程章节链接
+    curriculum_selectors = [
+        'a[href*="/lesson/"]',
+        'a[href*="/module/"]', 
+        'a[href*="/chapter/"]',
+        '.lesson-row a',
+        '.lesson-video a',
+        '.dp-curriculum a',
+        '#curriculum-list a',
+        'li.lesson-video a',
+        'li[class*="lesson-"] a'
+    ]
+    
+    for selector in curriculum_selectors:
+        for link in soup.select(selector):
+            href = link.get('href', '')
+            if href and ('/lesson/' in href or '/claude-code-in-action/' in href):
+                full_url = urljoin(base_url, href)
+                if full_url not in lesson_urls:
+                    lesson_urls.append(full_url)
+    
+    # 方法3: 查找所有可能的链接
+    for a in soup.find_all('a', href=True):
+        href = a['href']
+        if ('/lesson/' in href or '/claude-code-in-action/' in href) and not href.startswith('#'):
+            full_url = urljoin(base_url, href)
+            if full_url not in lesson_urls:
+                lesson_urls.append(full_url)
+    
+    # 方法4: 查找JavaScript中的课程数据
+    script_tags = soup.find_all('script')
+    for script in script_tags:
+        if script.string:
+            # 查找课程URL模式
+            patterns = [
+                r'/claude-code-in-action/\d+',
+                r'lesson/[\w-]+',
+                r'https?://[^"\']*skilljar[^"\']*/claude-code-in-action[^"\']*'
+            ]
+            
+            for pattern in patterns:
+                matches = re.findall(pattern, script.string, re.IGNORECASE)
+                for match in matches:
+                    if match.startswith('http'):
+                        lesson_urls.append(match)
+                    else:
+                        full_url = urljoin(base_url, match)
+                        if full_url not in lesson_urls:
+                            lesson_urls.append(full_url)
+    
+    return list(set(lesson_urls))
+
+def extract_video_urls_from_lesson(html_content, base_url, lesson_number):
+    """从单个课程页面提取视频URL"""
     video_urls = []
     
     if not html_content:
         return video_urls
     
     soup = BeautifulSoup(html_content, 'html.parser')
+    
+    # 保存课程页面内容用于调试
+    debug_dir = "/tmp/skilljar_debug"
+    os.makedirs(debug_dir, exist_ok=True)
+    debug_file = os.path.join(debug_dir, f"lesson_{lesson_number}.html")
+    with open(debug_file, 'w', encoding='utf-8') as f:
+        f.write(html_content)
     
     # 1. 查找JWPlayer配置
     script_tags = soup.find_all('script')
@@ -59,7 +135,9 @@ def extract_video_urls(html_content, base_url):
                 r'videoJsArgs\.assetJWPlayerUrl\s*=\s*["\']([^"\']+)["\']',
                 r'jwplayer\(["\']([^"\']+)["\']\)',
                 r'content\.jwplatform\.com/players/([^"\']+)',
-                r'file["\']?\s*[:=]\s*["\'](https?://[^"\']+\.(?:mp4|m3u8))["\']'
+                r'file["\']?\s*[:=]\s*["\'](https?://[^"\']+\.(?:mp4|m3u8))["\']',
+                r'videoUrl["\']?\s*[:=]\s*["\'](https?://[^"\']+)["\']',
+                r'jwplayer\(\s*["\']([^"\']+)["\']\s*\)'
             ]
             
             for pattern in jwplayer_patterns:
@@ -72,13 +150,22 @@ def extract_video_urls(html_content, base_url):
                         jw_url = f"https://content.jwplatform.com/players/{match}"
                         video_urls.append(jw_url)
     
-    # 2. iframe嵌入
+    # 2. 查找视频标题
+    video_title = "Unknown"
+    title_selectors = ['h1', 'h2', 'h3', '.video-title', '.lesson-title', '.title']
+    for selector in title_selectors:
+        title_elem = soup.select_one(selector)
+        if title_elem and title_elem.text.strip():
+            video_title = title_elem.text.strip()
+            break
+    
+    # 3. iframe嵌入
     for iframe in soup.find_all('iframe'):
         src = iframe.get('src', '')
         if src and any(keyword in src.lower() for keyword in ['video', 'player', 'vimeo', 'youtube', 'jwplayer']):
             video_urls.append(urljoin(base_url, src))
     
-    # 3. video标签
+    # 4. video标签
     for video in soup.find_all('video'):
         src = video.get('src', '')
         if src:
@@ -89,22 +176,16 @@ def extract_video_urls(html_content, base_url):
             if src:
                 video_urls.append(urljoin(base_url, src))
     
-    # 4. 包含视频链接的a标签
-    for a in soup.find_all('a', href=True):
-        href = a['href']
-        if any(ext in href.lower() for ext in ['.mp4', '.m3u8', '.m4v', '.mov', '.avi', '.webm', 'video', 'watch', 'player']):
-            video_urls.append(urljoin(base_url, href))
-    
     # 5. 其他JavaScript数据
     for script in script_tags:
         if script.string:
             patterns = [
                 r'https?://[^"\']*\.(?:mp4|m3u8|m4v|mov|avi|webm)[^"\']*',
                 r'src[:=]["\'](https?://[^"\']+)["\']',
-                r'videoUrl[:=]["\'](https?://[^"\']+)["\']',
                 r'url[:=]["\'](https?://[^"\']+)["\']',
                 r'cloudfront\.net[^"\']*\.(?:mp4|m3u8)',
-                r'aws[^"\']*\.(?:mp4|m3u8)'
+                r'aws[^"\']*\.(?:mp4|m3u8)',
+                r'https?://[^"\']*skilljar[^"\']*\.(?:mp4|m3u8)'
             ]
             
             for pattern in patterns:
@@ -114,18 +195,9 @@ def extract_video_urls(html_content, base_url):
                         match = 'https://' + match
                     video_urls.append(match)
     
-    # 6. 查找所有可能包含视频的URL
-    all_urls = []
-    for tag in soup.find_all(['a', 'link', 'script', 'img'], href=True):
-        all_urls.append(urljoin(base_url, tag['href']))
-    for tag in soup.find_all(['script', 'img', 'iframe'], src=True):
-        all_urls.append(urljoin(base_url, tag['src']))
-    
-    # 过滤出可能包含视频的URL
-    video_keywords = ['video', 'mp4', 'm3u8', 'm4v', 'mov', 'avi', 'webm', 'stream', 'player', 'jwplayer']
-    for url in all_urls:
-        if any(keyword in url.lower() for keyword in video_keywords):
-            video_urls.append(url)
+    # 添加视频标题信息到URL（用于调试）
+    if video_urls and video_title != "Unknown":
+        video_urls = [f"{url}?title={video_title}" for url in video_urls]
     
     # 去重
     video_urls = list(set(video_urls))
@@ -180,54 +252,109 @@ def download_skilljar_course(course_url, output_path="/Users/Daglas/Desktop/skil
         f.write(html_content)
     print(f"页面内容已保存到: {debug_html_path}")
     
-    # 提取视频URL
-    video_urls = extract_video_urls(html_content, course_url)
+    # 提取所有课程章节URL
+    lesson_urls = extract_lesson_urls(html_content, course_url)
     
-    if not video_urls:
-        print("未找到视频链接，尝试分析页面结构...")
+    if not lesson_urls:
+        print("未找到课程章节链接，尝试直接提取视频...")
+        # 回退到直接提取视频的方法
+        video_urls = extract_video_urls_from_lesson(html_content, course_url)
         
-        # 尝试从HTML中提取更多信息
-        soup = BeautifulSoup(html_content, 'html.parser')
+        if not video_urls:
+            print("未找到视频链接，建议手动分析...")
+            print("\n建议手动分析方法:")
+            print("1. 打开浏览器开发者工具 (F12)")
+            print("2. 访问课程页面")
+            print("3. 在网络(Network)标签页中筛选mp4/m3u8文件")
+            print("4. 找到视频URL后，可以手动添加到下载列表中")
+            
+            manual_list_path = os.path.join(output_path, "manual_video_list.txt")
+            with open(manual_list_path, 'w', encoding='utf-8') as f:
+                f.write("# 手动添加视频URL到这里，每行一个\n")
+                f.write("# 示例: https://example.com/video.mp4\n")
+            print(f"手动下载模板已创建: {manual_list_path}")
+            return
         
-        # 查找课程章节或模块
-        course_modules = []
-        for div in soup.find_all('div', class_=True):
-            classes = div.get('class', [])
-            if any(keyword in ' '.join(classes).lower() for keyword in ['module', 'lesson', 'chapter', 'course', 'video']):
-                course_modules.append(div)
+        print(f"找到 {len(video_urls)} 个可能的视频链接:")
+        for i, url in enumerate(video_urls, 1):
+            print(f"  {i}. {url}")
         
-        print(f"找到 {len(course_modules)} 个可能的课程模块")
+        # 保存URL列表
+        url_list_path = os.path.join(output_path, "video_urls.txt")
+        with open(url_list_path, 'w', encoding='utf-8') as f:
+            for url in video_urls:
+                f.write(f"{url}\n")
+        print(f"视频URL列表已保存到: {url_list_path}")
         
-        # 如果还是找不到，建议手动分析
-        print("\n建议手动分析方法:")
-        print("1. 打开浏览器开发者工具 (F12)")
-        print("2. 访问课程页面")
-        print("3. 在网络(Network)标签页中筛选mp4/m3u8文件")
-        print("4. 找到视频URL后，可以手动添加到下载列表中")
-        
-        # 创建手动下载模板
-        manual_list_path = os.path.join(output_path, "manual_video_list.txt")
-        with open(manual_list_path, 'w', encoding='utf-8') as f:
-            f.write("# 手动添加视频URL到这里，每行一个\n")
-            f.write("# 示例: https://example.com/video.mp4\n")
-        print(f"手动下载模板已创建: {manual_list_path}")
+        # 下载视频
+        download_videos(video_urls, output_path)
         return
     
-    print(f"找到 {len(video_urls)} 个可能的视频链接:")
-    for i, url in enumerate(video_urls, 1):
+    print(f"找到 {len(lesson_urls)} 个课程章节:")
+    for i, url in enumerate(lesson_urls, 1):
         print(f"  {i}. {url}")
     
-    # 保存URL列表
-    url_list_path = os.path.join(output_path, "video_urls.txt")
-    with open(url_list_path, 'w', encoding='utf-8') as f:
-        for url in video_urls:
+    # 保存课程章节列表
+    lesson_list_path = os.path.join(output_path, "lesson_urls.txt")
+    with open(lesson_list_path, 'w', encoding='utf-8') as f:
+        for url in lesson_urls:
             f.write(f"{url}\n")
-    print(f"视频URL列表已保存到: {url_list_path}")
+    print(f"课程章节列表已保存到: {lesson_list_path}")
     
-    # 自动继续下载（非交互模式）
-    print("\n开始自动下载...")
+    # 遍历每个课程章节，提取并下载视频
+    all_video_urls = []
+    
+    for i, lesson_url in enumerate(lesson_urls, 1):
+        print(f"\n处理第 {i}/{len(lesson_urls)} 个课程章节:")
+        print(f"URL: {lesson_url}")
+        
+        # 获取课程章节页面内容
+        lesson_html = get_page_content(lesson_url)
+        if not lesson_html:
+            print(f"❌ 无法获取课程章节页面: {lesson_url}")
+            continue
+        
+        # 提取视频URL
+        video_urls = extract_video_urls_from_lesson(lesson_html, lesson_url, i)
+        
+        if video_urls:
+            print(f"  找到 {len(video_urls)} 个视频链接")
+            for video_url in video_urls:
+                if video_url not in all_video_urls:
+                    all_video_urls.append(video_url)
+                    print(f"    - {video_url}")
+        else:
+            print("  未找到视频链接")
+            
+        # 检查是否有视频处理中的消息
+        if "video is still being processed" in lesson_html:
+            print("  ⚠️  视频仍在处理中，可能需要等待或需要认证")
+        
+        # 添加延迟避免请求过于频繁
+        time.sleep(1)
+    
+    if not all_video_urls:
+        print("\n在所有课程章节中均未找到视频链接")
+        return
+    
+    print(f"\n总共找到 {len(all_video_urls)} 个视频链接:")
+    for i, url in enumerate(all_video_urls, 1):
+        print(f"  {i}. {url}")
+    
+    # 保存视频URL列表
+    video_list_path = os.path.join(output_path, "video_urls.txt")
+    with open(video_list_path, 'w', encoding='utf-8') as f:
+        for url in all_video_urls:
+            f.write(f"{url}\n")
+    print(f"视频URL列表已保存到: {video_list_path}")
     
     # 下载所有视频
+    download_videos(all_video_urls, output_path)
+
+def download_videos(video_urls, output_path):
+    """下载视频列表"""
+    print("\n开始自动下载...")
+    
     success_count = 0
     failed_urls = []
     
@@ -259,6 +386,17 @@ def download_skilljar_course(course_url, output_path="/Users/Daglas/Desktop/skil
         print(f"\n失败的视频链接:")
         for idx, url in failed_urls:
             print(f"  {idx}. {url}")
+    
+    # 提供关于受保护内容的建议
+    if success_count == 0 and len(video_urls) > 0:
+        print(f"\n{'='*60}")
+        print("⚠️  重要提示：")
+        print("所有视频下载失败，可能是因为：")
+        print("1. 视频内容受保护，需要用户认证")
+        print("2. 视频仍在处理中（显示'video is still being processed'）")
+        print("3. 需要有效的用户会话或cookie")
+        print("4. 视频URL需要动态生成或授权")
+        print("\n建议手动访问课程页面检查视频访问权限")
 
 def main():
     """主函数"""
