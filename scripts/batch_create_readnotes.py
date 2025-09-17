@@ -3,11 +3,11 @@ import time
 
 def batch_create_readnotes():
     first_num = 1
-    num = 13
+    num = 21
     base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20250101复制书籍"
-    book_name = "2025157The_Orange_Book_of_Machine_Learning"
-    default_content = "Carl McBride Ellis.(2024).2025157The_Orange_Book_of_Machine_Learning.Leanpub => 00"
-    
+    book_name = "2025164工程控制论"
+    default_content = "钱学森.(1957/2007).2025164工程控制论.(戴汝为译).上海交通大学出版社 => 00"
+
     for i in range(0, num):
         # 格式化序号，确保是4位数字，前两位是批次号，后两位是01
         formatted_num = f"{first_num + i:02}01"
