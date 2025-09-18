@@ -16,7 +16,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from src.helper import get_api_key, get_base_url
 from src.utils import extract_translation, modify_text, read_prompt_file
 
-system_prompt = read_prompt_file("prompt_translate_ch2en")
+system_prompt = read_prompt_file("prompt_translate")
 
 api_key = get_api_key("deepseek")
 base_url = get_base_url("deepseek")
@@ -38,6 +38,7 @@ PROMPT_TEMPLATE = ChatPromptTemplate(
 DATA_DIR = PROJECT_ROOT / "data"
 EXTRACTED_DATA_PATH = DATA_DIR / "ExtractWordContentData.json"
 TRANSLATED_DATA_PATH = DATA_DIR / "TranslatedWordContentData.json"
+TEMP_TRANSLATED_DATA_PATH = DATA_DIR / "TempTranslatedWordContentData.json"
 TRANSLATION_NOT_FOUND = extract_translation("")
 
 
@@ -70,6 +71,13 @@ def load_source_entries(path: Path) -> List[Dict[str, Any]]:
         return json.load(file)
 
 
+def save_entries(path: Path, entries: List[Dict[str, Any]]) -> None:
+    """Persist translation entries to the specified JSON path."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as file:
+        json.dump(entries, file, ensure_ascii=False, indent=2)
+
+
 def translate_entries(entries: List[Dict[str, Any]], mode: str, llm: ChatOpenAI) -> List[Dict[str, Any]]:
     """Translate originContent values and update tranlastedContent in place."""
     total = len(entries)
@@ -78,19 +86,20 @@ def translate_entries(entries: List[Dict[str, Any]], mode: str, llm: ChatOpenAI)
         print(f"Processing item {index}/{total}")
         if not isinstance(origin_content, str) or not origin_content.strip():
             entry["tranlastedContent"] = ""
+            save_entries(TEMP_TRANSLATED_DATA_PATH, entries)
             continue
 
         translated_content = translate_once(llm, origin_content, mode)
         if translated_content is not None:
             entry["tranlastedContent"] = translated_content
+        save_entries(TEMP_TRANSLATED_DATA_PATH, entries)
     return entries
 
 
 def translate(mode: str) -> None:
     entries = load_source_entries(EXTRACTED_DATA_PATH)
     updated_entries = translate_entries(entries, mode, model)
-    with TRANSLATED_DATA_PATH.open("w", encoding="utf-8") as file:
-        json.dump(updated_entries, file, ensure_ascii=False, indent=2)
+    save_entries(TRANSLATED_DATA_PATH, updated_entries)
     print(f"Translated data saved to {TRANSLATED_DATA_PATH}")
 
 
