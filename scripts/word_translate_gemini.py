@@ -53,11 +53,8 @@ def translate_once(origin_content: str, mode: str) -> Optional[str]:
             response_text = response.text if hasattr(response, "text") else str(response)
             out_content = utils.extract_translation(response_text)
 
-        if mode == "zh":
-            out_content = utils.modify_text(out_content)
-        else:
-            out_content = utils.modify_text_en(out_content)
         return out_content
+    
     except Exception as e:
         print(f"Error processing content: {e}")
         if "429" in str(e):
