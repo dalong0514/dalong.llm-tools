@@ -17,7 +17,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 DATA_DIR = PROJECT_ROOT / "data"
 DEFAULT_ORIGIN_XML = DATA_DIR / "OriginWord.xml"
-DEFAULT_TRANSLATIONS_JSON = DATA_DIR / "TranslatedXMLContentData.json"
+DEFAULT_TRANSLATIONS_JSON = DATA_DIR / "TranslatedWordContentData.json"
 DEFAULT_OUTPUT_XML = DATA_DIR / "TranslatedWord.xml"
 
 TRANSLATION_KEY_ORIGIN = "originContent"

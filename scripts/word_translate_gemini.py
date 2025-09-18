@@ -22,8 +22,8 @@ client = genai.Client(api_key=api_key)
 model_name = "gemini-2.5-flash"
 
 DATA_DIR = PROJECT_ROOT / "data"
-EXTRACTED_DATA_PATH = DATA_DIR / "ExtractXMLContentData.json"
-TRANSLATED_DATA_PATH = DATA_DIR / "TranslatedXMLContentData.json"
+EXTRACTED_DATA_PATH = DATA_DIR / "ExtractWordContentData.json"
+TRANSLATED_DATA_PATH = DATA_DIR / "TranslatedWordContentData.json"
 TRANSLATION_NOT_FOUND = utils.extract_translation("")
 
 

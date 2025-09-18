@@ -21,7 +21,7 @@ if str(PROJECT_ROOT) not in sys.path:
 
 DATA_DIR = PROJECT_ROOT / "data"
 DEFAULT_ORIGIN_XML = DATA_DIR / "OriginWord.xml"
-DEFAULT_OUTPUT_JSON = DATA_DIR / "ExtractXMLContentData.json"
+DEFAULT_OUTPUT_JSON = DATA_DIR / "ExtractWordContentData.json"
 
 TEXT_PATTERN = re.compile(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", re.DOTALL)
 ASCII_ALNUM_PATTERN = re.compile(r"^[A-Za-z0-9]+$")
