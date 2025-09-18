@@ -5,6 +5,7 @@ description = "the workstation for LLM"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "beautifulsoup4==4.12.3",
     "google-genai==1.13.0",
     "google-generativeai==0.8.3",
     "insanely-fast-whisper==0.0.15",
