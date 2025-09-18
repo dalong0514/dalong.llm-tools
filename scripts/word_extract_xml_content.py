@@ -10,6 +10,7 @@ import argparse
 import json
 import re
 import sys
+import unicodedata
 from html import unescape
 from pathlib import Path
 from typing import Iterable, List, Sequence
@@ -24,6 +25,7 @@ DEFAULT_OUTPUT_JSON = DATA_DIR / "ExtractXMLContentData.json"
 
 TEXT_PATTERN = re.compile(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", re.DOTALL)
 ASCII_ALNUM_PATTERN = re.compile(r"^[A-Za-z0-9]+$")
+NUMBER_PATTERN = re.compile(r"-?\d+(?:\.\d+)*$")
 WHITESPACE_PATTERN = re.compile(r"\s+")
 INLINE_PREFIX_TO_SKIP = "<w:titlePg/>"
 
@@ -53,12 +55,59 @@ def is_ascii_alphanumeric(text: str) -> bool:
     return bool(ASCII_ALNUM_PATTERN.fullmatch(normalized))
 
 
+def is_punctuation_char(char: str) -> bool:
+    """Return True when char is a Unicode punctuation mark."""
+    return bool(char) and unicodedata.category(char).startswith("P")
+
+
+def is_pure_punctuation(text: str) -> bool:
+    """Return True when text contains only punctuation (ignoring whitespace)."""
+    compact = WHITESPACE_PATTERN.sub("", text)
+    if not compact:
+        return False
+    return all(is_punctuation_char(char) for char in compact)
+
+
+def is_letter_with_punctuation(text: str) -> bool:
+    """Return True when text is letters plus punctuation without digits or spaces."""
+    stripped = text.strip()
+    if not stripped or any(char.isspace() for char in stripped):
+        return False
+    letters = 0
+    punctuation = 0
+    for char in stripped:
+        if char.isalpha():
+            letters += 1
+        elif is_punctuation_char(char):
+            punctuation += 1
+        else:
+            return False
+    return letters > 0 and punctuation > 0
+
+
+def should_exclude_text(text: str) -> bool:
+    """Determine whether the text should be excluded from the final dataset."""
+    stripped = text.strip()
+    if not stripped:
+        return True
+    if is_ascii_alphanumeric(stripped):
+        return True
+    compact = WHITESPACE_PATTERN.sub("", stripped)
+    if NUMBER_PATTERN.fullmatch(compact):
+        return True
+    if is_pure_punctuation(stripped):
+        return True
+    if is_letter_with_punctuation(stripped):
+        return True
+    return False
+
+
 def filter_unique_texts(texts: Iterable[str]) -> List[str]:
-    """Remove ASCII-only entries and duplicates, then sort by length descending."""
+    """Filter unwanted entries, enforce uniqueness, and sort by length descending."""
     seen: set[str] = set()
     filtered: List[str] = []
     for text in texts:
-        if is_ascii_alphanumeric(text):
+        if should_exclude_text(text):
             continue
         if text in seen:
             continue
