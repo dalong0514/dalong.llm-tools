@@ -4,6 +4,11 @@ import re
 from pathlib import Path
 import os
 
+# 常见需要保持小写的功能词，避免不必要的首字母大写
+_LOWERCASE_WORDS = {
+    "of", "and"
+}
+
 def read_file(filename):
     """读取指定文件的内容
     
@@ -263,6 +268,9 @@ def capitalize_first_letter(word: str) -> str:
         str: 首字母大写后的单词。
     """
     if not word:
+        return word
+
+    if word.lower() in _LOWERCASE_WORDS:
         return word
 
     first_char = word[0]

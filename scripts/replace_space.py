@@ -2,6 +2,8 @@
 import sys, time, os, re
 import argparse
 import pyperclip  # 新增导入
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.utils import capitalize_first_letter
 
 
 def replace_space(args):
@@ -11,8 +13,12 @@ def replace_space(args):
     # 剔除冒号、逗号等标点符号，包括|
     cleaned_content = re.sub(r'[：:，,、；;。.！!？?()（）|]', '', origin_content)
     
-    # 将多个空格替换为单个-
-    replaced_content = re.sub(r'\s+', '-', cleaned_content)
+    # 用空格分割单词并将首字母大写
+    words = re.split(r'\s+', cleaned_content.strip())
+    capitalized_words = [capitalize_first_letter(word) for word in words if word]
+
+    # 用 - 连接处理后的单词
+    replaced_content = '-'.join(capitalized_words)
 
     # 将结果复制到剪贴板
     pyperclip.copy(replaced_content)
