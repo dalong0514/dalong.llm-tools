@@ -253,5 +253,23 @@ def read_prompt_file(prompt_filename):
     return content
 
 
+def capitalize_first_letter(word: str) -> str:
+    """将单词首字母转成大写 / Capitalize the first letter of the word.
+
+    Args:
+        word (str): 待处理的单词。
+
+    Returns:
+        str: 首字母大写后的单词。
+    """
+    if not word:
+        return word
+
+    first_char = word[0]
+    if first_char.islower():
+        return first_char.upper() + word[1:]
+    return word
+
+
 if __name__ == "__main__":
     print(read_prompt_file("prompt_translate"))
