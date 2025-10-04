@@ -73,10 +73,10 @@ def save_yearly_markdown(year, tweets, output_dir: Path):
         for i, tweet in enumerate(tweets):
             content = format_tweet_content(tweet)
             f.write(content)
-            
-            # 推文之间用 --- 分割
+
+            # 推文之间用序号分割
             if i < len(tweets) - 1:
-                f.write("\n---\n\n")
+                f.write(f"\n### {i + 1}\n\n")
     
     print(f"已保存 {len(tweets)} 条推文到 {filename}")
 
