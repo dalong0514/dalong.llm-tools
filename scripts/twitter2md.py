@@ -47,12 +47,12 @@ def format_tweet_content(tweet):
     note = tweet.get('note', '')
     
     # 构建markdown格式的推文内容
-    content = f"**{title}**\n\n"
-    content += f"- **作者**: {author}\n"
-    content += f"- **时间**: {issued_date}\n"
-    content += f"- **链接**: {url}\n"
+    content = f"作者: {author}\n"
+    content += f"时间: {issued_date}\n"
+    content += f"链接: {url}\n"
     if note:
-        content += f"- **互动**: {note}\n"
+        content += f"互动: {note}\n"
+    content += f"\n{title}\n"
     
     return content
 
