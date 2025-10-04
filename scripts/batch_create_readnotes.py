@@ -3,10 +3,10 @@ import time
 
 def batch_create_readnotes():
     first_num = 1
-    num = 21
-    base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20250101复制书籍"
-    book_name = "2025164工程控制论"
-    default_content = "钱学森.(1957/2007).2025164工程控制论.(戴汝为译).上海交通大学出版社 => 00"
+    num = 8
+    base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20180101复制书籍"
+    book_name = "2018226人工科学"
+    default_content = "赫伯特·西蒙.(1996/2004).2018226人工科学.(武夷山译).上海科技教育出版社 => 00"
 
     for i in range(0, num):
         # 格式化序号，确保是4位数字，前两位是批次号，后两位是01
