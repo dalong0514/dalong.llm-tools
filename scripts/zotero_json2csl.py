@@ -90,7 +90,7 @@ def convert_tweet_to_csl(tweet):
 
 def convert_twitter_to_csl():
     """主转换函数"""
-    input_file = "/Users/Daglas/dalong.github/dalong.llm-tools/working/dataset_twitter-scraper_2025-07-19_10-04-35-572.json"
+    input_file = "/Users/Daglas/dalong.github/dalong.llm-tools/data/20250719dataset_twitter-scraper_2025-07-19_10-04-35-572_csl.json"
     
     # 检查输入文件是否存在
     if not os.path.exists(input_file):
