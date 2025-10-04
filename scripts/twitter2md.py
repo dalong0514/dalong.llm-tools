@@ -6,9 +6,8 @@
 """
 
 import json
-import os
 from collections import defaultdict
-from datetime import datetime
+from pathlib import Path
 
 def load_tweets(json_file):
     """加载推文JSON数据"""
@@ -57,13 +56,13 @@ def format_tweet_content(tweet):
     
     return content
 
-def save_yearly_markdown(year, tweets, output_dir):
+def save_yearly_markdown(year, tweets, output_dir: Path):
     """保存年度推文到markdown文件"""
     filename = f"{year}_andrej_karpathy_twitter.md"
-    filepath = os.path.join(output_dir, filename)
+    filepath = output_dir / filename
     
-    # 按时间排序推文（最新在前）
-    tweets.sort(key=lambda x: x['issued']['date-parts'][0] if 'issued' in x and 'date-parts' in x['issued'] else [0, 0, 0], reverse=True)
+    # 按时间排序推文（最新在后）
+    tweets.sort(key=lambda x: x['issued']['date-parts'][0] if 'issued' in x and 'date-parts' in x['issued'] else [0, 0, 0])
     
     with open(filepath, 'w', encoding='utf-8') as f:
         f.write(f"# Andrej Karpathy Twitter {year}\n\n")
@@ -84,8 +83,10 @@ def save_yearly_markdown(year, tweets, output_dir):
 def main():
     """主函数"""
     # 文件路径
-    json_file = "20250719dataset_twitter-scraper_2025-07-19_10-04-35-572_csl.json"
-    output_dir = "./"  # 当前目录
+    base_dir = Path(__file__).resolve().parent.parent
+    json_file = base_dir / "data/20250719dataset_twitter-scraper_2025-07-19_10-04-35-572_csl.json"
+    output_dir = base_dir / "data"  # 保存到data目录
+    output_dir.mkdir(parents=True, exist_ok=True)
     
     print("开始处理Andrej Karpathy Twitter数据...")
     
