@@ -5,9 +5,12 @@
 将JSON格式的推文数据按年度分组并保存为markdown文件
 """
 
+import os, sys
 import json
 from collections import defaultdict
 from pathlib import Path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import src.utils as utils
 
 def load_tweets(json_file):
     """加载推文JSON数据"""
@@ -31,6 +34,9 @@ def format_tweet_content(tweet):
     """格式化单条推文内容"""
     # 提取推文内容
     title = tweet.get('title', '').strip()
+    # 提取推文翻译内容
+    translated_content = tweet.get('tranlastedContent', '').strip()
+    translated_content = utils.modify_text(translated_content)
     
     # 提取元数据
     url = tweet.get('URL', '')
@@ -53,6 +59,8 @@ def format_tweet_content(tweet):
     if note:
         content += f"互动: {note}\n"
     content += f"\n{title}\n"
+    if translated_content:
+        content += f"\n{translated_content}\n"
     
     return content
 
@@ -82,7 +90,7 @@ def main():
     """主函数"""
     # 文件路径
     base_dir = Path(__file__).resolve().parent.parent
-    json_file = base_dir / "data/20250719dataset_twitter-scraper_2025-07-19_10-04-35-572_csl.json"
+    json_file = base_dir / "data/TranslatedTwitterContentData.json"
     output_dir = base_dir / "data"  # 保存到data目录
     output_dir.mkdir(parents=True, exist_ok=True)
     
