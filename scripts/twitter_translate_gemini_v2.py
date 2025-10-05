@@ -27,8 +27,8 @@ model_name = "gemini-2.5-flash"
 
 DATA_DIR = PROJECT_ROOT / "data"
 SOURCE_DATA_PATH = DATA_DIR / "TwitterContentData.json"
-TRANSLATED_DATA_PATH = DATA_DIR / "TranslatedTwitterContentData_v2.json"
-TEMP_TRANSLATED_DATA_PATH = DATA_DIR / "TempTranslatedTwitterContentData_v2.json"
+TRANSLATED_DATA_PATH = DATA_DIR / "TranslatedTwitterContentData.json"
+TEMP_TRANSLATED_DATA_PATH = DATA_DIR / "TempTranslatedTwitterContentData.json"
 TRANSLATION_NOT_FOUND = utils.extract_translation("")
 
 
