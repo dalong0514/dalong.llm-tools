@@ -136,7 +136,7 @@ def save_yearly_markdown(year: int, tweets: List[JsonDict], output_dir: Path) ->
 def main() -> None:
     """主函数"""
     base_dir = Path(__file__).resolve().parent.parent
-    json_file = base_dir / "data/20251004dataset_twitter-x-data-tweet-scraper-pay-per-result-cheapest_2025-10-04_14-45-49-042.json"
+    json_file = base_dir / "data/TranslatedTwitterContentData.json"
     output_dir = base_dir / "data"
     output_dir.mkdir(parents=True, exist_ok=True)
 
