@@ -61,6 +61,7 @@ def build_interaction_note(tweet: JsonDict) -> str:
         ("Quotes", 'quoteCount'),
         ("Views", 'viewCount'),
         ("Bookmarks", 'bookmarkCount'),
+        ("isReply", 'isReply'),
     ]
     parts: List[str] = []
     for label, key in fields:
