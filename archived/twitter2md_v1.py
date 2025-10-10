@@ -77,10 +77,9 @@ def save_yearly_markdown(year, tweets, output_dir: Path):
         f.write(f"本文件包含Andrej Karpathy在{year}年的所有推文。\n\n")
         f.write(f"总计推文数量: {len(tweets)}\n\n")
         
-        for i, tweet in enumerate(tweets):
+        for i, tweet in enumerate(tweets, start=1):
             # 推文之间用三位数序号分割
-            if i <= len(tweets) - 1:
-                f.write(f"\n### {i + 1:03d}\n\n")
+            f.write(f"\n### {i:03d}\n\n")
             content = format_tweet_content(tweet)
             f.write(content)
     
