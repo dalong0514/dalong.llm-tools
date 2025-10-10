@@ -1,0 +1,6166 @@
+[
+  {
+    "originContent": "中压塔中，上升气体与下降液体充分精馏和传热传质后，在中压塔顶部得到纯氮气。一股纯氮气进入中压塔顶部的主冷凝蒸发器E02冷凝成液氮，一股液氮作为中压塔的回流液，一股经过冷器后作为液氮产品送入液氮贮槽V50。另外一股纯氮气经主换热器E01复热后送出冷箱，一股作为原料气送入增压机C02增压。氮气被冷凝的同时，主冷凝蒸发器E02中的液氧得到气化。由于填料高度的限制，中压塔底部液体含氧量会增加，但无法达到产品纯度，只能送到上塔后完成精馏，再进入主冷凝蒸发器后成为纯液氧。根据组分的轻重不同，从中压塔中可抽出液氮和富氧液空，通过过冷器降温后进入低压塔。低压塔中，所有从中压塔送来的原料，经过再次精馏，分别产出常压氮气，污氮气和液氧。低压塔顶部抽出纯氮气，经过冷器和主换热器复热后被分为三股流：一股被输送到压缩机 C02 以进行进一步压缩，另一股作为氮气产品向下输送，第三股则用作冷箱密封气。污氮气出上塔后，经过冷器，主换热器加温后，送入分子筛系统作为再生气。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "容忍的风险区域，但需满足以下条件：在当前的技术条件下，进一步降低风险不可行或降低风险所需的成本远远大于降低风险所获得的收益广泛可接受的风险区域不可接受的风险区域图7-1  ALARP原则容忍风险线（Tolerable risk）对于人员累计死亡频率10-3/年接受风险线（Acceptable Risk）对于人员累计死亡频率10-5/年容忍的风险区域，但需满足以下条件：在当前的技术条件下，进一步降低风险不可行或降低风险所需的成本远远大于降低风险所获得的收益广泛可接受的风险区域不可接受的风险区域图7-1  ALARP原则容忍风险线（Tolerable risk）对于人员累计死亡频率10-3/年接受风险线（Acceptable Risk）对于人员累计死亡频率10-5/年根据表 7-1、7-2 ，中国航空技术杭州有限公司认为，很高风险和高风险不可接受，中风险将根据ALARP法则，选择性地采取行动，尽量将风险降低至低风险水平。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩空气在分子筛系统出口作为中压塔原料气，在主换热器E01中吸收冷量后直接送入中压塔K01。中压塔顶部氮气和膨胀氮气经过冷器E03和主换热器E01复温与喂气机C50出口增压氮气，一共三路送入增压机C02中进一步压缩。出增压机C02后氮气分为二股，一股经膨胀机增压端ET03C和ET04C送入主换热器E01冷却分两股，一股送高压节流阀HV1536，送入中压塔K01，另一股送入低温膨胀机膨胀端ET04，膨胀后经主换热器E01复温回到增压机C02进口；第二股直接送入主换热器E01，冷却后送入高温膨胀机膨胀端ET03，膨胀后经主换热器E01复温回到增压机C02进口。除上述几股流体主换热器也回收冷量，冷量分别来自纯氮塔的常压氮气和低压塔的污氮气。过冷器E03的冷源为低压塔K02送出的污氮气，常压氮气及液氧，热源是来自低压塔K02的二股液体,分别为去粗氩冷凝器E10的富氧液空和去纯氮塔K03和精氩冷凝器E16的液氮。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "在低压塔中下部抽取一定量的氩馏分送入粗氩塔1段K10-1作为原料气，原料气在粗氩塔1段与回流液完成部分精馏后从粗氩塔1段塔顶抽出，送入粗氩塔2段K10-2与回流液精馏得到粗氩气。粗氩气一部分在粗氩塔冷凝器E10中与来自中压塔的富氧液空热交换，另一部分粗氩气进入精氩塔K11，在精氩塔中将剩余的氮组分通过低温精馏去除。冷凝后的粗氩液作为回流液与上升气进行精馏。粗氩塔2段K10-2底部的粗氩液经循环液氩泵P10A/B加压后送回粗氩塔1段K10-1顶部作为回流液。精氩塔顶部气体在精氩塔冷凝器E16中被来自中压塔的液氮液化，作为精氩塔回流液，余气放空，余气为精馏时去除的氮气和氩气的混合物。精氩塔底部的液氩在精氩塔蒸发器E15中被来自中压塔的氮气气化，为精氩塔提供上升气维持精馏。部分液氩在底部抽出，作为液氩产品送入贮槽。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔中，上升气体与下降液体充分精馏和传热传质后，在中压塔顶部得到纯氮气。一股纯氮气进入中压塔顶部的主冷凝蒸发器E02冷凝成液氮，一股液氮作为中压塔的回流液，一股经过冷器后作为液氮产品送入液氮贮槽V50。另外一股纯氮气经主换热器E01复热后送出冷箱，一股作为原料气送入增压机C02增压。氮气被冷凝的同时，主冷凝蒸发器E02中的液氧得到气化。由于填料高度的限制，中压塔底部液体含氧量会增加，但无法达到产品纯度，只能送到上塔后完成精馏，再进入主冷凝蒸发器后成为纯液氧。根据组分的轻重不同，从中压塔中可抽出液氮和富氧液空，通过过冷器降温后进入低压塔。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "浙江省天正设计工程有限公司是一家以“提升化工企业的安全管理水平”为核心业务的综合性技术服务公司。公司致力于提升石油化工、精细化工、煤化工等高风险行业内企业的风险管控能力，在为客户创造价值的同时携手客户共同促进化工行业的可持续发展。公司通过引进国外先进的安全管理模式，结合当前国内企业现状，重塑了过程安全管理(PSM)的新理念，将安全管理变“被动响应”为“主动预防”，将过程安全管理的“各要素”与生产实际深度融合，辅助客户深刻理解、认识装置生命周期内的过程安全风险，持续提高过程安全风险管控能力和绩效水平。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家安全监管总局《加强化工过程安全管理的指导意见 》安监总管三〔2013〕88 号要求：对涉及重点监管危险化学品、重点监管危险化工工艺和危险化学品重大危险源（以下统称“两重点一重大”）的生产储存装置进行风险辨识分析，要采用危险与可操作性分析（HAZOP）技术，一般每 3 年进行一次。对其他生产储存装置的风险辨识分析，针对装置不同的复杂程度，选用安全检查表、工作危害分析、预危险性分析、故障类型和影响分析（FMEA）、HAZOP 技术等方法或多种方法组合，可每 5 年进行一次。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔顶部氮气和膨胀氮气经过冷器E03和主换热器E01复温与喂气机C50出口增压氮气，一共三路送入增压机C02中进一步压缩。出增压机C02后氮气分为二股，一股经膨胀机增压端ET03C和ET04C送入主换热器E01冷却分两股，一股送高压节流阀HV1536，送入中压塔K01，另一股送入低温膨胀机膨胀端ET04，膨胀后经主换热器E01复温回到增压机C02进口；第二股直接送入主换热器E01，冷却后送入高温膨胀机膨胀端ET03，膨胀后经主换热器E01复温回到增压机C02进口。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "在低压塔中下部抽取一定量的氩馏分送入粗氩塔1段K10-1作为原料气，原料气在粗氩塔1段与回流液完成部分精馏后从粗氩塔1段塔顶抽出，送入粗氩塔2段K10-2与回流液精馏得到粗氩气。粗氩气一部分在粗氩塔冷凝器E10中与来自中压塔的富氧液空热交换，另一部分粗氩气进入精氩塔K11，在精氩塔中将剩余的氮组分通过低温精馏去除。冷凝后的粗氩液作为回流液与上升气进行精馏。粗氩塔2段K10-2底部的粗氩液经循环液氩泵P10A/B加压后送回粗氩塔1段K10-1顶部作为回流液。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析报告是根据中国航空技术杭州有限公司提供的分析资料、在HAZOP分析会上补充的部分设计信息、以及HAZOP分析讨论内容编制、汇总而成，是整个HAZOP分析小组达成一致意见的结果。由于受到资料、参会人员经验限制等制约因素，可能存在一些被忽视或低估了的风险，需要通过装置或企业的工艺过程安全管理对潜在的各种风险进行持续地识别、评估和控制，以尽可能辨识工艺流程中潜在的危险源和可能存在的操作问题。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "为了贯彻落实《中华人民共和国安全生产法》、《危险化学品安全管理条例》、《关于开展提升危险化学品领域本质安全水平专项行动的通知》安监总管三〔2012〕87号等有关法律法规的精神，贯彻“安全第一、预防为主、综合治理”的安全生产方针，实现建设项目的本质安全和生产，浙江省天正设计工程有限公司受中国航空技术杭州有限公司委托，作为第三方，负责对科威特180TPD空分项目进行HAZOP分析。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家安全监管总局  住房城乡建设部《关于进一步加强危险化学品建设项目安全设计管理的通知》安监总管三〔2013〕76号要求：建设单位在建设项目设计合同中应主动要求设计单位对设计进行危险与可操作性（HAZOP）审查，并派遣有生产操作经验的人员参加审查，对HAZOP审查报告进行审核。涉及“两重点一重大”和首次工业化设计的建设项目，必须在基础设计阶段开展HAZOP分析。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家安全生产监督管理总局《关于加强化工安全仪表系统管理的指导意见》（安监总管三〔2014〕116号）要求：设计安全仪表系统之前要明确安全仪表系统过程安全要求、设计意图和依据。要通过过程危险分析（HAZOP分析），充分辨识危险与危险事件，科学确定必要的安全仪表功能，并根据国家法律法规和标准规范对安全风险进行评估（SIL定级），确定必要的风险降低要求。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷气机冷却后的空气进入切换使用的分子筛纯化器R01/R02，分子筛纯化器中装有氧化铝和分子筛，可去除空气中的二氧化碳、水分、乙炔及碳氢化合物等杂质。空气纯化系统由分子筛纯化器，电加热器E09A/B组成。分子筛纯化器一台工作，另一台再生，由来自上塔的污氮气加热至约160℃进行交替循环再生，纯化器的切换周期约9小时（单筒工作时间约4.5小时）。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "引导词-要素/特性组合在不同系统的分析中、在系统生命周期的不同阶段以及当用于不同的设计描述时可能会有不同的解释。有些组合在既定系统的分析中可能没有意义，应不予考虑。应明确并记录所有引导词-要素/特性组合的解释。如果某组合在设计中有多种解释，应列出所有解释。另一方面，有时会出现不同的组合具有相同的解释。在这种情况下，应进行适当的相互参考。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本HAZOP分析所提出的建议措施旨在降低已辨识出的风险或提高装置的可操作性，建议措施的采纳与执行由相关责任方负责。由于设计方案不符合法规和标准要求、安装/调试不合规、制造及质量问题、维护及操作不恰当、检维修作业不符合法规及管理要求，建议措施落实不到位、后续各种变更造成风险等级提高等原因造成的事故，与浙江省天正设计工程有限公司无关。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本次HAZOP分析由中国航空技术杭州有限公司及浙江省天正设计工程有限公司有限公司相关人员共同分析讨论完成。在本次项目分析中重点对空气精馏，氮气、氧气等的流量、温度、压力、液位、泄漏、腐蚀等工况进行了分析讨论，列举了不同的事故场景，并对事故场景的严重性、可能性及已有保护措施等内容进行了分析。根据风险程度，提出了相应建议措施。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析通常由项目负责人启动。项目负责人应确定开展分析的时间，指派HAZOP主席，并提供开展分析必需的资源。由于法律规定或用户政策要求，通常在正常的项目计划期间已确定需要开展此类分析。在HAZOP主席的协助下，项目负责人应明确分析的范围和目标。分析开始前，项目负责人应指派具有适当权限的人负责确保分析得出的建议或措施得以执行。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "f) 对于该引导词的其他解释，重复以上c)～e)过程：然后依次将其他引导词和要素的当前特性相结合，进行分析；接着对要素的每个特性重复 c)～e)过程(前提是对要素当前特性的分析达成了一致意见)；然后是对分析部分的每个要素重复b)～e)过程。一个部分分析完成后，应标记为“完成”。重复进行该过程，直到系统所有部分分析完毕。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低压塔中，所有从中压塔送来的原料，经过再次精馏，分别产出常压氮气，污氮气和液氧。低压塔顶部抽出纯氮气，经过冷器和主换热器复热后被分为三股流：一股被输送到压缩机 C02 以进行进一步压缩，另一股作为氮气产品向下输送，第三股则用作冷箱密封气。污氮气出上塔后，经过冷器，主换热器加温后，送入分子筛系统作为再生气。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席：与设计小组和本工程项目没有紧密关系；在组织HAZOP分析方面受过训练，富有经验；负责HAZOP小组和项目管理人员之间的交流；制定分析计划；同意分析小组的人员构成；确保有足够的设计描述和资料提供给分析小组；建议分析中使用的引导词，并解释引导词-要素/特性，引导分析；确保分析结果的记录。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP的主要优势在于它是一种系统化、结构化且文档化的风险分析方法。为从HAZOP分析中得到最大效益，应做好分析结果记录、形成文档并做好后续管理跟踪。HAZOP主席负责确保每次会议均有适当的记录并形成文件。记录员应了解与HAZOP分析主题相关的技术知识，具备语言才能、良好的听力与关注细节的能力。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本项目在设计中已经采用了部分安全控制措施，经危险与可操作性（HAZOP）分析小组讨论，确定原有风险：很高风险0个，高风险9个，中风险122个，低风险0个；削减后风险：很高风险0个，高风险0个，中风险24个，低风险107个；采取建议措施后风险：很高风险0个，高风险0个，中风险15个，低风险116个。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分子筛纯化器一台工作，另一台再生，由来自上塔的污氮气加热至约160℃进行交替循环再生，纯化器的切换周期约9小时（单筒工作时间约4.5小时）。当分子筛纯化器出口空气中CO2含量高报警，可通过缩短吸附周期调整，如果在调整吸附周期后仍然持续报警(非空气中CO2含量高导致)，可使用电加热器进行特殊再生。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "将选择的引导词与分析的要素或要素的特性相结合，检查其解释，以确定是否有合理的偏差。如果确定了一个有意义的偏差，则分析偏差发生的原因及后果。 有些应用中会发现，按照后果的潜在严重性或根据风险矩阵得到的相对风险等级对偏差进行分类是有用的。风险矩阵的使用在IEC 60300-3-9中有进一步论述。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "根据《危险与可操作性分析应用指南》（GBT 35320-2017）以及相关规范的要求，对本项目进行HAZOP分析。本报告展示了对中国航空技术杭州有限公司进行的HAZOP方法介绍及其分析结果，同时包括了为表明评审过程中的关注点所提出的建议，并将提出这些建议的原因详细地记录在HAZOP记录表中。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "公司技术实力丰富雄厚，创造性的整合了过程危害分析PHA、变更管理MOC、机械完整性MI、保护层分析LOPA、风险分级管控与隐患排查治理等安全管理的核心技术手段，采用“综合治理”、“协同共进”、“因地制宜”的新模式，使得安全管理真正可以落地生根，从而为客户提供切实可行的一体化解决方案。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中国航空技术杭州有限公司  科威特180TPD空分项目 HAZOP分析报告  中国航空技术杭州有限公司  科威特180TPD空分项目 HAZOP分析报告  文件编号：PSM-PMC-2025072日期：2025年09月文件编号：PSM-PMC-2025072日期：2025年09月",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b)“问题记录”只记录识别出的危险与可操作性问题以及后续行动。“问题记录”会使记录文件更容易管理。但是，这种记录方法不能彻底地记录分析过程，因此在审核时作用较小。 此外，在以后的某些研究中，还会再次进行相同的分析。因此，“问题记录”法是HAZOP记录的最低要求，使用时应谨慎。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家安全生产监督管理总局：《关于进一步加强危险化学品企业安全生产标准化工作的指导意见》（安监总管三[2009]124号）中，提出“有关中央企业总部要组织所属企业积极开展重点化工生产装置危险与可操作性分析（HAZOP），全面查找和及时消除安全隐患，提高装置本质安全化水平。”",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析需要小组成员的共同努力，每个成员均有明确的分工。只要小组成员具有分析所需要的相关技术、操作技能以及经验，HAZOP小组应尽可能小。通常一个分析小组至少4人，很少超过7人。小组越大，进度越慢。当系统由承包商设计时，HAZOP小组应包括承包商和业主两方的人员。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家安监总局《关于开展提升危险化学品领域本质安全水平专项行动的通知》安监总管三〔2012〕87号要求：对涉及“两重点一重大”（重点监管的危险化工工艺、重点监管的危险化学品及危险化学品重大危险源）危险化学品装置，应在项目基础设计阶段进行装置HAZOP分析。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析小组由中国航空技术杭州有限公司以及浙江省天正设计工程有限公司的不同专业的人员组成，由时东风担任主席于2025年09月09日在中国航空技术杭州有限公司的会议室进行了HAZOP分析，共1个工作日。HAZOP分析会议签到记录详见附录F。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "安排HAZOP分析工作时，项目负责人应明确规定HAZOP小组的分工和职责，并得到HAZOP主席的同意。HAZOP主席应检查设计，确定可用的项目信息和HAZOP分析小组成员所需的技能。HAZOP主席应制定项目HAZOP活动计划，做好项目进度安排。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "在HAZOP分析的计划阶段，HAZOP主席应提出要使用的引导词的初始清单。HAZOP主席应针对系统确认引导词的适宜性。应仔细考虑引导词的选择，如果引导词太具体可能会影响审查思路或讨论，如果引导词太笼统可能又无法有效地集中到HAZOP分析中。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中国航空技术杭州有限公司在HAZOP分析结束后，将负责对所有的建议进行响应，如果因任何原因导致建议不能实施，需要记录理由；对所接受的建议制定下一步行动计划，保证所有建议都落实。所有的理由和行动计划都应该存档以备今后工艺危害分析及风险管理。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家安全生产监督管理总局（安监总危化第 255号文）《危险化学品建设项目安全评价细则（试行）》，第6.4.2.2条  ：对国内首次采用新技术、新工艺的建设项目的工艺安全性分析，除选择其它安全评价方法外，尽可能选择危险与可操作性研究法进行。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "在进行某一分析时，HAZOP主席及其HAZOP小组成员应决定选择“要素优先”还是“引导词优先”。HAZOP分析的习惯会影响分析顺序的选择。此外，影响这一决定的其他因素还包括：所涉及技术的性质、分析过程需要的灵活性以及小组成员接受过的培训。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析应沿着与分析主题相关的流程或顺序，并按逻辑顺序从输入到输出进行分析。HAZOP等危险识别技术的优势源自规范化的逐步分析过程。分析顺序有两种：“要素优先”和“引导词优先”，分别见图3-1和图3-2。“要素优先\"顺序可描述如下：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家应急管理部（AQ/T 3033—2022 ）《化工建设项目安全设计管理导则 》，对新、改、扩建危险化学品生产、储存装置和设施的建设项目的安全设计管理给出一个指导性的管理模式。把HAZOP分析方法作为过程危险源分析的方法之一。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "引导词应用的另一种方法是将第一个引导词依次用于分析部分的各个要素。这一步骤完成后，进行下一个引导词分析，再一次把引导词依次用于所有要素。重复进行该过程，直到全部引导词都用于分析部分的所有要素，然后再分析系统下一部分，见图-3。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "公司秉承“锐意进取、开拓创新”的管理理念，积极引进高端技术人才，持续研发安全生产管理应用工具和安全生产一体化大数据平台，为客户提供数字化、信息化、智慧化的安全生产管理解决方案，帮助客户大幅提高过程安全管理的工作效率和效果。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "项目负责人和HAZOP主席应确定HAZOP分析是仅限定于识别危险和问题(这些问题随后将反馈给项目负责人和设计团队进行解决)，还是HAZOP分析需要提出可能的补救/减缓措施。若是后一种情况，需要协定以下两方面的责任和机制：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "公司深度学习理解国外的体系标准及文化理念，将其转化和吸收，积极开展试点性项目；不仅致力于帮助客户学习掌握过程安全知识，更积极深入研究如何提高客户中高层的过程安全思维能力，为客户培养拥有专业过程安全能力的综合性技术人才。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "依据HAZOP报告提出的危害辨识结果，项目负责人应在完成系统的重大的设计变更（修订）文件后，在执行设计变更前，考虑再召集HAZOP小组对重大的设计变更进行分析，以确保不会出现新的危险与可操作性问题或维护问题。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "原料空气通过空气过滤器F01过滤，清除掉其中的灰尘及机械杂质。然后送往空气冷却器C01E冷却，再进入离心空气压缩机C01压缩到所需压力4.6barG。压缩后的工艺空气直接进入冷气机X20A/B冷却至~10℃。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "d) 分析小组应识别系统设计中对每种偏差现有的保护措施，这些保护措施可能包含在当前部分或者是其他部分设计目的的一部分。在识别危险或可操作性问题时，不应考虑已有的保护措施及其对偏差发生的可能性对后果的影响。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷气机冷却后的空气进入切换使用的分子筛纯化器R01/R02，分子筛纯化器中装有氧化铝和分子筛，可去除空气中的二氧化碳、水分、乙炔及碳氢化合物等杂质。空气纯化系统由分子筛纯化器，电加热器E09A/B组成。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "我单位授权浙江省天正设计工程有限公司的相关人员进行HAZOP危险与可操作性分析，所有工作流程均按照《T_CCSAS 001-2018危险与可操作性分析质量控制与审查导则》的要求执行，关键点分析见下表：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国务院安委会办公室：《国务院安委会办公室关于进一步加强危险化学品安全生产工作的指导意见》安委办〔2008〕26号， 16条：组织有条件的中央企业实施HAZOP，提高化工生产装置潜在风险辨识能力。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "从低压塔抽取后进入板式换热器，复热后送到客户；从低压塔抽取后进入板式换热器，复热后送到客户；从中压塔抽出的液氮，经过冷器过冷后出冷箱送入液氮贮槽V50；精氩塔抽出的液氩送入液氩贮槽V31A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席负责确保具有可用的、充分的系统设计描述。如果设计描述有缺陷或不完整，分析开始前应进行修正补充。在分析的计划阶段，熟悉系统设计的人应在设计描述中确定系统各个部分、要素及其特性。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家应急管理部（AQ/T 3034—2022 ）《化工过程安全管理导则》，提出了工艺安全管理的20个关键要素。 在工艺危害分析要素中，把HAZOP分析方法作为工艺危害分析的方法之一。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "《危险与可操作性分析应用导则》IEC 61882：Hazard and Operability Studies （HAZOP Studies）-Application Guide.",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本报告展示了对中国航空技术杭州有限公司进行的HAZOP方法介绍及其分析结果，同时包括了为表明评审过程中的关注点所提出的建议，并将提出这些建议的原因详细地记录在HAZOP记录表中。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "为了便于HAZOP分析，我方将中国航空技术杭州有限公司科威特180TPD空分项目HAZOP分析项目所涉及生产单元划分成若干个节点。本次HAZOP分析共划分了6个节点进行分析。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "S0-250001_DA01-601_Rev0_空分装置工艺控制要求Process control requirements of air separation plant",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "a)“完整记录”指将每个引导词-要素/特性组合应用于设计描述上每个部分或要素，对得到的所有结果进行记录。这种方法虽然繁琐，但可证明该分析非常彻底，能够符合最严格的审查要求。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "过冷器E03的冷源为低压塔K02送出的污氮气，常压氮气及液氧，热源是来自低压塔K02的二股液体,分别为去粗氩冷凝器E10的富氧液空和去纯氮塔K03和精氩冷凝器E16的液氮。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "为了提高装置本质安全，满足应急管理部的相关要求，中国航空技术杭州有限公司邀请浙江省天正设计工程有限公司就科威特180TPD空分项目进行HAZOP分析，提交HAZOP报告。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 记录员：进行会议记录；记录识别出的危险和问题、提出的建议以及进行后续跟踪的行动；协助HAZOP主席编制计划，履行管理职责；某些情况下，HAZOP主席可兼任记录员。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本报告由浙江省天正设计工程有限公司按照与客户订立的合同条款，依据合理的技术加以关注和努力进行编制，包括一般业务条款与条件，并已考虑到通过与客户达成协议应用到合同的资源。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "使用“问题记录\"法时，上述HAZOP报告的内容将非常简明地包含于HAZOP工作表中。使用完整记录法时，HAZOP报告的内容需要从整个HAZOP分析工作表中“提取”。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "通常，HAZOP分析追求识别所有危险与可操作性问题，不考虑这些问题的类型或后果大小。将HAZOP分析的焦点严格地集中于辨识危险，能够节省精力，并在较短的时间内完成。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "按照HAZOP分析计划，组织分析会议，在HAZOP主席领导下组织讨论。HAZOP分析会议开始时，HAZOP主席或熟悉分析系统的过程及问题的小组成员应进行以下工作：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "DA01-135、DA01-135A/B/C/D、DA01-142、DA01-143、DA01-142A、DA01-160、DA01-162、DA01-190",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "DA01-200、DA01-203、DA01-204、DA01-230、DA01-233、DA01-234、DA01-226A/B/C/D、DA01-260",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "安徽辉隆中成科技有限公司磷铵中和工段、液氨罐区、磷酸一铵技改项目（15万吨硫基复混肥项目、15万吨氯基复混肥项目）进行HAZOP分析、SIL定级、SIL验算",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本次HAZOP分析为中国航空技术杭州有限公司科威特180TPD空分项目提出9项建议，这些建议都是关于设计、安全和改进的，将会降低潜在的危险或者可操作性问题。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席负责建立一个适当的交流机制，用于传递HAZOP分析的结果。项目负责人负责对分析结果进行跟踪调查，并对设计小组的执行决策结果进行妥善存档。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "原料空气通过空气过滤器F01过滤，清除掉其中的灰尘及机械杂质。然后送往空气冷却器C01E冷却，再进入离心空气压缩机C01压缩到所需压力4.6barG。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "浙江省天正设计工程有限公司对HAZOP分析报告版权保留所有权，未经中国航空技术杭州有限公司与浙江省天正设计工程有限公司书面同意，不准向任何第三方泄露。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "S0-250001_DA01-600_REV0_通用仪表条件及报警联锁表General instrument condition and alarm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "资料是否包含关键设备（诸如容器、换热器、机泵）的设计温度、设计压力及材质，管道材质清单、法兰等级以及温度与压力范围（如果此信息未在PID图上出现）？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "我单位授权浙江省天正设计工程有限公司的相关人员进行HAZOP危险与可操作性分析，所有工作流程均按照合同约定条款执行，并且满足国家法规及标准的要求。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析的成功很大程度上依赖于小组成员的机敏和专注度，因此，HAZOP主席应负责限制每节HAZOP会议持续时间以及安排适当的会议时间间隔。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4）增压机/膨胀机/换热器系统 Booster/Expansion turbine booster/Heat exchanger system",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "第一次会议前，宜对分析对象开展现场调查，HAZOP主席应将包含分析计划及必要参考资料的简要信息包分发给分析小组成员，便于他们提前熟悉内容。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氧平底罐V40设置有压力远传显示PI6121A/B，并设置高报警，自动控制回路，压力高时打开放空PV6121B，高高联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席选择系统设计描述的某一部分作为分析起点，并做出标记。随后，解释该部分的设计目的，确定相关要素以及与这些要素有关的所有特性。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "德施普（辽宁）新材料技术有限公司厂区年产1000t防腐超低温（PCTFE）化工新材料技改项目进行HAZOP分析、SIL定级、SIL验算",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "对HAZOP小组的人员应进行HAZOP培训，使HAZOP小组所有成员具备开展HAZOP分析的基本知识，以便高效地参与HAZOP分析。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩塔底部的液氩在精氩塔蒸发器E15中被来自中压塔的氮气气化，为精氩塔提供上升气维持精馏。部分液氩在底部抽出，作为液氩产品送入贮槽。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录H   T_CCSAS 001-2018危险与可操作性分析质量控制与审查导则\t PAGEREF _Toc24968 \\h 116",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.分子筛热再生阶段，加热阶段温度（TI1227/1228)低于140°超过10分钟，DCS 停止再生程序，并发出提示， 加热失败",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席选择其中一个要素，与小组商定引导词应直接用于要素本身还是用于该要素的单个特性。HAZOP主席确定首先使用哪个引导词。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "——设计描述，该设计描述按照明确的设计目的将分析对象划分为多个部分和要素，对于每个要素，具有构成元件、物料和活动及它们特性的清单；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.分子筛热再生阶段，加热阶段温度（TI1227/1228)低于140°超过10分钟，DCS 停止再生程序，并发出提示，加热失败",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本报告依据中国航空技术杭州有限公司与浙江省天正设计工程有限公司签订的合同规定的服务内容编制，并仅为中国航空技术杭州有限公司专用。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "石油化工、煤化工装置 PHA（HAZOP）分析，SIL 定级及验算、变更管理、报警、自控、联锁管理、PSI、操作规程、应急管理等",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析通常需要考虑设计者和业主(用户)的观点。然而，在系统生命周期不同阶段，适合HAZOP分析的小组成员可能是不同的。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP最终报告的发送对象取决于业主的内部政策或规章要求，但一般应包括项目负责人、HAZOP主席以及后续行动/建议的负责人。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "山东恒信科技发展有限公司10万吨/年蒽油加氢、10万吨/年粗苯加氢两套生产装置的安全仪表系统功能评估(SIL定级、SIL验证)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩塔顶部气体在精氩塔冷凝器E16中被来自中压塔的液氮液化，作为精氩塔回流液，余气放空，余气为精馏时去除的氮气和氩气的混合物。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "KDONAr-2191y/1330(3500y)/80yASU项目的空分装置主要为下游装置提供液氧、液氮、液氩、氮气等产品。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议2.1:建议纯化器R01/02出入口压力显示在DCS上做差压计算显示以及报警，以防纯化器R01/02压差过高影响正常生产",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "容忍的风险区域，但需满足以下条件：在当前的技术条件下，进一步降低风险不可行或降低风险所需的成本远远大于降低风险所获得的收益",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：空气冷却器C01E集液罐增加液位检测仪表，增加液位高报警，液位高高联锁打开旁路排水阀门或停空压机，避免带水损坏压缩机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本次分析的成果不可代替定量分析方法（QRA或者反应热分析等）或者设计校核等工作，仅为以上工作提供技术支持或者作为输入条件。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氧平底罐V40设置有液位远传显示LI6122A/B，并设置高报警，与溢流温度TI6122形成2oo3联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP 是一种结构化与系统化的定性风险分析方法，主要用于识别工艺或操作过程中存在的危害，识别过程偏差导致的风险状况。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "依据的风险矩阵、可接受的风险水平是否满足国家法律法规的要求并适合本企业，所有事故剧情的剩余风险是否都在可接受的风险水平？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2020-2022年  富海集团控股担任集团工艺安全主任工程师，负责集团30余套炼油、化工、煤焦化装置的工艺安全管理。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析的目的并非要对系统进行重新设计。通常，HAZOP主席没有权限要求HAZOP分析小组提出的建议能得到执行。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "e) HAZOP主席应对记录员记录的文档结果进行总结。当需要进行相关后续跟踪工作时，也应记录完成该工作的负责人的姓名。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议:建议纯化器R01/02出入口压力显示在DCS上做差压计算显示以及报警，以防纯化器R01/02压差过高影响正常生产",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：电加热器E09A/B出口增加独立的温度检测仪表，DCS中显示并高报警，作为冗余设置，降低温度故障对电加热器的影响",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本次分析采用风险矩阵，符合《危险化学品生产装置和储存设施风险基准》（GB 36894—2018）社会风险基准相关要求。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "注：要素的选择取决于具体的应用，包括所涉及的物料、正在开展的活动、所使用的设备等。物料应取其广义，包括数据、软件等。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温液氧储槽有二路输出。一路由槽车泵P40A打入槽车，作为液体产品。一路由槽车泵P40B打入槽车，作为液体产品。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温液氮储槽有两路输出。一路由槽车泵P50A打入槽车，作为液体产品。一路由槽车泵P50B打入槽车，作为液体产品。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP记录有两种基本样式：“完整记录”和“问题记录”。应在会议前确定好记录方法， 记录员随后据此进行记录。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氩真空罐V31A设置有液位远传显示LI6500A/B，并设置低报警，低低联锁关闭储罐出口阀门，停充车泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氮平底罐V50设置有液位远传显示LI6322A/B，并设置高报警，与溢流温度形成2oo3联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析结束时，应生成HAZOP分析报告并经小组成员一致同意。若小组成员不能达成一致意见，应记录原因。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家安全生产监督管理总局（AQ/T 3049—2013 ） 《危险与可操作性分析（HAZOP分析）应用导则》",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计方案符合法规和标准要求，安装/调试合规、制造及质量符合要求、维护及操作恰当、检维修作业符合法规及管理要求",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氧平底罐V40设置有液位远传显示LI6122A/B，并设置低报警，低低联锁关闭储罐出口阀门，停充车泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氮平底罐V50设置有液位远传显示LI6322A/B，并设置低报警，低低联锁关闭储罐出口阀门，停充车泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.5 HAZOP分析（本项目采用“引导词优先法”分析）\t PAGEREF _Toc22316 \\h 13",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "· 设计要求和描述、流程图、功能块图、控制图、电路图表、工程数据表、布置图、公用工程说明、操作和维护要求；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致淹塔，影响精馏塔正常操作（粗氩气操作压力0.15barG，容器设计压力6barG，超压概率较低）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.低温氮气膨胀机增压端ET04C出口设置有温度远传显示及高报警TI8507,高高联锁高/低温膨胀机停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氧平底罐V40设置有压力远传显示PI6121A/B，并设置低报警，低低联锁关闭进出液阀，关闭充车泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氮平底罐V50设置有压力远传显示PI6321A/B，并设置低报警，低低联锁关闭进出液阀，关闭充车泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致再生气流量过低，再生不彻底，分子筛解吸不彻底，影响分子筛的净化效果，产品质量下降，影响换热器换热效果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本文件描述了针对中国航空技术杭州有限公司所进行的危险与可操作性（HAZOP）分析的实施过程以及分析结果。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.主冷凝蒸发器E02液位采用双液位计LI1661A/B，均设液位低报警，低低联锁（1oo2）系统停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.膨胀氮出冷箱温度TI1501低报警，低低联锁关闭高/低温膨胀机入口紧急切断阀HV8499/8599",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "出料量多，中压塔K01液位低，严重时高压串低压，导致粗氩冷凝器超压，严重时薄弱部位泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本次拟对中国航空技术杭州有限公司科威特180TPD空分项目进行HAZOP分析，提交HAZOP分析报告。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致冷凝器液位满，富氧气体带液，影响正常操作，严重时压力升高，薄弱环节泄漏，安全风险，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "阜新泽程化工有限责任公司年产2000 吨医药中间体建设项目进行HAZOP分析、SIL定级、SIL验证",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "CO2/H2O进入主换热器/分馏塔形成干冰/冰，堵塞设备管道及仪表、阀门等，严重时影响装置安全运行",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "资料是否包含最新的PID图？如果是在役装置，是否有资料提供出具的承诺函？（图纸内容要求与现场一致）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.氮气增压机C50入口压力设置有低报警PI7308，低低联锁停氮气增压机C50，自动打开放空阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.电加热器E09A/B炉膛温度设置有远传显示及高报警TI1234/1236，高高联锁停电加热器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.冷气机X20A出口设置有温度远传显示及高报警TI1083，高联锁启动备机，温度高高联锁停系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.电加热器E09A/B炉膛温度设置有远传显示及高报警TI1234/1236，高高联锁停电加热器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有常压氮气纯度在线仪表监测AP1680，并设置高报警，高高联锁关闭产品外送阀门，打开放空",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "日照德坤能源有限公司 200 万立方原油储备 (库)项目HAZOP分析SIL定级（LOPA）项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "此外，HAZOP主席可以安排人员对相关数据库进行查询，收集采用相同或相似的技术出现过的事故案例。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.电加热器E09A/B设置有压差远传显示及低报警PDI1234/1236,低低联锁停电加热器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有液氮纯度在线仪表监测AP1683B，并设置高报警，高高联锁关闭产品外送阀门，打开放空",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "TOC \\o \"1-2\" \\u 1 术语和缩略词\t PAGEREF _Toc8161 \\h 2",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成精氩塔K11压力过低，严重时负压，空气吸入，设备结冰堵塞，影响开车进度，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩泵P10A出口设置有压力远传显示PIC1754/1764，并设置高报警，高高联锁停泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.粗氩塔K10-2液位LIC1701自动控制回路，液位低报警，低低联锁停粗氩泵P10A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.空压机C01停机联锁关闭冷气机进出口切断阀XV1071/1072、XV1081/1082",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.空压机C01出口设置有防喘振自控逻辑及超压保护逻辑，自动打开空压机出口放空阀PV7038",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩空气在分子筛系统出口作为中压塔原料气，在主换热器E01中吸收冷量后直接送入中压塔K01。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录B   HAZOP分析项目主要设备一览表\t PAGEREF _Toc4753 \\h 93",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.低温氮气膨胀机ET04入口设置有温度远传显示及低报警TI8516，低低联锁停膨胀机进气",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氧平底罐V40设置有压力远传显示PI6121A/B，并设置高报警，高高联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氮平底罐V50设置有压力远传显示PI6321A/B，并设置高报警，高高联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氮平底罐V50设置有液位远传显示LI6322A/B，并设置高报警，高高联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.液氧平底罐V40设置有压力远传显示PI6121A/B，并设置高报警，高高联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.液氮平底罐V50设置有压力远传显示PI6321A/B，并设置高报警，高高联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力控制回路PIC1233故障，阀门PV1233开度过大或全开、PV1235开度过小或全关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.压力控制回路PIC1706控制HV1720低压自动关小，压力低低联锁关闭LV1601",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.氮气增压机C50二级出口设置有压力远传显示PIC7322，低低联锁停氮气增压机C50",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有润滑油压力远传显示及低报警PALL7085，自动启动辅助油泵，低低联锁停空压机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP（Hazard And Operability Study）危险与可操作性分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中核北方核燃料元件有限公司（压水堆核电站燃料元件生产线续建工程）HAZOP/LOPA项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：DCS中增加空压机C01入口导叶最小开度操作权限，防止操作人员误操作，关闭入口导叶",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器再生气体温度过低，可能导致纯化器再生不完全，严重时导致装置生产波动，产品质量下降",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "科威特180TPD- S0-250001_DA01-651_Rev0_工艺流程设计说明书",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氩真空罐V31A设置有双安全阀及爆破片PSV6507A/B、PSE6507A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液氩真空罐V31A设置有液位远传显示LI6500，并设置高报警，高高联锁关闭进液阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.液氩真空罐V31A设置有双安全阀及爆破片PSV6507A/B、PSE6507A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.粗氩塔K10-2设置有液位远传显示及高报警LIC1701，高高联锁关闭FV1712",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "是否分析了换热器内漏（高压窜低压、高温窜低温、高温油与水混合、低温脆裂等）造成的后果？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "概念性参数因为发生频率或后果严重度不易量化，分析只确认是否有相应的措施，不进行风险评估",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有润滑油压力远传显示及低报警PALL7285，低低联锁停循环氮气增压机C02",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.2 关于中国航空技术杭州有限公司\t PAGEREF _Toc26224 \\h 5",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.液氧平底罐V40设置有双安全阀及爆破片PSV6110A/B、PSE6110A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.液氮平底罐V50设置有双安全阀及爆破片PSV6310A/B、PSE6310A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.液氧平底罐V40设置有双安全阀及爆破片PSV6110A/B、PSE6110A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.液氮平底罐V50设置有双安全阀及爆破片PSV6310A/B、PSE6310A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "DA01-110、DA01-110A/B/C/D、DA01-122、DA01-123",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "d) 基于分析小组具有的系统相关知识，对发现的问题提出的建议措施(若在分析范围内)；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩机出口压力过低，导致循环氮压机C02入口压力过低，影响下游循环氮气压缩机正常运行",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响产品质量，设备损坏,严重时可能造成液化气体泄漏，冷箱超压爆炸，人员伤亡，财产损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀端：进/出压力:59.8/5.26bar，进/出温度:-102/-178.5°C",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "辽宁崇宇化工特种工程塑料、染料及染料中间体HAZOP分析、SIL定级（LOPA）项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "间歇过程是否将时间和顺序等纳入引导词并与相应的参数或操作步骤构成有效的偏离进行分析？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录D   评审意见及业主反馈意见\t PAGEREF _Toc8724 \\h 108",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录I   HAZOP分析P&ID\t PAGEREF _Toc2894 \\h 118",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩泵P10A/B出口设置有压力远传显示PIC1754/1764，并设置低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩泵P10A/B出口设置有压力远传显示PIC1754/1764，并设置高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩泵P10A出口设置有压力远传显示PIC1754，并设置高报警，高高联锁停泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有产品纯度在线仪表监测，并设置低报警，低低联锁关闭液氧送出阀LV1660A",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有自增压自控回路PIC6121A，压力低时自动打开PV6121A，气化增压",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有自增压自控回路PIC6321A，压力低时自动打开PV6321A，气化增压",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "9.3 HAZOP分析的后续措施\t PAGEREF _Toc29487 \\h 32",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作压力：4.6 barG (吸附Ads.)，0.05 barG (再生Reg.)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "时东风、杨恒、赵征峰、段慧茹、郑珺文、陈秋杏、黄羿珲、张飞明、王小刚、陈晋、叶芳芳",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录E   HAZOP主席简历\t PAGEREF _Toc24837 \\h 110",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.增压机入口设置有压力远传显示及高报警PI7201，联锁停循环氮气增压机C02",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.氮气增压机C50设置有进口压力远传显示及低报警PI7308，低低联锁停压缩机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.精氩塔K11压力设置压力低报警PIC1730，压力低低关闭放空阀PV1730",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有液氩中氧、氮含量在线检测，并报警，高高联锁关闭产品输送阀LV1726A",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.2 执行标准法律法规参考文件\t PAGEREF _Toc7407 \\h 20",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.换热冷箱设置有压力检测高报警PI2161A/B，高高联锁系统停车（2oo2）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "5 HAZOP分析团队人员信息\t PAGEREF _Toc25503 \\h 22",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "7.2 HAZOP分析可接受风险\t PAGEREF _Toc3860 \\h 25",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "8 HAZOP分析节点及进度控制\t PAGEREF _Toc3632 \\h 27",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "c) 设计人员：解释设计及其设计描述。解释各种偏差产生的原因以及相应的系统响应。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "e) 专家：提供与系统和分析相关的专业知识。可邀请专家协助分析小组进行部分分析。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "h) 分析小组使用的所有图纸、说明书、数据表和报告等的清单(包括引用的版本号)。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：液体充装台增加地磅或设计增加充装计时措施，做充装过程罐车充装量的检测和报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀端：进/出压力:29.84/5.25bar，进/出温度:-13/-103°C",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录A   HAZOP分析记录表\t PAGEREF _Toc6319 \\h 33",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录H   T_CCSAS 001-2018危险与可操作性分析质量控制与审查导则",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "除上述几股流体主换热器也回收冷量，冷量分别来自纯氮塔的常压氮气和低压塔的污氮气。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有温度检测及低报警TI2099，低低联锁停残液蒸发器，关闭自动排液阀门",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.分子筛出口设有AP1239，CO2和露点高报警，CO2高高报警联锁延时停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.空压机C01出口设置有防喘振自控逻辑，自动打开空压机出口放空阀PV7038",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.分子筛出口设有AP1239，CO2和露点高报警，CO2高高报警联锁延时停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.空压机C01出口设置有防喘振自控逻辑，自动打开空压机出口放空阀PV7038",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "5.液氧平底罐V40夹套设置有温度远传显示TI6125、TI6126A/B/C",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "5.液氮平底罐V50夹套设置有温度远传显示TI6325、TI6326A/B/C",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "a) 识别出的危险与可操作性问题的详情，以及已有的消减和(或)减缓措施的细节；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "兰州隆华特种气体科技有限公司超纯氨装置HAZOP分析SIL定级、SIL验证项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "是否对装置中的典型腐蚀进行了分析?（如氢腐蚀、硫腐蚀、保温下腐蚀、垢下腐蚀等）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设备内压力过低，可能导致罐体破损，液氧泄漏，严重时发生爆炸，人员伤亡，财产损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计压力：6.0 bar (吸附Ads.)，0.98 bar (再生Reg.)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录C   参会人员签到表\t PAGEREF _Toc16055 \\h 107",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.压缩机出口设置有温度远传显示TI7019，高报警，高高联锁停空压机C01",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.电加热器压差PDI1234/1236低低联锁电加热器停机，进出口阀门关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩泵P10A/B出口设置有压力远传显示PIC1754/1764，低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.高温氮气膨胀机增压端ET03C出口设置有压力远传显示及高报警PI8424",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2008-2020年  中石化天津分公司12年炼油装置生产工艺技术与管理经验",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.8 HAZOP分析假设\t PAGEREF _Toc32564 \\h 18",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4 HAZOP分析相关要求\t PAGEREF _Toc24114 \\h 20",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "8.1 HAZOP分析节点\t PAGEREF _Toc15090 \\h 27",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "8.2 节点分析进度时间表\t PAGEREF _Toc15764 \\h 30",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "9.1 HAZOP分析结论\t PAGEREF _Toc16245 \\h 31",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "·管道和仪表流程图(P&ID)、材料规格和标准设备、管道和系统的平面布置图；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "《危险与可操作性分析（HAZOP分析）应用导则》AQ/T 3049-2013",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中化连云港循环经济产业园罐区二期项目进行HAZOP分析、SIS系统SIL验算",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "乌兰察布市通汇能源有限责任公司/蒙新能源有限责任公司液化天然气项目SRS项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致压缩机排气温度或润滑油油温过高，影响正常工艺操作及潜在设备损坏风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致压缩机出口憋压，喘振，机组损坏，严重时可能导致管道超压泄漏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压端：进/出压力:44.8/60.1bar，进/出温度:40/75.9°C",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录G   相关方授权书\t PAGEREF _Toc26321 \\h 115",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.空压机C01设置有润滑油温度TI7085高报警，高高联锁停空压机C01",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.增压机故障停机自动打开放空阀PV7200，并打开防喘振阀门PV7248",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.1 HAZOP分析启动\t PAGEREF _Toc26815 \\h 9",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.6 HAZOP分析文档\t PAGEREF _Toc2204 \\h 17",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "6 HAZOP分析输入资料\t PAGEREF _Toc2420 \\h 23",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "7.1 HAZOP分析矩阵\t PAGEREF _Toc4443 \\h 24",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "9.2 HAZOP分析建议\t PAGEREF _Toc6823 \\h 31",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压端：进/出压力:30/44.98bar，进/出温度:40/89.4°C",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "对上述范围之外的或与之无关的任何事项，我公司不向客户及其他人承担任何责任。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响分子筛再生气流量，导致分子筛再生效果差，导致杂质含量增加，影响产品质量",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "概述HAZOP分析计划，确保HAZOP分析成员熟悉系统以及分析目标和范围；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "污氮管线压力控制回路PIC1626故障，放空阀门PV1626开度过大或全开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路LIC1661A/B故障，阀门LV1660A/B开度过大或全开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路LIC1661A/B故障，阀门LV1660A/B开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液空进入粗氩冷凝器E10，氮组分先蒸发，造成碳氢化合物积聚，同时氧含量升高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录F   业主承诺函\t PAGEREF _Toc19619 \\h 114",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.低温氮气膨胀机ET04出入口设置有压力远传显示PI8516/8517",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.膨胀端入口气体来自低温膨胀机增压端出口，设置有压力高报警PI8524",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.高温氮气膨胀机ET03出入口设置有压力远传显示PI8416/8417",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.粗氩气操作压力0.15barG，容器设计压力6barG，超压概率较低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.精氩冷凝器E16设置有液位检测并设自控回路LIC1741,液位高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.2 确定分析范围和目标\t PAGEREF _Toc3269 \\h 9",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.7 后续跟踪和处理\t PAGEREF _Toc25854 \\h 18",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.粗氩冷凝器E10出口设置有温度检测TI1714温度高报警（循环报警）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.膨胀端入口气体来自低温膨胀机增压端出口，设置有压力高报警PI8524",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "7 HAZOP风险评估\t PAGEREF _Toc16951 \\h 24",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "9 HAZOP分析结论\t PAGEREF _Toc17767 \\h 31",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "d) 业主(用户)：说明分析要素的操作环境、偏差的后果、偏差的危险程度。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "《危险与可操作性分析质量控制与审查导则》T_CCSAS 001-2018",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致储罐气化量大，严重时超压泄漏，潜在的火灾爆炸风险，人员伤亡，财产损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "成都奥邦药业有限公司危险工艺：加氢工艺、磺化工艺、氧化工艺HAZOP分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "河南金马中东能源有限公司煤气净化系统全流程进行HAZOP分析、SIL评估",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位过低造成主冷液氧干蒸发，碳氢积聚，与碳氢发生爆炸，人员伤亡，财产损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.1 名词解释及说明\t PAGEREF _Toc20392 \\h 2",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.压缩机出口设置有温度远传显示及高报警TI7219,高高联锁系统停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩冷凝器E10设置有压力远传显示PIC1712，压力自动控制回路",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.纯化器出口设置有在线监测及高报警AP1239，高高报警联锁延时停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有压力自动控制回路PIC1502，自动打开放空阀门FV1502",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有润滑油压力远传显示及低报警PALL7085，低低联锁停空压机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有润滑油压力远传显示及低报警PALL7285，低低联锁停增压机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.循环氮气增压机C02润滑油管线设置有温度自力式调节阀TCV7283",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.电加热器E09A/B设置有温度远传显示及高报警，高高联锁停电加热器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.粗氩塔K10-2设置有压差远传显示PDI1702，并设有压差低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "DA01-180、DA01-181、DA01-182、DA01-183",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷却器液位过高，带液至压缩机，影响压缩机正常运行，损坏压缩机，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩机级间冷却器E7011/7021/7031循环水压力不足或温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：粗氩泵P10A/B增加气蚀状态判断，并设置气蚀保护联锁，联锁停泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "开车时，人员误操作，误关密封气阀门（包括密封气汽化器相关阀门的误操作）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "重大泄漏，给工作场所外带来严重的环境影响，且会导致直接或潜在的健康危害",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.2 名词缩写及说明\t PAGEREF _Toc7537 \\h 2",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.低温氮气膨胀机增压端ET04C进口设置有压力远传显示PI8508",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.压力氮出冷箱温度TI1500低报警，低低联锁关闭阀门FV1500",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.常压氮出冷箱温度TI1502低报警，低低联锁关闭下游气相送出阀门",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.氮气增压机C50设置有停机联锁，自动打开出口放空阀门PV7328",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩泵P10A/B出口设置有压力远传显示PIC1754/1764",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.高温氮气膨胀机ET03入口设置有温度远传显示及低报警TI8416",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.高温氮气膨胀机增压端ET03C进口设置有压力远传显示PI8408",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.低温氮气膨胀机增压端ET04C出口管线设置有安全阀PSV8506",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.增压机润滑油箱T7280设置有液位远传显示及低报警LAL7281",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.空压机C01设有轴瓦温度远传显示及高报警，高高联锁停空压机C01",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.空压机润滑油箱T7080设置有液位远传显示及低报警LAL7081",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.高温氮气膨胀机增压端ET03C出口管线设置有安全阀PSV8406",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3 HAZOP分析程序\t PAGEREF _Toc4481 \\h 9",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.液氩真空罐V31A设置有压力远传显示及自动控制回路PIC6500",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 如果有必要，对需要采取不同技术进行深入研究的设计问题提出建议；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "g) 系统中已做HAZOP分析的内容说明及未做HAZOP部分的原因；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致冷凝器液位满，严重时压力升高，薄弱环节泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致液氩贮槽超压，液氩从薄弱部位泄漏，有潜在人员冻伤及窒息风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "山西长治霍家工业有限公司1万吨年PVDF技术改造项目SRS规格书项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路LIC1601A/B故障，阀门LV1601开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路故障LIC1701出口阀LV1701A/B开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路故障LIC1701回流阀LV1701A/B开度过大或全开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路故障LIC1711回流阀LV1711A/B开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路故障LIC1726回流阀LV1726A/B开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧从主冷凝蒸发器凝器抽出，经过冷器过冷后出冷箱送入液氧贮槽V40。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧储罐液位过高，严重时满罐，超压泄漏，潜在的火灾爆炸，人员伤亡风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "系统已开展过的任何分析的范围，不论是HAZOP分析还是其他相关分析；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.空气过滤器F01设置有压差远传显示PDI7005，并设置高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.主冷凝蒸发器E02设置有压力远传显示PI1662，并设置高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.主冷凝蒸发器E02设置有碳氢在线检测，高报警，高高联锁系统停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.3 分工和职责\t PAGEREF _Toc3745 \\h 10",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.4 准备工作\t PAGEREF _Toc15797 \\h 11",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.电加热器E09A/B设置有再生气流量低报警，低低联锁停电加热器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.膨胀端入口气体来自循环氮气增压机，设置有压力高报警PI7219",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.1 执行标准\t PAGEREF _Toc17740 \\h 20",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "《危险化学品生产装置和储存设施风险基准》GB 36894—2018",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，罐内进液量过大，温度迅速下降导致气相液化，内部压力下降",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致压缩机出口压力过高，严重时管线超压泄漏，潜在的人员窒息风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致压差过高，影响中压塔正常操作，造成产品纯度下降，产品质量不达标",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致压差过高，影响低压塔正常操作，造成产品纯度下降，产品质量不达标",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "山西金鼎潞宝270万吨/年焦化、15万吨/年焦油加工HAZOP分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量串级控制回路FIC1704故障，阀门FV1704开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量串级控制回路FIC1716故障，阀门FV1712开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路LI1601A/B故障，阀门LV1601开度过大或全开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "轴功率：2.0kw，电机功率：3.7kw，电压：415V/50HZ",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.3 术语及定义\t PAGEREF _Toc6636 \\h 3",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有润滑油过滤器，并设置前后压差显示与高报警PDI7083",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.1 项目介绍\t PAGEREF _Toc30956 \\h 5",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.3 工作范围\t PAGEREF _Toc18377 \\h 8",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.氮气增压机C50设置有振动高报警，高高联锁停氮气增压机C50",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "6.换热冷箱设置有密封气纯度检测，氧含量高报警AP2161A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，管道两端阀门关闭，内部液体受热气化增压（含火灾工况）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机增压端后冷却器ET04CE循环水压力不足或温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析范围和目标互相关联，应同时确定。两者应有清晰的描述，以确保：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：循环水供水压力\\供水温度增加压力低报警、温度高报警正常生产",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响粗氩泵正常运行，严重时造成粗氩泵出口超压泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "污氮管线压力控制回路PIC1626故障，阀门PV1626开度过小",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量控制回路FIC1630故障，阀门FV1630A开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路LIC1661故障，阀门LV1660A开度过大或全开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路LIC1661故障，阀门LV1660A开度过小或全关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位控制回路故障LIC1741，进液阀LV1741开度过小或全关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.空压机C01设置有停机联锁，自动打开出口放空阀PV7038",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩冷凝器E10设置有压力远传显示PIC1712,自动控制",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1）空气压缩系统 Air compression system",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.空压机设置有振动、电机轴温度、轴承温度高报警，高高联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有压力远传显示PIC1706，自动打开HV1720泄压",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "c) 可能处于风险中的人或财产，如： 员工、公众、环境、系统；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "e) 系统所要求的标准，包括系统安全和操作性能两个方面的标准。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "·数据流程图、面向对象的设计图、状态转移图、时序图、逻辑框图。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力控制回路PIC1730故障，压力高时阀门PV1730未打开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力控制回路PIC1742故障，压力高时阀门PV1742未打开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力控制回路PIC6500故障，阀门PV6500开度过小或关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致液氩泵气蚀液氮泵机封损坏液氮泄漏，潜在的人员冻伤风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致液氮泵气蚀液氮泵机封损坏液氮泄漏，潜在的人员冻伤风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致空气渗入到冷却水系统，影响设备正常运行，严重时装置停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（ØXH):750X41768，1250X2575mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致空气进入压缩机温度过高，影响压缩机性能和压缩效率，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "已考虑，需要结合SIL等级的高低以及GB 50770的要求确定",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "应提供合适的房间设施、可视设备及记录工具，以便会议有效地进行。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作温度：20℃ (吸附Ads.)，155℃ (再生Reg.)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量控制回路FIC1500故障，阀门FV1500关闭或开度过小",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量控制回路FIC1630故障，阀门FV1630开度过大或全开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量控制回路FIC1900故障，阀门FV1900关闭或开度过小",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "装置动设备停运，影响装置正常运行，严重时可能影响下游装置的生产",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设备内压力过低，可能导致罐体破损，液氮泄漏，潜在的人员伤害风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：65℃ (吸附Ads.)，300℃ (再生Reg.)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录 N-1 危险与可操作性分析质量控制与审查导则关键点分析表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.低温氮气膨胀机ET04进口设置有压力远传显示PI8516",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.密封气设置有排放温度检测TI1756低报警，低低联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.高温氮气膨胀机ET03进口设置有压力远传显示PI8416",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2 项目概述\t PAGEREF _Toc15205 \\h 5",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.中压塔K01塔顶设置有压力远传显示及高报警PIC1602",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.主冷液位设置为双表二选一（选低）做自控回路，故障风险降低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.低温氮气膨胀机ET04出口管线设置有安全阀PSV8517",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.压力控制回路PIC1742，自控控制阀门PV1742开大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.高温氮气膨胀机ET03出口管线设置有安全阀PSV8417",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.主冷液位设置为双表二选一（选低）做自控回路，故障风险降低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.空压机设置有振动、电机温度、轴承温度高报警，高高联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.空气过滤器F01设置有自动反吹逻辑控制（可实现定时反吹）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.粗氩塔K10-2设置有压差远传显示PDI1702，低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3）分子筛系统Air purification system",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席负责制定 HAZOP分析计划，应包括以下内容：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "a) 明确系统边界，以及系统与其他系统和周围环境之间的界面；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 分析小组注意力集中，不关注与分析范围和目标无关的区域。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 概述系统设计描述，解释会议中要使用的分析要素和引导词；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "《化工建设项目安全设计管理导则》AQ/T 3033-2022",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "《危险与可操作性分析应用指南》GB/T 35320-2017",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "从中压塔抽出的液氮，经过冷器过冷后出冷箱送入液氮贮槽V50。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力升高可能损坏设备，管道超压泄漏，经济损失，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "吸附器长期运行或再生不良，吸附效果差，导致CO2/H2O超标",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作温度：-183~37℃，操作压力：0.4-46.9bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作温度：-189~184℃，操作压力：0.2~0.4bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作温度：-192~175℃，操作压力：0.8~4.2bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器出口温度检测仪表TE1240A/B故障，检测显示偏低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器出口温度检测仪表TE1240A/B故障，检测显示偏高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机出口流量不足，憋压，严重时导致空压机振动加剧，设备损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气温度过低，严重时管线出现冻凝，影响装置正常运行（待核实）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "管道低温可能造成放空口结冰堵塞，影响正常泄放，严重时损坏设备",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃~65℃，设计压力：6/0.98bar；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高压工艺气逆流至再生气管线，造成管道压力升高，严重时管道泄漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有产品纯度在线仪表AP1683B监测，并设置高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有压力检测PIC1706，低低联锁关闭HV1720",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有碳氢在线检测AP1684高报警，高高联锁系统停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.冷箱设有密封气压力高报警，高高联锁（2oo3）系统停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.压力控制回路PIC1706控制HV1720超压自动打开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.润滑油过滤器设置有压差远传显示及高报警PDSH7083",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.润滑油过滤器设置有压差远传显示及高报警PDSH7283",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.纯氩塔K11设置有压力远传显示及自控回路PIC1730",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有产品纯度在线仪表AP1683A监测，并设置高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.空压机C01出口设有压力远传显示及高报警PAH7019",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.粗氩冷凝器E10设置有液位检测和自控回路LIC1711",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "e) 管理安排、HAZOP会议日程，包括日期、时间和地点；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩后的工艺空气直接进入冷气机X20A/B冷却至~10℃。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致液体大量汽化超压，造成薄弱环节泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成罐车液位过高，液氧自罐车溢流至环境，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压机憋压损坏，下游生产波动严重时可能停车，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "宁夏永大石化12万吨（一期6万吨）聚丙烯装置HAZOP分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致压缩机入口压力下降，严重时空压机喘振损坏设备，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致自控阀门无法正常调节，影响装置正常运行，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "最初目的没有实现，出现了完全不同的结果，如：输送了错误物料",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "河北沧州日新浩润废矿物油加氢再生装置HAZOP/SIL定级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "注：一个部分可能是物理的（如硬件）或者逻辑的（如操作步骤）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮/氮气产品质量不合格，影响下游用户使用，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮储罐液位过高，严重时满罐，超压泄漏，潜在的人员伤害风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃~65℃，设计压力：0.098MPaG",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "通常，设计描述文件应具有审批签署和日期标识。包括以下文件：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.压缩机二级出口设置有压力远传显示及高报警PT7322",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.循环氮气增压机C02出设置有压力远传显示PI7219",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.纯氩塔K11设置有压力远传显示及高报警PIC1730",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有产品纯度在线仪表AP1684监测，并设置低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有产品质量在线检测，报警，并设有联锁切断送出阀门",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.低压塔K02塔顶管线设置有压力控制回路PIC1626",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.污氮进电加热器设置有流量远传显示及低报警FI1233",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.粗氩冷凝器E10中碳氢含量在线分析AP1711高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有产品纯度在线仪表AP1680监测，并设置高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.主冷凝蒸发器E02液位采用双液位计LI1661A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.人员定时巡检，查看润滑油液位情况，按操作规程要求加油",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "6.液氧平底罐V40设置有温度远传显示TI6122A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "6.液氮平底罐V50设置有温度远传显示TI6322A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "——建议引导词的清单，以及引导词-要素片特性组合的解释；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "一种特定的用于描述对要素设计目的（意图）偏离的词或词语。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温液氩储槽中液体由槽车泵P30打入槽车，作为液体产品。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "出口压力5.75 Bar(A) 4.7568 BarG）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致液氩贮槽满溢液氩泄漏，有潜在人员冻伤及窒息风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致主冷液位升高，严重时造成碳氢积聚，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "图3-2 HAZOP分析程序流程---“引导词优先”顺序",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（LXWXH)：8008X2214X1843mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致储罐气化量大，严重时超压泄漏爆炸，人员伤亡，财产损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：循环水供水压力\\供水温度增加压力低报警、温度高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "河津市禹门口焦化有限公司172万吨/年焦化装置SIL定级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃~65，设计压力：1.8-70bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "连云港中新燃气有限公司LNG储配站HAZOP/SIL定级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高压工艺气逆流至再生气管线，造成管道压力升高，工艺气损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.空压机C01三级出口设置有压力远传显示PI7006",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.空压机C01三级设置有振动高报警及振动高高联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.精氩塔冷凝器E16设置有压力控制回路PIC1742",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.纯氩塔K11出液管线设置有流量远传显示FI1726",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.入口过滤器设置有压差远传显示及高报警PDI8406",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.入口过滤器设置有压差远传显示及高报警PDI8416",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.入口过滤器设置有压差远传显示及高报警PDI8506",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.入口过滤器设置有压差远传显示及高报警PDI8516",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.粗氩冷凝器设置有压力远传显示及高报警PIC1712",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.经确认，目前设计符合EIGA133-22的相关要求",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有压力控制回路PIC6500，并设置压力高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.换热冷箱底部设置有温度检测TI1539，温度低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.空压机C01入口导叶设置有最小开度（最小机械开度）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析是否依据包含风险矩阵等风险管理规定展开？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "Temperature Alarm，High/ Low",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "e) 对操作和维护程序中需要阐述的关键点的提示性记录；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "出口压力30 Bar(A) 29.0068 BarG）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩机出口温度过高，影响压缩机性能和压缩效率，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致液氧/液氮/液氩泄漏到外部环境，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成低压塔压力升高，严重时超压泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成液化气体泄漏，冷箱超压爆炸，人员伤亡，财产损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "图3-1 HAZOP分析程序流程---“要素优先”顺序",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "如果原因为控制回路故障，则对应的仪表报警不作为有效措施",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "山西金鼎潞宝200万吨焦化及甲醇三期项目HAZOP分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：压缩机入口温度远传显示TI7001增加温度高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "换热器应力增大，严重时可能导致换热器泄漏，影响正常生产",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "海南汇智石化精细化工有限公司HAZOP分析、SIL定级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "离心式空压机润滑油润滑能力降低，严重时可能导致机组损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机入口流量不足，严重时导致空压机振动加剧，设备损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀机增压端出口管线超压损坏，严重时损坏设备，装置停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃/65℃，设计压力：0.98bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃~65℃，设计压力：0.98bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "进口温度/出口温度:-183.1/不低于环境温度10℃",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.主冷凝蒸发器E02设置有温度远传显示TI1684",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.冷气机X20A出口设置有温度远传显示TI1083",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.增压机出口设置有压力远传显示及高报警PI7219",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.残液蒸发器后设置有温度显示TI2096/2099",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.电加热器出口设置有温度检测仪表TE1240A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩冷凝器E10设置有压力远传显示PIC1712",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.氮气增压机C50设置有振动报警，振动高高联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.空压机C01出口设置有流量远传显示FIQ7039",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "5）精馏系统 Distillation system",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "DA01-130、DA01-131、DA01-134",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "PIC1706故障显示偏高，放空阀门HV1720打开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "《化工过程安全管理导则》AQ/T 3034-2022",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，关小氮气增压机C50进口阀门HV1503",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，泵及管道内液体未排净，阀门关闭后气化升压",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致液氧泵气蚀，机封损坏液氧泄漏，人员冻伤风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致K10-2超压，薄弱环节泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成粗氩泵出口压力过高，严重时机泵损坏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（LXWXH)：1500X500X788mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（LXWXH)：1500X600X720mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "浙江省天正设计工程有限公司浙江省天正设计工程有限公司",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油乳化变质，影响润滑效果，严重时导致机组设备损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃/65℃，设计压力：2/8bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.中压塔K01塔顶管线设置有安全阀PSV1632",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.低压塔K02塔顶管线设置有安全阀PSV1626",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩塔K10-2设置有温度远传显示TI1701",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有润滑油过滤器，并设置前后压差显示与高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.低压塔K02塔顶管线设置有安全阀PSV1626",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.中压塔K01液位采用双液位计LI1601A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.密封气设置含量检测AP2164A/B/C高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "c) 审查已知的危险和操作性问题及潜在的关注区域。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "出口压力 5.15Bar(A) 4.16BarG）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力过高导致管道超压泄漏，设备损坏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“电加热器E09A/B出口温度过高”的风险分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照：节点一中“冷气机X20A出口温度过高”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致精氩凝器超压，薄弱环节泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成中压塔憋压，严重时超压泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成低压塔憋压，严重时超压泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压机入口压力升高，导致管道超压泄漏，设备损坏风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（LXWXH)：800X200X264mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（LXWXH)：900X250X279mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（ØXH):1800X900X1063mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作温度：18-290℃，操作压力：0.98bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "是否关注了关键设备、仪表的备用情况及在线维护问题？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气冷却效果差，影响后路吸附器的正常运行，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "系统一个部分的构成因素，用于识别该部分的基本特性。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "进/出压力：1.489bara/8.739bara",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.中压塔K01设置有压差远传显示PDI1601",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.低压塔K02设置有压差远传显示PDI1602",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.冷气机X20A设置有故障停联锁，联锁启动备机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.纯化器出口设置有在线监测及高报警AP1239",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.增压机设置有振动、电机温度、轴承温度高低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.精氩塔冷凝器E16设置有安全阀PSV1742",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2）预冷系统Pre-cooling system",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.增压机设置有振动、电机温度、轴承温度高低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析（本项目采用“引导词优先法”分析）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "Pressure Alarm，High/ Low",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，空气冷却器C01E循环水阀门开度过小",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力控制回路PIC1502故障，FV1502打开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“液氩真空罐V31A液位过低或无液位”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参考AQ-3054以及GB 32857的矩阵分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致增压机倒转，严重时可能导致设备轴瓦烧坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致冷凝器超压，薄弱环节泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致液氮储罐压力过高，超压泄漏，人员伤害风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致纯氩塔超压，薄弱环节泄漏，潜在的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成系统停机时间过长，影响生产效率，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压机润滑油润滑能力降低，严重时可能导致机组损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致冷凝蒸发器换热效果差，产品质量下降，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响精馏塔工况，导致精馏波动，影响效果，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作温度：-180℃，操作压力：0.05MPaG",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作温度：-180℃，操作压力：0.44MPaG",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50进气流量少，严重时，造成设备损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀机出口管线超压损坏，严重时损坏设备，装置停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀机润滑油箱油位过低(高/低温氮气膨胀机共用)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃/65℃，设计压力：6bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃~65℃，设计压力：6bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.循环氮气增压机C02设置有润滑油温度高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.循环水系统设置有温度远传显示、压力远传显示",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.电加热器E09A/B出口温度设置有现场显示",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩冷凝器E10液位自控回路LIC1711",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.粗氩冷凝器E10设置有安全阀PSV1712",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.机组设置有轴瓦温度高报警，高高联锁停增压机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.污氮再生气管线设置有压力控制PIC1505",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.液氧平底罐V40设置有爆破片PSE6112",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.液氮平底罐V50设置有爆破片PSE6312",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.粗氩冷凝器设置有液位控制回路LIC1711",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.液氧平底罐V40设置有安全阀PSV6112",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.液氧平底罐V40设置有爆破片PSE6112",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.液氮平底罐V50设置有安全阀PSV6312",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.液氮平底罐V50设置有爆破片PSE6312",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "5.液氧平底罐V40设置有安全阀PSV6112",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "5.液氮平底罐V50设置有安全阀PSV6312",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "5.空压机C01出口设置有安全阀PSV7001",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "从低压塔抽取后进入板式换热器，复热后送到客户。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“电加热器E09A/B出口温度过高”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“粗氩泵P10A出口/管道压力过高”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“粗氩泵P10A密封气管道压力过低”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照：“空气冷却器C01E出口温度过高”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致储罐气化量大，严重时超压泄漏，人员伤害风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响电加热器安全运行，严重时超温损坏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "是否分析了之前发生过且存在潜在重大后果的事故？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油泵抽空，机组润滑不良磨损，严重时机组损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "经设备厂家确认，密封气压力高对设备无显著的影响",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "要素的定性或定量性质。注：如压力、温度和电压。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.压缩机入口设置有温度远传显示TI7001",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.机组润滑油设置压力低报警及压力低联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.空压机设有轴振动高报警，高高联锁停空压机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.压缩机入口设置有压力远传显示PI7001",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.压缩机入口设置有温度远传显示TI7001",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.增压机出口设置有流量远传显示FI7246",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.空压机C01设置有出口单向阀（机组自带）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.膨胀机出口设置有温度远传显示TI8417",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.膨胀机出口设置有温度远传显示TI8517",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.膨胀机润滑油箱设置有液位远传显示及低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有压力远传显示PI1602设置高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.再生气管线设置有流量远传显示FI1233",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.增压机出口管线设置有安全阀PSV7249",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.装置开车前进行清洗置换，降低固体杂质残留",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "d) 可操作性问题，包括影响产品质量的问题；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，开车阶段，精氩塔K11预冷量过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员身体伤害，健康损害、财产损失或环境破坏。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成管道低温冷脆破裂，设备损坏，装置停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响粗氩泵正常运行，严重时损坏设备，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "所有PID图纸、工艺流程等关键信息均真实有效",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "接受风险线（Acceptable Risk）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "操作温度：-185℃，操作压力：0.2bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "某事件的发生时间较给定时间早，如：冷却或过滤",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "某事件的发生时间较给定时间晚，如：冷却或过滤",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量：4147Nm³/h，扬程：54.11m",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化效果下降，影响空分系统运行效率，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计人员期望或规定的各要素及特性的作用范围。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "超过100～1000万直接经济损失，生产中断",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "间歇过程是否按照大步骤（或阶段）来划分节点？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录B   HAZOP分析项目主要设备一览表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.再生气设置有流量远传显示，并设置低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.增压机各级冷却器出口设置有温度远传显示",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.循环氮气增压机C02设置有故障停机报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.润滑油泵设置有润滑油压力低辅助油泵自启",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "c) 对分析期间所发现的不确定情况的处理；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "·操作和维护经验、类似系统存在的已知危害。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，阀门PV1730误关或开度过小",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机增压端ET04C出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机增压端ET04C出口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机增压端ET04C进口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱液氩产品送入低温液氩贮槽V31A/B。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参加过的 HAZOP/LOPA分析项目名称",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照：“冷气机X20A出口温度过低”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照：“冷气机X20A出口温度过高”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会粗氩泵P10A/B抽空损坏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致压力氮管道憋压，超压泄漏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致常压氮管道憋压，超压泄漏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能造成精馏系统压力波动，影响精馏稳定操作",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国内影响；政府管制，媒体和公众关注负面后果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（ØXH):500X16861mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（ØXH):750X14537mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸（ØXH):950X27250mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "容忍风险线（Tolerable risk）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "山东理工大学 化学工程与工艺专业 学士学位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "福建中景石化有限公司PDH2装置SIL验算",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩塔抽出的液氩送入液氩贮槽V31A/B。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化阀撬内的工艺阀门、管道管件、附件、钢构",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表9-1 HAZOP分析场景风险等级汇总表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计目的（意图）design intent",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "频     率    等    级（/a）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高温氮气膨胀机增压端ET03C出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高温氮气膨胀机增压端ET03C进口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.上塔K02设置有安全阀PSV1626",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.粗氩冷凝器设置有安全阀PSV1712",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.精氩冷凝器E16设置有PSV1742",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.装置设置有双电源，DCS设置有UPS",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1～2人死亡或丧失劳动能力；3～9人重伤",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.中压塔K01压力高报警PIC1602",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.增压机入口设置有安全阀PSV7248",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设置有检维修确认表及设备投用前确认表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.仪表空气设有备用气源（外部氮气供应）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.氮气压缩机厂房内设计有氧含量监测报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.轴瓦温度检测高报警、高高联锁停空压机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "Flow Alarm，High/ Low",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP团队成员是否有HAZOP主席？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "Level Alarm，High/Low",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "事件不会受到管理部门的通报或违反允许条件",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩机级间冷却器循环水压力不足或温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“液氩真空罐V31A液位过高”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照：“液氧平底罐V40压力过高”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照：“空压机C01出口压力过低”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照：“空气过滤器F01压差过大”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "后续系统阀门故障，无法正常打开或异常关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "在确定采取的记录样式时，应考虑以下因素：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：迷宫密封离心式，型号：AC30FC",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致碳氢与氧发生闪爆，设备损坏，财产损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "山西瑞阳煤层气有限公司HAZOP分析项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "当前分析的对象，该对象是系统的一个部分。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02润滑油流量过低或中断",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "文件编号：PSM-PMC-2025072",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本地区内影响；政府管制，公众关注负面后果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "机组润滑不良，加重磨损，导致机组故障损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "油库安全仪表(SIS)系统SIL定级项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表9-2  HAZOP分析建议措施汇总表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "释放事件受到管理部门的通报或违反允许条件",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.常压氮出冷箱温度TI1502低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.出口管线设置有安全阀PSV7380",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.周期性进行再生，并定期进行换吸附剂",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.空压机轴温高报警，高高联锁停空压机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "6.液氮充车泵P50A/B故障/停报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 分析处于系统生命周期的哪个阶段；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "f）维护人员：维护人员代表(若需要)。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "·分析对象的边界以及各个边界的分界面；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，冷态开车时塔内液体气化导致",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，泵出口阀门未打开或开度过小",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，润滑油箱液位低时未及时补充",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "内蒙古鄂托克旗建元煤焦化SIL定级项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "加温解冻过程中，粗氩冷凝器中液体未排净",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“液氧平底罐V40压力过低”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“液氧平底罐V40温度过高”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "只达到一部分目的，如：只输送了部分流体",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致吹扫置换不彻底，潜在的安全隐患",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国家管网山东省公司青岛作业区黄岛原油库",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响下游工序正常进行，可能导致装置停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响精馏系统正常操作，精馏产品质量下降",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "所有的维护管理工作均满足企业的实际要求",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "所有的设计至少满足国家及行业标准的要求",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "新疆中泰新鑫化工科技有限公司SRS项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "是否分析了转动设备停机导致逆流的后果？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "某事件在序列中过早发生，如：混合或加热",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "某事件在序列中过晚发生，如：混合或加热",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油水冷却器内漏（循环水侧腐蚀导致）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "淄博清源石化HAZOP/SIL定级项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "福州万景新材料BDO装置HAZOP分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔K10-2顶部不凝气管道温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化器吸附过程或升压过程，再生阀门误开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "超过1000万直接经济损失，长时间停产",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.纯氩塔K11设置有PSV1730",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有CO2浓度在线检测及高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.下游装置仪表阀门采取停风安全状态",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.氮气增压机C50出口设置有止回阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.氮气增压机C50设置有故障停报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.泵出口设置有安全阀TSV1754",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.泵轴温检测，低报警，低低联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.纯氩塔K11设置有PSV1730",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.装置开车前进行压力测试，气密测试",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.增压机设置有轴温高联锁，联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.膨胀机设置有振动高联锁，联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.设置有呼吸阀PSV6110A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.设置有呼吸阀PSV6310A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.设置有安全阀PSV6505A/B",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.膨胀机设置有轴温高联锁，联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析的报告应包括以下内容：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP团队成员是否有工艺工程师？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "·操作和维护人员的资质、技能和经验；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "不考虑因为设备制造问题造成的风险场景",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，HV1720阀门持续打开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，入口阀门开度过小或未打开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱液氧产品送入低温液体贮槽V40。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱液氮产品送入低温液体贮槽V50。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "医疗处理，不需住院； 短时间身体不适",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩机出口温度过高，影响后续正常生产",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“液氧充车过程，流量过大”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "所有人员均经过合格培训，并且满足要求",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量：17000Nm³/h(膨胀量)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量：19600Nm³/h(膨胀量)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油冷却器循环水压力不足或温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油水冷却器内漏（循环水腐蚀导致）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩泵P10A/B密封气管道压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表 3-1 偏差及其相关引导词的示例",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计温度：-196℃，设计压力：常压",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.冷箱设置有温度检测，温度低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.换热器及管线设置有温度远传显示",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.空压机C01设置有故障停机报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.纯化器出入口设置有压力远传显示",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.污氮压力控制回路PIC1626",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.润滑油水冷器管束采用耐腐蚀材质",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "6.充装泵P40A/B故障/停报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "6）氩系统Argon system",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "DA01-170、DA01-171",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席的经验是否符合要求？",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "Pt100电阻（冷箱、撬块内除外）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "下游用户用气量大导致换热后温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主冷凝蒸发器E02液位过低或无液位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，CO2负荷突然大幅增加",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，增压器V40E负荷过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，增压器V50E负荷过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，增压机负荷突然大幅增加",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，液位高时未及时停止进料",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，进液量过大，未及时外送",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机ET04入口温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机ET04出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机ET04进口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析范围取决于多种因素，主要包括：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能会导致淹塔，影响精馏塔正常操作",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：空温式，流量：30Nm3/h",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外形尺寸：φ2224×4220mm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响下游工序正常进行，生产异常波动",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "影响膨胀机的正常运行，影响生产效率",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02出口管线逆向流",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02润滑油压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02润滑油温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量：2700/1147Nm3/h",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩真空罐V31A液位过低或无液位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩真空罐V31B液位过低或无液位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩纯度低，产品质量下降，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "特性 characteristic",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气侧设计压力：0.6Mpa(G)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "管/壳程设计温度：120/65°C",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "管道中的物料反向流动以及化学逆反应",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表8-1 HAZOP分析节点划分表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "重大泄漏，给工作场所外带来严重影响",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录D   评审意见及业主反馈意见",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录I   HAZOP分析P&ID",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高温氮气膨胀机ET03入口温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高温氮气膨胀机ET03出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高温氮气膨胀机ET03进口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.仪表空气管道设置有压力低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.定期对润滑油进行采样化验分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.定期对润滑油进行采样化验分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.级间冷却器管束采用耐腐蚀材质",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.设置有温度调节TCV7083",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "4.液氩充车泵P30故障/停报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "F）参加每次会议的小组成员名单；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席/ LOPA 主席",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席负责以下准备工作：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "c) 计划HAZOP会议的顺序；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "d) 安排必要的HAZOP会议。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，未及时停止残液蒸发器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "危害发生的可能性和严重性的结合。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“润滑油杂质（水）含量超标”",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致增压机喘振损坏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致膨胀机液击损坏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "在确定分析目标时应考虑以下因素：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压机润滑油箱T7280液位过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "对于人员累计死亡频率10-3/年",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "对于人员累计死亡频率10-5/年",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02入口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02出口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02出口温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气增压机C02出口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "机组润滑不良或失去润滑，故障损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧平底罐V40液位过低或无液位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮平底罐V50液位过低或无液位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器E09A/B出口温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器E09A/B出口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器运行时，进出口阀故障关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机润滑油箱T7080液位过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气流量：12,000Nm3/h",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔K10-2液位过低或无液位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩泵P10A出口/管道压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩泵P10A密封气管道压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩泵P10B密封气管道压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化后空气CO2/H2O含量过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化器R01/02出入口压差过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "自力式调节阀PCV6500B故障",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "装置检维修未按正常检维修规程进行",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录A   HAZOP分析记录表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.液体管道均设置有管道安全阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有安全阀PSV1232",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有安全阀PSV1632",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有流量显示FI1704",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.主冷E02设置有液位高报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.自控阀门均设有故障安全状态",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席/ LOPA主席",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析报告形式审查要点",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 将信息转换成适当的形式；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "d) 适用于该系统的法规要求。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主电机额定功率 1275 kw",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "事件影响未超过界区（装置界区）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，入口导叶关闭或关小",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，再生气阀门开度过小",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，出口放空阀门误打开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，增压机负荷调整过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "异常（OTHER THAN ）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油泵停机，机组惰走过程磨损",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮充车泵P50A/B故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "温度自控回路故障（PLC故障）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机倒转，损坏设备，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气侧设计温度：-19/65℃",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气冷却器C01E出口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "管/壳设计压力：52/7bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "管/壳设计压力：70/7bar",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩冷凝器E10中碳氢含量过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化器R01/02入口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化器R01/02再生温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化器R01/02出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化器再生过程，进出口阀门误开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表 5-1 分析小组人员信息表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表 8-2 节点分析进度时间表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表7-2 后果严重性等级及说明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录E   HAZOP主席简历",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.定期对设备完好性进行检查",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置排气及润滑油温度报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "10万-100万之间经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1、增压机出口管线设有止回阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3人以上死亡；10人以上重伤",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析节点及进度控制",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "c) 对于可编程的电子系统：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "e) 所关注系统的风险等级；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "g) 分析中可能使用的模板。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔K01液位过低或无液位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，HV1503误关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，液位低时持续外送",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，粗氩系统操作波动",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "以上职务排序不代表职务大小。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "伴随（AS WELL AS）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "关于中国航空技术杭州有限公司",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“再生气管线逆流”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可用的设计描述及其详细程度；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能导致增压机倒转，设备损坏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "导致精馏效果差，产品质量下降",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议：放空管线出口设置接冰盘",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "引导词 guide word",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "所有的检验测试均符合法规要求",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "残液过量挥发，物料及能源浪费",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气产品（0.05barG）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50入口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50入口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50出口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50出口管道逆流",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "没有达到任何目的，如：无流量",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮/液氩充车过程，流量过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "满足要求，参见附录B及附录E",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器E09A/B压差过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "盈德气体工程（浙江）有限公司",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀氮气去C02管道压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表 1-1 名词缩写及说明表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "装置地点：科威特Kuwait",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.现场设置有氧气监测报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.程控阀设有阀位异常报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.设置有二氧化碳在线监测",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析团队人员信息",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP报告技术审查要点",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "TUV HAZOP 主席证",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "a) 分析结果的应用目的；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主冷凝蒸发器E02液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主电机额定功率4100kw",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，出口阀门被误关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "介质：管程：空气，壳程：水",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "企业内部关注；形象没有受损",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机增压端后冷器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "信号与给定时间相比来得太早",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "信号与给定时间相比来得太晚",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "充装泵P40A/B故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷却水循环量:82 t/h",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷气机X20A出口温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷气机X20A出口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷气机X20B出口温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷气机X20B出口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "加热器功率：153.3kw",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩机轴功率：94.2kw",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“增压机供油压力过低”",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "同时执行了其他的操作或步骤",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "后路用气系统用气量异常中断",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "图7-1  ALARP原则",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压机/膨胀机/换热器系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工作压力：8.74bara",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺管线上的控制阀、变送器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺管路上的一次仪表及配件",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺管路上的控制阀、变送器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "有HAZOP主席，全程参与",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本项目中所涉及的资料如下：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50进气流量少",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量：28000Nm3/h",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "浙江省天正设计工程有限公司",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油杂质（固杂）含量超标",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油过滤器堵塞未及时清理",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩真空罐V31A压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩真空罐V31A液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩真空罐V31B液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器超温损坏，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "科威特180TPD空分项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01润滑油压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01润滑油温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气冷却器C01E液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气进气温度：32-47℃",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩泵P10A/B故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩泵P10B出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩塔冷凝器E16液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化阀撬内的一次仪表及配件",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "补救/减缓措施的优先选择；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "阀门、管道和设备的内部支架",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录C   参会人员签到表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高温氮气膨胀机增压端后冷器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高：选择合适的时机采取行动",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.定期对分子筛进行更换",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1万-10万之间经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.操作人员定时采样化验",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.润滑油温度高联锁停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "20m3/h 扬程40m",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.操作人员定时采样化验",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "5.换热冷箱设置有安全阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析假设如下：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析可接受风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析的后续措施",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "TUV 功能安全工程师证",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 对于过程流动系统：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "f) 可用的时间和资源。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "·程序和(或)操作规程；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中国航空技术杭州有限公司",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主电机额定功率450kW",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，下游阀门关闭",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，精馏操作异常",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，负荷调整过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，防喘振阀误开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "从事HAZOP/LOPA",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "信号在序列中比期望来得早",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "信号在序列中比期望来得晚",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "偏差 deviation",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "出现了一些附加或虚假信号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：规整填料塔，板翅式",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "孔板（冷箱、撬块内除外）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "小组成员的分工建议如下：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "已经考虑，见相关事故案例",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环水压力不足或温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "执行标准法律法规参考文件",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "此外，也应提供如下信息：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "残液蒸发器E80温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "残液蒸发器E80温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机C50故障停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "河南延长石油销售有限公司",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油杂质（水）含量超标",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油长期使用未进行更换",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧平底罐V40压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧平底罐V40压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧平底罐V40液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧平底罐V40温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧平底罐V40温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩充车泵P30故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮平底罐V50压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮平底罐V50压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮平底罐V50液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮平底罐V50温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "社区、邻居、合作伙伴影响",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01入口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01入口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01出口压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01出口压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01出口流量过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01出口温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01出口温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01出口管道逆流",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气过滤器F01压差过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩冷凝器E10压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩冷凝器E10液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔K10-1压差过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔K10-2压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔K10-2压差过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔K10-2液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔K10-2温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩冷凝器E16压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "轴功率：363.66kw",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "轴功率：501.62kw",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录G   相关方授权书",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "10-1≥F＞10-2",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "10-2≥F＞10-3",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "10-3≥F＞10-4",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "10-4≥F＞10-5",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "10-5≥F＞10-6",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "10-6≥F＞10-7",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1984 年 03\t月",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.放空管设置有止回阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2008 年 07\t月",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2025年09月16日",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.冷箱设有冷箱安全阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "3.增压机故障停机报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析P&ID",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析相关要求",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析输入资料",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "a) 分析目标和范围；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 分析成员的名单；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "c) 详细的技术资料：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "d) 参考资料的清单；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "d) 跟踪和审核需要；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "f) 要求的记录形式；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "·系统运行的环境条件；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "严重伤害；职业相关疾病",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压开关柜(11kv)",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中：可选择性的采取行动",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主冷凝蒸发器E02内漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主冷凝蒸发器E02泄漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员误操作，充车量过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "从事石油、化工专业年限",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "仪表电缆（冷箱内除外）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "再生气流量过低或无流量",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱的梯子、平台和栏杆",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力低影响下游装置用气",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "图7-2 社会风险基准",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "日期：2025年09月",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "未识别到显著的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧充车过程，流量过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "满足要求，见业主承诺函",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "相反（REVERSE）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气出气温度：≤10℃",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀氮气出冷箱温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计目的（意图）的偏离",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "轴功率 360.4kW",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "过滤效率≥99.99%",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "部分（PART OF）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "附录F   业主承诺函",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.装置设置有双电源",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.设置有检维修规程",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2023年-2024",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "25m3，8barg",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析记录表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "a) 对于所有系统：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "a) 获得系统信息；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔K01压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔K01压差过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔K01液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔K01温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔K01温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "仪表管道、管材和配件",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低压塔K02压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低压塔K02压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低压塔K02压差过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低压塔K02温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低压塔K02温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱内PT100电阻",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力氮出冷箱压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力氮出冷箱温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压机跳车或故障停机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "多，过量（MORE）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "少，减少（LESS）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺安全问题审查要点",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺管线上的工艺阀门",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "常压氮出冷箱压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "常压氮出冷箱压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "常压氮出冷箱温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "广泛可接受的风险区域",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "所有设备制造符合要求",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "振动控制系统至DCS",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "数据或控制信号不完整",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "数据或控制信号不正确",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "无数据或控制信号通过",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "无造成明显后果的原因",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本项目不涉及间歇过程",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氧纯度下降，经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机放空消音器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氮气增压机（喂气机）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油主油泵故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧管线过低或无流量",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮/常压氮纯度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮管线过低或无流量",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "满足要求，见主席简历",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "直流/交流不间断电源",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机C01故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机级间冷却器内漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩塔K11压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯氩塔K11压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯氩塔K11液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀端、增压端过滤器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "要素 element",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "采取行动的适当授权。",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "阻力降≤2.5kpa",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2.设有氮气密封气",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "2025年9月9日",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "DCS/HMI系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席证书",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析假设",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析启动",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析建议",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析报告",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析文档",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析矩阵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析程序",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析结论",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析节点",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP风险评估",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "不可接受的风险区域",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主换热器E01泄漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "先（BEFORE）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "其它需补充情况说明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "危险 hazard",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参照“泄漏”的分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可编程电子系统实例",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "吸附器壳体盈德自制",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "小于1万的经济损失",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "已经考虑，见分析表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "平行装置只分析单列",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "很高：立即采取行动",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "数据传输比期望的快",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "数据传输比期望的慢",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "未识别到显著的原因",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "确定分析范围和目标",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气压缩机固态软启",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "节点分析进度时间表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "表7-1 风险矩阵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "说       明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "轴功率1096kW",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "轴功率3522kW",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "输水阀门故障/堵塞",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "采取建议措施后风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "量的减少，如温度低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "量的增多，如温度高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "阀门或管线法兰外漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1.人员定期巡检",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1≥F＞10-1",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "7）冷箱产品系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "8）液体后备系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "b) 合同要求；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "上游来气温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "仪表空气压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低温氮气膨胀机组",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低：不需采取行动",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱内的工艺管道",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱设备损坏泄漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力开关、压力表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "吸附塔（含内件）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：立式轴向流",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：蒸汽喷射式",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：规整填料塔",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：铝制板翅式",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建设规模及内容：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "无/空白（NO）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "无显著的安全风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "早（EARLY）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "润滑油冷却器内漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位过低或无液位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液体管道压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧管线流量过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮管线流量过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电驱 Motor",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机放空消音器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精馏系统操作波动",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "系统的物理边界；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "过滤精度:≤2μ",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高温氮气膨胀机组",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP主席",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "HAZOP分析",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "LOPA 主席",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "LOX 充装泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "SRS项目组长",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "c）用户政策；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "一次仪表及配件",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "产品输送及贮存",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "入口过滤器堵塞",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "再生气管线逆流",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷气机故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱内仪表电缆",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱基础温度低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱液体泵系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分子筛&氧化铝",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "危害 harm",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力高/低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "原料空气过滤器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参与，见签到表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "名词缩写及说明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "名词解释及说明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "后备与缓冲系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "后续跟踪和处理",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "后（LATE）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "增压机故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工作受限；轻伤",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环冷却水中断",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环氮气压缩机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "执（职）业资格",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "换热/精馏系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "控制阀、变送器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "晚（LATE）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "毕业院校及专业",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量高/低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位高/低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧贮存及后备",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩贮存及后备",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮贮存及后备",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "温度高/低报警",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "直通液位控制阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机故障/停",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气压缩及预冷",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气过滤器堵塞",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "管道仪表流程图",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设备配置一览表",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "逆流或错误流向",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "部分 part",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "风险 risk",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "风险等级说明：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "LAR充装泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "LIN充装泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "LOPA主席",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "LOX 储罐",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "MAC控制器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "业主反馈意见",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主冷凝蒸发器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主板式换热器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "介质：氮气，",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "仪表控制系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "仪表空气中断",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "偏差/引导词",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "储罐保冷破损",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "公用工程异常",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "关键内容摘要",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "图    号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：板翅式",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "型式：管壳式",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺安全事件",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺流程说明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "引导词和偏差",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本人主要成果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "本地操作面板",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "术语和缩略词",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧纯度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器故障",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电气控制系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "相关行业标准",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空温式气化器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化器内堵塞",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "组分（杂质）",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "计划完成时间",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "误关出口阀门",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "过低或无流量",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "过程工业实例",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "DCS面板",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "LAR储罐",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "LIN储罐",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "严重度等级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中级工程师",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "停电/晃电",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱内孔板",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "出现了杂质",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分子筛系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分工和职责",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "削减后风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力变送器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "可能性等级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "名   称",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "在线分析仪",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "在线自洁式",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "填料苏尔寿",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "失效保位关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "失效保位开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺流程图",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "差压变送器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "年 - 年",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "循环液氩泵",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "性质的改变",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "排液量过大",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "放空消音器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "文件编号：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "文件说明：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "无重大关注",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "术语及定义",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "检维修异常",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "残液蒸发器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩纯度低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "潜在的危害",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "目   录",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空气冷却器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩冷凝器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩冷凝器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩蒸发器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "维护/隔离",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "职务/专业",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "腐蚀/冲蚀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "膨胀机系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "蝶形控制阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "装置名称：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "规章要求；",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "记录/工艺",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "通常不相关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "速度传感器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "顺序或序列",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "一用一备",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "专业特长",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "严重程度",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "主席简历",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "会议日期",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "保护措施",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "偏差类型",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "公用工程",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "关键项目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱钢构",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱面板",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "准备工作",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "出生日期",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析年限",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析报告",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析时间",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析目标",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分析范围",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分配时间",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "初审报告",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压力过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "压缩系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "原有风险",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参会人员",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "变更管理",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "吹扫放空",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "国际影响",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "塔盘堵塞",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "外部火灾",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "委托人：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工作范围",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺阀门",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "应力导致",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议措施",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "很高后果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "成本科目",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "执行标准",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "批准人：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "担任职务",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "文档签署",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "毕业时间",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "泄漏导致",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量伴随",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "流量过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液位过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氧产品",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氩产品",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "液氮产品",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "温度过低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "温度过高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电加热器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电缆托架",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "直流电源",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔Ⅰ",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "粗氩塔Ⅱ",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精馏系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "纯化系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "终审报告",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "节点名称",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "节点序号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "节点描述",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "规格型号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "记录样式",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设备位号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计描述",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "设计经理",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "详细偏差",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "较低后果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "量的改变",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "镇江旭世",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "项目介绍",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "项目概况",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "项目概述",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "预冷系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "风险等级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中压塔",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中后果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "事故关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "事故开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低压塔",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低后果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷气机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "削减前",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "削减后",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "变压器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "叶芳芳",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "姓\t名",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "安全阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议后",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "开停车",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "引导词",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "张飞明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "总结：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "文件号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "无识别",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "日期：",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "时东风",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "段慧茹",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "氩系统",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "王小刚",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "电磁阀",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "空压机",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "精氩塔",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "缩略语",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "节点号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "责任人",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "赵征峰",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "过冷器",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "郑珺文",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "铅封关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "铅封开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "陈秋杏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "项目号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "项目名",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高后果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "黄羿珲",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "1套",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "业主",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "个数",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "人员",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "仪控",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "众博",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "修订",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "全称",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "冷箱",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "分类",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "前言",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "功率",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "加联",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "单位",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "原因",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "参数",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "后果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "否定",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "品牌",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "图号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "声明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "声誉",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "备注",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "姓名",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "审核",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "工艺",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "常关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "常开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "序号",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "建议",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "很高",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "性别",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "批准",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "排净",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "数量",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "日期",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "时间",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "替换",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "杨恒",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "杭氧",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "概述",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "泄漏",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "法孚",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "版本",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "环境",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "等级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "编制",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "职称",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "自控",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "说明",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "财产",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "迪峰",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "锁关",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "锁开",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "陈晋",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "中",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "低",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "后",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "果",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "男",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "等",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "级",
+    "tranlastedContent": ""
+  },
+  {
+    "originContent": "高",
+    "tranlastedContent": ""
+  }
+]
