@@ -2892,6 +2892,42 @@
     "tranlastedContent": "RAG (检索增强生成) 高级检索新短课程开讲啦！\n\nRAG 的作用是获取相关文档，从而为大语言模型 (LLM) 提供更丰富的上下文信息。在由 @trychroma 创始人 @atroyn 亲授的“Chroma AI 高级检索”课程中，您将学到：\n(i) 查询扩展：利用 大语言模型 重写并优化原始查询，方法包括生成额外的相关查询，或者直接提供一个假设性的答案来帮助模型理解。\n(ii) 重排序：通过交叉编码器 (cross-encoder) 进行。交叉编码器是一种经过专门训练的模型，能够同时评估并测量两个输入之间的相似度。它会根据这种相似度来重新排列检索到的文档，确保最相关的排在前面。\n(iii) 构建和训练嵌入适配器 (Embedding Adaptor) ：这是一种模型，旨在调整嵌入值，使其更好地适应您的特定应用场景和用例。\n\n掌握这些技术，您就能构建出远超以往的 RAG 系统。请点击此链接报名课程：https://t.co/6N1H8agcYC"
   },
   {
+    "id": "1741892184977309823",
+    "url": "https://x.com/AndrewYNg/status/1741892184977309823",
+    "text": "What does 2024 hold for AI? ​​In the latest edition of The Batch, @agermanidis @sarahookr @percyliang @SashaMTL @tamati_biskit and @kevin_scott outline their hopes for AI for this year ahead. \n\nTheir wide ranging articles explore new AI tools for storytelling, inclusion, AI transparency, respecting human creativity, getting smaller models to work, and planning for continued exponential growth. \n\nYou can read more below: https://t.co/r1gc0aV71t",
+    "createdAt": "Mon Jan 01 18:40:34 +0000 2024",
+    "author.profilePicture": "https://pbs.twimg.com/profile_images/733174243714682880/oyG30NEH_normal.jpg",
+    "retweetCount": 96,
+    "replyCount": 66,
+    "likeCount": 358,
+    "quoteCount": 5,
+    "viewCount": 111921,
+    "bookmarkCount": 148,
+    "source": "",
+    "lang": "en",
+    "isReply": false,
+    "isPinned": false,
+    "tranlastedContent": "2024年AI将迎来什么？在最新一期的 The Batch 中，@agermanidis、@sarahookr、@percyliang、@SashaMTL、@tamati_biskit 和 @kevin_scott 分享了他们对未来一年AI发展的期盼。\n\n他们的多篇文章深入探讨了 AI 在多个领域的新应用和前景，包括如何利用 AI 工具进行故事创作、促进包容性、提升 AI 透明度、尊重人类创造力、让小型模型发挥更大作用，以及如何规划 AI 持续的指数级增长。\n\n你可以在下方阅读更多：https://t.co/r1gc0aV71t"
+  },
+  {
+    "id": "1741890108713009631",
+    "url": "https://x.com/AndrewYNg/status/1741890108713009631",
+    "text": "Happy New Year! I hope you have a 2024 filled with love, growth and adventure.",
+    "createdAt": "Mon Jan 01 18:32:19 +0000 2024",
+    "author.profilePicture": "https://pbs.twimg.com/profile_images/733174243714682880/oyG30NEH_normal.jpg",
+    "retweetCount": 65,
+    "replyCount": 91,
+    "likeCount": 1272,
+    "quoteCount": 2,
+    "viewCount": 129802,
+    "bookmarkCount": 14,
+    "source": "",
+    "lang": "en",
+    "isReply": false,
+    "isPinned": false,
+    "tranlastedContent": "新年快乐！愿你的 2024 年充满爱、成长和冒险。"
+  },
+  {
     "id": -1,
     "text": "Since you are a free user, you can only access a maximum of 15 tweets. Please upgrade to a paid user to unlock access to all tweets.",
     "tranlastedContent": "由于您是免费用户，您最多只能查看 15 条推文。请升级为付费用户，即可解锁所有推文的访问权限。"
