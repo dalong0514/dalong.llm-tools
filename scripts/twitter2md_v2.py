@@ -78,7 +78,8 @@ def format_tweet_content(tweet: JsonDict) -> str:
     translated_content = utils.modify_text(translated_content)
 
     url = tweet.get('url', '')
-    author = '@karpathy'
+    # author = '@karpathy'
+    author = '@AndrewYNg'
 
     issued_date = ''
     created_at = parse_created_at(tweet.get('createdAt'))
@@ -115,7 +116,7 @@ def sort_key(tweet: JsonDict) -> datetime:
 
 def save_yearly_markdown(year: int, tweets: List[JsonDict], output_dir: Path) -> None:
     """保存年度推文到markdown文件"""
-    filename = f"{year}_andrej_karpathy_twitter.md"
+    filename = f"{year}Andrew_Ng_Twitter.md"
     filepath = output_dir / filename
 
     tweets.sort(key=sort_key)
