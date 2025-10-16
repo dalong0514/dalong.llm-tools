@@ -11,7 +11,7 @@ def replace_space(args):
     origin_content = args.input_string
     
     # 剔除冒号、逗号等标点符号，包括|
-    cleaned_content = re.sub(r'[：:，,、；;。.！!？?()（）|]', '', origin_content)
+    cleaned_content = re.sub(r'[：:，,、；;。.！!？?()（）&|]', '', origin_content)
     
     # 用空格分割单词并将首字母大写
     words = re.split(r'\s+', cleaned_content.strip())
