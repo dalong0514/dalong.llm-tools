@@ -3,6 +3,7 @@ import sys, time, os, re, json
 from http import HTTPStatus
 from urllib.parse import urlparse
 import requests
+import ssl
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -11,6 +12,7 @@ from src.helper import get_api_key, get_base_url
 from src.utils import read_prompt_file
 import src.utils as common_tools
 import argparse
+from datetime import datetime
 
 # DashScope / Fun-ASR
 try:
@@ -19,6 +21,12 @@ try:
 except Exception:
     dashscope = None
     Transcription = None
+
+# Aliyun OSS SDK
+try:
+    import oss2  # type: ignore
+except Exception:
+    oss2 = None
 
 system_prompt = read_prompt_file("prompt_translate_audio_zh")
 
@@ -146,6 +154,73 @@ def _extract_text_from_result_json(obj: dict) -> str:
     return t if t else ''
 
 
+def _normalize_endpoint(ep: str) -> str:
+    ep = (ep or '').strip()
+    if not ep:
+        return ep
+    if ep.startswith('http://') or ep.startswith('https://'):
+        return ep
+    return f'https://{ep}'
+
+
+def _oss_upload_and_sign(file_path: str, object_key: str | None = None, expires: int = 24 * 3600) -> str | None:
+    """Upload local file to Aliyun OSS and return a time-limited signed URL.
+
+    Requires env vars: OSS_ENDPOINT, OSS_BUCKET, OSS_ACCESS_KEY_ID, OSS_ACCESS_KEY_SECRET.
+    Optional: OSS_PREFIX (object key prefix).
+    """
+    if oss2 is None:
+        print('缺少 oss2 依赖，请先安装：pip install oss2')
+        return None
+
+    endpoint = os.getenv('OSS_ENDPOINT')
+    bucket_name = os.getenv('OSS_BUCKET')
+    access_key_id = os.getenv('OSS_ACCESS_KEY_ID')
+    access_key_secret = os.getenv('OSS_ACCESS_KEY_SECRET')
+    prefix = os.getenv('OSS_PREFIX', 'uploads/')
+
+    missing = [k for k, v in [
+        ('OSS_ENDPOINT', endpoint),
+        ('OSS_BUCKET', bucket_name),
+        ('OSS_ACCESS_KEY_ID', access_key_id),
+        ('OSS_ACCESS_KEY_SECRET', access_key_secret)
+    ] if not v]
+    if missing:
+        print('缺少必要的 OSS 配置，请设置环境变量：' + ', '.join(missing))
+        return None
+
+    endpoint = _normalize_endpoint(endpoint)
+
+    def attempt(ep: str):
+        auth = oss2.Auth(access_key_id, access_key_secret)
+        bucket = oss2.Bucket(auth, ep, bucket_name)
+        base = os.path.basename(file_path)
+        ts = datetime.now().strftime('%Y%m%d/%H%M%S')
+        key = object_key or f"{prefix.rstrip('/')}/{ts}-{base}"
+        print(f"OSS 上传: endpoint={ep}, bucket={bucket_name}, key={key}")
+        bucket.put_object_from_file(key, file_path)
+        # slash_safe=True 让路径中的'/'不被转义，便于可读和兼容某些代理
+        signed_url = bucket.sign_url('GET', key, expires, slash_safe=True)
+        return signed_url
+
+    try:
+        return attempt(endpoint)
+    except Exception as e:
+        msg = str(e)
+        print(f'上传 OSS 或生成签名链接失败: {e}')
+        # 若是 TLS/SSL 问题，尝试降级为 http 再试一次（仅用于受限网络的临时方案）
+        if endpoint.startswith('https://') and (
+            'SSLError' in msg or 'ssl' in msg.lower() or isinstance(e, ssl.SSLError)
+        ):
+            http_ep = 'http://' + endpoint[len('https://'):]
+            print('尝试使用 http 端点重试一次（不校验证书，仅用于排障）...')
+            try:
+                return attempt(http_ep)
+            except Exception as e2:
+                print(f'http 重试仍失败: {e2}')
+        return None
+
+
 def _fun_asr_transcribe_url(file_url: str, output_dir: str | None, model: str = 'fun-asr') -> str | None:
     """
     使用阿里 DashScope Fun-ASR 转写远程音/视频 URL。
@@ -248,16 +323,23 @@ def _fun_asr_transcribe_url(file_url: str, output_dir: str | None, model: str = 
 
 
 def video_translate(args):
-    # Fun-ASR 仅支持公网可访问的 URL
-    parsed = urlparse(args.input_video)
-    if parsed.scheme not in ('http', 'https'):
-        print('Fun-ASR 仅支持 http/https 的公网可访问 URL。请先将音频/视频上传到可访问地址（如 OSS），然后将该 URL 作为 input_video 传入。')
-        return None
+    # 支持本地文件：自动上传至 OSS 并生成可访问 URL；也支持直接传入 http/https URL
+    model = 'fun-asr'  # 如需多语种可改为 'fun-asr-mtl'
+    input_arg = args.input_video
+    parsed = urlparse(input_arg)
+    if parsed.scheme in ('http', 'https'):
+        source_url = input_arg
+    else:
+        # 视为本地文件，上传到 OSS
+        if not os.path.exists(input_arg):
+            print(f'本地文件不存在: {input_arg}')
+            return None
+        source_url = _oss_upload_and_sign(input_arg)
+        if not source_url:
+            print('上传 OSS 失败，请检查 OSS 配置与网络权限')
+            return None
 
-    # 这里不再使用本地 whisper 的 video_to_text，改为调用 Fun-ASR
-    # model 可根据需要切换为 'fun-asr-mtl'（多语种）。
-    model = 'fun-asr'
-    txt_output = _fun_asr_transcribe_url(args.input_video, args.output_dir, model=model)
+    txt_output = _fun_asr_transcribe_url(source_url, args.output_dir, model=model)
     if txt_output and os.path.exists(txt_output):
         translate(txt_output)
     else:
@@ -269,8 +351,8 @@ def parse_arguments():
     解析命令行参数
     :return: 包含参数的命名空间
     """
-    parser = argparse.ArgumentParser(description="将音/视频（URL）转成文本后进行 DeepSeek 翻译")
-    parser.add_argument('input_video', type=str, help='输入音/视频的公网 URL（http/https）')
+    parser = argparse.ArgumentParser(description="将音/视频（本地或URL）转成文本后进行 DeepSeek 翻译")
+    parser.add_argument('input_video', type=str, help='输入音/视频：本地文件路径 或 公网 URL（http/https）')
     parser.add_argument('--language', type=str, default='zh', 
                        help='音频语言代码 (默认: zh/en)')
     parser.add_argument('--model_path', type=str, 
