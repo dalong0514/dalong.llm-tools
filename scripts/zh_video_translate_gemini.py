@@ -5,7 +5,7 @@ from google import genai
 from google.genai import types
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.helper import get_api_key, get_base_url
-from audio2txt_tools import video_to_text
+from src.asr_funasr import funasr_transcribe_local_file
 from src.utils import read_prompt_file
 import src.utils as common_tools
 import argparse
@@ -78,7 +78,10 @@ def translate(txt_output):
 
 
 def video_translate(args):
-    txt_output = video_to_text(args.input_video, args.model_path, args.output_dir, args.language)
+    # 输出目录默认与输入文件同目录
+    out_dir = args.output_dir or os.path.dirname(os.path.abspath(args.input_video))
+    os.makedirs(out_dir, exist_ok=True)
+    txt_output = funasr_transcribe_local_file(args.input_video, out_dir, model='fun-asr')
     if txt_output and os.path.exists(txt_output):
         translate(txt_output)
     else:

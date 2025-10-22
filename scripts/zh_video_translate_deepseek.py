@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys, time, os, re, json
-from http import HTTPStatus
-from urllib.parse import urlparse
-import requests
-import ssl
+import sys, time, os, re
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -11,22 +7,9 @@ from langchain_core.output_parsers import StrOutputParser
 from src.helper import get_api_key, get_base_url
 from src.utils import read_prompt_file
 import src.utils as common_tools
+from src.asr_funasr import funasr_transcribe_local_file
 import argparse
 from datetime import datetime
-
-# DashScope / Fun-ASR
-try:
-    import dashscope
-    from dashscope.audio.asr import Transcription
-except Exception:
-    dashscope = None
-    Transcription = None
-
-# Aliyun OSS SDK
-try:
-    import oss2  # type: ignore
-except Exception:
-    oss2 = None
 
 system_prompt = read_prompt_file("prompt_translate_audio_zh")
 
@@ -87,257 +70,8 @@ def translate(txt_output):
     chunks = common_tools.split_text_by_char_length(origin_content, 800)
     process_chunks(prompt_template, chunks, output_file)
 
-def _ensure_output_dir(path_or_dir: str | None) -> str:
-    """Ensure an output directory exists. If given a file path, use its dir; if dir, use it."""
-    if path_or_dir is None:
-        raise ValueError('输出目录不能为空')
-    # If it's a file path, use its dirname; else assume it's a directory
-    base = path_or_dir
-    if os.path.isfile(base):
-        base = os.path.dirname(base)
-    os.makedirs(base, exist_ok=True)
-    return base
-
-
-def _extract_text_from_result_json(obj: dict) -> str:
-    """Best-effort extraction of full transcript text from Fun-ASR JSON."""
-    # 1) 优先 transcripts[*].text 汇总
-    transcripts = obj.get('transcripts')
-    if isinstance(transcripts, list) and transcripts:
-        pieces = []
-        for item in transcripts:
-            if isinstance(item, dict) and 'text' in item and isinstance(item['text'], str):
-                txt = item['text'].strip()
-                if txt:
-                    pieces.append(txt)
-            elif isinstance(item, dict) and 'sentences' in item and isinstance(item['sentences'], list):
-                # 次选：拼 sentences[*].text
-                sent_texts = []
-                for s in item['sentences']:
-                    if isinstance(s, dict) and isinstance(s.get('text'), str):
-                        t = s['text'].strip()
-                        if t:
-                            sent_texts.append(t)
-                if sent_texts:
-                    pieces.append('\n'.join(sent_texts))
-        if pieces:
-            return '\n'.join(pieces)
-
-    # 2) 顶层 text 兜底
-    for key in ('text', 'transcript', 'transcription'):
-        if isinstance(obj.get(key), str) and obj.get(key).strip():
-            return obj.get(key).strip()
-
-    # 3) 递归扫描，跳过逐词内容
-    def scan(any_obj):
-        if isinstance(any_obj, dict):
-            # 先看当前层
-            for key in ('text', 'transcript', 'transcription'):
-                val = any_obj.get(key)
-                if isinstance(val, str) and val.strip():
-                    return val.strip()
-            # 深入但跳过 words/sentences 这种碎片级别
-            for k, v in any_obj.items():
-                if str(k).lower() in ('words', 'word'):
-                    continue
-                found = scan(v)
-                if found:
-                    return found
-        elif isinstance(any_obj, list):
-            for v in any_obj:
-                found = scan(v)
-                if found:
-                    return found
-        return None
-
-    t = scan(obj)
-    return t if t else ''
-
-
-def _normalize_endpoint(ep: str) -> str:
-    ep = (ep or '').strip()
-    if not ep:
-        return ep
-    if ep.startswith('http://') or ep.startswith('https://'):
-        return ep
-    return f'https://{ep}'
-
-
-def _oss_upload_and_sign(file_path: str, object_key: str | None = None, expires: int = 24 * 3600) -> str | None:
-    """Upload local file to Aliyun OSS and return a time-limited signed URL.
-
-    Requires env vars: OSS_ENDPOINT, OSS_BUCKET, OSS_ACCESS_KEY_ID, OSS_ACCESS_KEY_SECRET.
-    Optional: OSS_PREFIX (object key prefix).
-    """
-    if oss2 is None:
-        print('缺少 oss2 依赖，请先安装：pip install oss2')
-        return None
-
-    endpoint = os.getenv('OSS_ENDPOINT')
-    bucket_name = os.getenv('OSS_BUCKET')
-    access_key_id = os.getenv('OSS_ACCESS_KEY_ID')
-    access_key_secret = os.getenv('OSS_ACCESS_KEY_SECRET')
-    prefix = os.getenv('OSS_PREFIX', 'uploads/')
-
-    missing = [k for k, v in [
-        ('OSS_ENDPOINT', endpoint),
-        ('OSS_BUCKET', bucket_name),
-        ('OSS_ACCESS_KEY_ID', access_key_id),
-        ('OSS_ACCESS_KEY_SECRET', access_key_secret)
-    ] if not v]
-    if missing:
-        print('缺少必要的 OSS 配置，请设置环境变量：' + ', '.join(missing))
-        return None
-
-    endpoint = _normalize_endpoint(endpoint)
-
-    def attempt(ep: str):
-        auth = oss2.Auth(access_key_id, access_key_secret)
-        bucket = oss2.Bucket(auth, ep, bucket_name)
-        base = os.path.basename(file_path)
-        ts = datetime.now().strftime('%Y%m%d/%H%M%S')
-        key = object_key or f"{prefix.rstrip('/')}/{ts}-{base}"
-        print(f"OSS 上传: endpoint={ep}, bucket={bucket_name}, key={key}")
-        bucket.put_object_from_file(key, file_path)
-        # slash_safe=True 让路径中的'/'不被转义，便于可读和兼容某些代理
-        signed_url = bucket.sign_url('GET', key, expires, slash_safe=True)
-        return signed_url
-
-    try:
-        return attempt(endpoint)
-    except Exception as e:
-        msg = str(e)
-        print(f'上传 OSS 或生成签名链接失败: {e}')
-        # 若是 TLS/SSL 问题，尝试降级为 http 再试一次（仅用于受限网络的临时方案）
-        if endpoint.startswith('https://') and (
-            'SSLError' in msg or 'ssl' in msg.lower() or isinstance(e, ssl.SSLError)
-        ):
-            http_ep = 'http://' + endpoint[len('https://'):]
-            print('尝试使用 http 端点重试一次（不校验证书，仅用于排障）...')
-            try:
-                return attempt(http_ep)
-            except Exception as e2:
-                print(f'http 重试仍失败: {e2}')
-        return None
-
-
-def _fun_asr_transcribe_url(
-    file_url: str,
-    output_dir: str | None,
-    model: str = 'fun-asr',
-    preferred_stem: str | None = None,
-) -> str | None:
-    """
-    使用阿里 DashScope Fun-ASR 转写远程音/视频 URL。
-    返回保存的 .txt 文件路径；失败返回 None。
-    """
-    if dashscope is None or Transcription is None:
-        print('缺少 dashscope 依赖，请先安装：pip install dashscope')
-        return None
-
-    # API Key：优先 DASHSCOPE_API_KEY，兜底 BAILIAN_API_KEY（平台同源）
-    api_key = os.getenv('DASHSCOPE_API_KEY') or get_api_key('bailian')
-    if not api_key:
-        print('缺少 API Key，请在环境变量 DASHSCOPE_API_KEY 或 .env 中配置 BAILIAN_API_KEY')
-        return None
-    dashscope.api_key = api_key
-
-    # 准备输出目录
-    if output_dir is None:
-        raise ValueError('output_dir 不能为空')
-    out_dir = _ensure_output_dir(output_dir)
-
-    # 提交并等待任务完成
-    try:
-        task_resp = Transcription.async_call(
-            model=model,
-            file_urls=[file_url],
-            channel_id=[0]
-        )
-        transcribe_resp = Transcription.wait(task=task_resp.output.task_id)
-    except Exception as e:
-        print(f'调用 Fun-ASR 失败: {e}')
-        return None
-
-    if transcribe_resp.status_code != HTTPStatus.OK:
-        print(f'转写失败，HTTP状态: {transcribe_resp.status_code}, message: {getattr(transcribe_resp, "message", "")}')
-        return None
-
-    output = getattr(transcribe_resp, 'output', None) or {}
-    task_status = output.get('task_status')
-    if task_status not in ('SUCCEEDED', 'RUNNING', 'PENDING'):
-        print(f'任务状态异常: {task_status}')
-        return None
-
-    # 结果可能在 output.results[*].transcription_url 指向的 JSON
-    results = output.get('results') or []
-    texts: list[str] = []
-    json_saved_path = None
-    if isinstance(results, list) and results:
-        for item in results:
-            if not isinstance(item, dict):
-                continue
-            if item.get('subtask_status') != 'SUCCEEDED':
-                code = item.get('code')
-                msg = item.get('message')
-                if code or msg:
-                    print(f'子任务失败: code={code}, message={msg}')
-                continue
-            t_url = item.get('transcription_url')
-            if not t_url:
-                continue
-            try:
-                r = requests.get(t_url, timeout=60)
-                r.raise_for_status()
-                obj = r.json()
-                # 保存原始 JSON 便于排查
-                if preferred_stem:
-                    stem = preferred_stem
-                else:
-                    parsed = urlparse(file_url)
-                    base = os.path.basename(parsed.path) or 'audio'
-                    stem = os.path.splitext(base)[0]
-                json_saved_path = os.path.join(out_dir, f'{stem}_funasr.json')
-                with open(json_saved_path, 'w', encoding='utf-8') as f:
-                    json.dump(obj, f, ensure_ascii=False, indent=2)
-                text = _extract_text_from_result_json(obj)
-                if text:
-                    texts.append(text)
-            except Exception as e:
-                print(f'下载或解析转写结果失败: {e}')
-                continue
-
-    # 若未从结果文件中取到，尝试任务响应体本身是否含有 text
-    if not texts:
-        try:
-            raw_obj = json.loads(json.dumps(transcribe_resp.output)) if hasattr(transcribe_resp, 'output') else {}
-            inline_text = _extract_text_from_result_json(raw_obj)
-            if inline_text:
-                texts.append(inline_text)
-        except Exception:
-            pass
-
-    if not texts:
-        print('未获取到有效的转写文本')
-        return None
-
-    # 写入 .txt 输出
-    if preferred_stem:
-        stem = preferred_stem
-    else:
-        parsed = urlparse(file_url)
-        base = os.path.basename(parsed.path) or 'audio'
-        stem = os.path.splitext(base)[0]
-    txt_path = os.path.join(out_dir, f'{stem}.txt')
-    with open(txt_path, 'w', encoding='utf-8') as f:
-        f.write('\n\n'.join(texts))
-
-    return txt_path
-
-
 def video_translate(args):
-    # 仅支持本地文件路径；上传到 OSS 后走 Fun-ASR
-    model = 'fun-asr'  # 如需多语种可改为 'fun-asr-mtl'
+    # 仅支持本地文件路径；调用工具函数（自动上传到 OSS + Fun-ASR）
     input_path = args.input_video
     if not os.path.exists(input_path):
         print(f'本地文件不存在: {input_path}')
@@ -347,14 +81,7 @@ def video_translate(args):
     out_dir = args.output_dir or os.path.dirname(os.path.abspath(input_path))
     os.makedirs(out_dir, exist_ok=True)
 
-    # 上传到 OSS
-    source_url = _oss_upload_and_sign(input_path)
-    if not source_url:
-        print('上传 OSS 失败，请检查 OSS 配置与网络权限')
-        return None
-
-    stem = os.path.splitext(os.path.basename(input_path))[0]
-    txt_output = _fun_asr_transcribe_url(source_url, out_dir, model=model, preferred_stem=stem)
+    txt_output = funasr_transcribe_local_file(input_path, out_dir, model='fun-asr')
     if txt_output and os.path.exists(txt_output):
         translate(txt_output)
     else:

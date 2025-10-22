@@ -10,7 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.helper import get_api_key
 import src.utils as common_tools
 from split_audio_gemini import split_translate_once
-from audio2txt_tools import video_to_text
+from src.asr_funasr import funasr_transcribe_local_file
 
 system_prompt = common_tools.read_prompt_file("prompt_translate")
 
@@ -132,8 +132,13 @@ def transcribe_audio(input_audio, model_path, output_json=None, language="zh", d
         return None
 
 def video_translate(args):
-    txt_output = video_to_text(args.input_video, args.model_path, args.output_dir, args.language)
-    split_translate(txt_output)
+    out_dir = args.output_dir or os.path.dirname(os.path.abspath(args.input_video))
+    os.makedirs(out_dir, exist_ok=True)
+    txt_output = funasr_transcribe_local_file(args.input_video, out_dir, model='fun-asr')
+    if txt_output and os.path.exists(txt_output):
+        split_translate(txt_output)
+    else:
+        print("视频转文本失败，无法进行翻译")
 
 
 def parse_arguments():
@@ -154,8 +159,16 @@ def parse_arguments():
     return parser.parse_args()
 
 if __name__ == "__main__":
+    start_time = time.time()
+    print('waiting...\n')
     args = parse_arguments()
     # 如果没有指定输出目录，使用视频文件所在目录
     if args.output_dir is None:
         args.output_dir = os.path.dirname(args.input_video)
     video_translate(args)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    if elapsed_time < 60:
+        print(f'Time Used: {elapsed_time:.2f} seconds')
+    else:
+        print(f'Time Used: {elapsed_time/60:.2f} minutes')
