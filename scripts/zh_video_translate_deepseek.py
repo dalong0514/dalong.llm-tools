@@ -87,16 +87,16 @@ def translate(txt_output):
     chunks = common_tools.split_text_by_char_length(origin_content, 800)
     process_chunks(prompt_template, chunks, output_file)
 
-def _ensure_output_dir_for_url(url: str, output_dir: str | None) -> str:
-    """Ensure an output directory exists. For URL inputs, default to working/ if none provided."""
-    if output_dir:
-        os.makedirs(output_dir, exist_ok=True)
-        return output_dir
-    # 默认使用 working/ 作为落盘目录
-    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    out_dir = os.path.join(project_root, 'working')
-    os.makedirs(out_dir, exist_ok=True)
-    return out_dir
+def _ensure_output_dir(path_or_dir: str | None) -> str:
+    """Ensure an output directory exists. If given a file path, use its dir; if dir, use it."""
+    if path_or_dir is None:
+        raise ValueError('输出目录不能为空')
+    # If it's a file path, use its dirname; else assume it's a directory
+    base = path_or_dir
+    if os.path.isfile(base):
+        base = os.path.dirname(base)
+    os.makedirs(base, exist_ok=True)
+    return base
 
 
 def _extract_text_from_result_json(obj: dict) -> str:
@@ -221,7 +221,12 @@ def _oss_upload_and_sign(file_path: str, object_key: str | None = None, expires:
         return None
 
 
-def _fun_asr_transcribe_url(file_url: str, output_dir: str | None, model: str = 'fun-asr') -> str | None:
+def _fun_asr_transcribe_url(
+    file_url: str,
+    output_dir: str | None,
+    model: str = 'fun-asr',
+    preferred_stem: str | None = None,
+) -> str | None:
     """
     使用阿里 DashScope Fun-ASR 转写远程音/视频 URL。
     返回保存的 .txt 文件路径；失败返回 None。
@@ -238,7 +243,9 @@ def _fun_asr_transcribe_url(file_url: str, output_dir: str | None, model: str = 
     dashscope.api_key = api_key
 
     # 准备输出目录
-    out_dir = _ensure_output_dir_for_url(file_url, output_dir)
+    if output_dir is None:
+        raise ValueError('output_dir 不能为空')
+    out_dir = _ensure_output_dir(output_dir)
 
     # 提交并等待任务完成
     try:
@@ -284,9 +291,12 @@ def _fun_asr_transcribe_url(file_url: str, output_dir: str | None, model: str = 
                 r.raise_for_status()
                 obj = r.json()
                 # 保存原始 JSON 便于排查
-                parsed = urlparse(file_url)
-                base = os.path.basename(parsed.path) or 'audio'
-                stem = os.path.splitext(base)[0]
+                if preferred_stem:
+                    stem = preferred_stem
+                else:
+                    parsed = urlparse(file_url)
+                    base = os.path.basename(parsed.path) or 'audio'
+                    stem = os.path.splitext(base)[0]
                 json_saved_path = os.path.join(out_dir, f'{stem}_funasr.json')
                 with open(json_saved_path, 'w', encoding='utf-8') as f:
                     json.dump(obj, f, ensure_ascii=False, indent=2)
@@ -312,9 +322,12 @@ def _fun_asr_transcribe_url(file_url: str, output_dir: str | None, model: str = 
         return None
 
     # 写入 .txt 输出
-    parsed = urlparse(file_url)
-    base = os.path.basename(parsed.path) or 'audio'
-    stem = os.path.splitext(base)[0]
+    if preferred_stem:
+        stem = preferred_stem
+    else:
+        parsed = urlparse(file_url)
+        base = os.path.basename(parsed.path) or 'audio'
+        stem = os.path.splitext(base)[0]
     txt_path = os.path.join(out_dir, f'{stem}.txt')
     with open(txt_path, 'w', encoding='utf-8') as f:
         f.write('\n\n'.join(texts))
@@ -323,23 +336,25 @@ def _fun_asr_transcribe_url(file_url: str, output_dir: str | None, model: str = 
 
 
 def video_translate(args):
-    # 支持本地文件：自动上传至 OSS 并生成可访问 URL；也支持直接传入 http/https URL
+    # 仅支持本地文件路径；上传到 OSS 后走 Fun-ASR
     model = 'fun-asr'  # 如需多语种可改为 'fun-asr-mtl'
-    input_arg = args.input_video
-    parsed = urlparse(input_arg)
-    if parsed.scheme in ('http', 'https'):
-        source_url = input_arg
-    else:
-        # 视为本地文件，上传到 OSS
-        if not os.path.exists(input_arg):
-            print(f'本地文件不存在: {input_arg}')
-            return None
-        source_url = _oss_upload_and_sign(input_arg)
-        if not source_url:
-            print('上传 OSS 失败，请检查 OSS 配置与网络权限')
-            return None
+    input_path = args.input_video
+    if not os.path.exists(input_path):
+        print(f'本地文件不存在: {input_path}')
+        return None
 
-    txt_output = _fun_asr_transcribe_url(source_url, args.output_dir, model=model)
+    # 输出目录：与输入文件所在目录相同（若未显式传入）
+    out_dir = args.output_dir or os.path.dirname(os.path.abspath(input_path))
+    os.makedirs(out_dir, exist_ok=True)
+
+    # 上传到 OSS
+    source_url = _oss_upload_and_sign(input_path)
+    if not source_url:
+        print('上传 OSS 失败，请检查 OSS 配置与网络权限')
+        return None
+
+    stem = os.path.splitext(os.path.basename(input_path))[0]
+    txt_output = _fun_asr_transcribe_url(source_url, out_dir, model=model, preferred_stem=stem)
     if txt_output and os.path.exists(txt_output):
         translate(txt_output)
     else:
@@ -351,8 +366,8 @@ def parse_arguments():
     解析命令行参数
     :return: 包含参数的命名空间
     """
-    parser = argparse.ArgumentParser(description="将音/视频（本地或URL）转成文本后进行 DeepSeek 翻译")
-    parser.add_argument('input_video', type=str, help='输入音/视频：本地文件路径 或 公网 URL（http/https）')
+    parser = argparse.ArgumentParser(description="将本地音/视频转成文本后进行 DeepSeek 翻译（自动上传至阿里云OSS+Fun-ASR）")
+    parser.add_argument('input_video', type=str, help='输入音/视频：本地文件路径（会自动上传到 OSS）')
     parser.add_argument('--language', type=str, default='zh', 
                        help='音频语言代码 (默认: zh/en)')
     parser.add_argument('--model_path', type=str, 
@@ -365,10 +380,9 @@ def parse_arguments():
 
 if __name__ == "__main__":
     args = parse_arguments()
-    # Fun-ASR 模式下，如未指定输出目录，落盘到 working/
-    if args.output_dir is None:
-        # 若传的是 URL，这里不能使用其路径的目录；改在函数内部默认写入 working/
-        pass
+    # 如果没有指定输出目录，使用输入文件所在目录
+    if args.output_dir is None and os.path.exists(args.input_video):
+        args.output_dir = os.path.dirname(os.path.abspath(args.input_video))
     start_time = time.time()
     print('waiting...\n')
     video_translate(args)
