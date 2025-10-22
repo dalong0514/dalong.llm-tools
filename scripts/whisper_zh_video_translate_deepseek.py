@@ -10,6 +10,8 @@ from audio2txt_tools import video_to_text
 import src.utils as common_tools
 import argparse
 
+# "音频转录文本中一些常用的词汇如下：`阳志平`、`阳老师`。"
+
 system_prompt = read_prompt_file("prompt_translate_audio_zh")
 
 api_key = get_api_key("deepseek")
