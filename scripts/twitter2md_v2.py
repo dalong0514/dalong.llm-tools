@@ -78,8 +78,8 @@ def format_tweet_content(tweet: JsonDict) -> str:
     translated_content = utils.modify_text(translated_content)
 
     url = tweet.get('url', '')
-    # author = '@karpathy'
-    author = '@AndrewYNg'
+    author = '@karpathy'
+    # author = '@AndrewYNg'
 
     issued_date = ''
     created_at = parse_created_at(tweet.get('createdAt'))
