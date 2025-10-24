@@ -156,6 +156,8 @@ def funasr_transcribe_local_file(
     oss_prefix: Optional[str] = None,
     http_fallback: bool = True,
     verbose: bool = True,
+    diarization_enabled: bool = False,
+    speaker_count: Optional[int] = None,
 ) -> Optional[str]:
     """Transcribe a local audio/video file via Aliyun Fun-ASR.
 
@@ -163,6 +165,10 @@ def funasr_transcribe_local_file(
     输出：写入 output_dir/<stem>.txt，并保存原始 JSON 至 <stem>_funasr.json。
 
     Returns the path to the .txt transcript on success; None on failure.
+
+    Multi-speaker diarization
+    - Enable with diarization_enabled=True
+    - Optionally hint expected speakers via speaker_count (2-100)
     """
     if Transcription is None or dashscope is None:
         print('缺少 dashscope 依赖，请先安装：pip install dashscope')
@@ -217,10 +223,30 @@ def funasr_transcribe_local_file(
 
     # Call Fun-ASR
     try:
-        task_resp = Transcription.async_call(model=model, file_urls=[signed_url], channel_id=[0])
+        call_kwargs = {
+            'model': model,
+            'file_urls': [signed_url],
+            'channel_id': [0],
+        }
+        if diarization_enabled:
+            call_kwargs['diarization_enabled'] = True
+            if isinstance(speaker_count, int) and 2 <= speaker_count <= 100:
+                call_kwargs['speaker_count'] = speaker_count
+
+        task_resp = Transcription.async_call(**call_kwargs)
         transcribe_resp = Transcription.wait(task=task_resp.output.task_id)
     except Exception as e:
         print(f'调用 Fun-ASR 失败: {e}')
+        emsg = str(e)
+        if ('SSLError' in emsg) or ('EOF occurred in violation of protocol' in emsg):
+            print('疑似网络/证书问题：')
+            print("- 若使用了代理，请为阿里域名关闭代理：")
+            print("  export NO_PROXY='dashscope.aliyuncs.com,.aliyuncs.com,aliyuncs.com'")
+            print("  export no_proxy='dashscope.aliyuncs.com,.aliyuncs.com,aliyuncs.com'")
+            print('- 确保证书链可用：')
+            print("  pip install -U certifi && export SSL_CERT_FILE=$(python -c 'import certifi;print(certifi.where())')")
+            print("  export REQUESTS_CA_BUNDLE=$SSL_CERT_FILE")
+            print('- 若处于公司代理/自签CA环境，设置 REQUESTS_CA_BUNDLE 指向公司根证书 pem 文件。')
         return None
 
     if getattr(transcribe_resp, 'status_code', None) != HTTPStatus.OK:
@@ -246,7 +272,27 @@ def funasr_transcribe_local_file(
         json_path = out_dir / f'{stem}_funasr.json'
         with open(json_path, 'w', encoding='utf-8') as f:
             json.dump(obj, f, ensure_ascii=False, indent=2)
-        txt = _extract_text_from_result_json(obj)
+        # Prefer speaker-labeled formatting when diarization requested and speaker_id appears
+        txt = ''
+        if diarization_enabled:
+            try:
+                segs: list[str] = []
+                for tr in obj.get('transcripts') or []:
+                    sentences = (tr or {}).get('sentences') or []
+                    for s in sentences:
+                        t = (s or {}).get('text')
+                        sid = (s or {}).get('speaker_id')
+                        if isinstance(t, str) and t.strip():
+                            if sid is not None:
+                                segs.append(f"Speaker {int(sid)+1}: {t.strip()}")
+                            else:
+                                segs.append(t.strip())
+                if segs:
+                    txt = '\n'.join(segs)
+            except Exception:
+                txt = ''
+        if not txt:
+            txt = _extract_text_from_result_json(obj)
         if txt:
             texts.append(txt)
 
@@ -268,4 +314,3 @@ def funasr_transcribe_local_file(
     with open(txt_path, 'w', encoding='utf-8') as f:
         f.write('\n\n'.join(texts))
     return str(txt_path)
-

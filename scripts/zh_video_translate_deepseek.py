@@ -70,6 +70,32 @@ def translate(txt_output):
     chunks = common_tools.split_text_by_char_length(origin_content, 800)
     process_chunks(prompt_template, chunks, output_file)
 
+
+
+def _parse_multi_value(val: str | int | None) -> tuple[bool, int | None]:
+    """将 --multi 参数解析为 (enable_diarization, speaker_count)。
+    - 1 或 '1' → (False, None)
+    - 2/3/4/…（>=2） → (True, count)
+    - 'n'/'N' → (True, None)
+    其它非法值一律按单人处理。
+    """
+    if val is None:
+        return False, None
+    try:
+        if isinstance(val, int):
+            n = val
+        else:
+            n = int(str(val).strip())
+        if n >= 2:
+            return True, n
+        return False, None
+    except Exception:
+        s = str(val).strip().lower()
+        if s == 'n':
+            return True, None
+        return False, None
+
+
 def video_translate(args):
     # 仅支持本地文件路径；调用工具函数（自动上传到 OSS + Fun-ASR）
     input_path = args.input_video
@@ -81,7 +107,15 @@ def video_translate(args):
     out_dir = args.output_dir or os.path.dirname(os.path.abspath(input_path))
     os.makedirs(out_dir, exist_ok=True)
 
-    txt_output = funasr_transcribe_local_file(input_path, out_dir, model='fun-asr')
+    enable_diar, spk_count = _parse_multi_value(getattr(args, 'multi', None))
+
+    txt_output = funasr_transcribe_local_file(
+        input_path,
+        out_dir,
+        model='fun-asr',
+        diarization_enabled=enable_diar,
+        speaker_count=spk_count,
+    )
     if txt_output and os.path.exists(txt_output):
         translate(txt_output)
     else:
@@ -103,6 +137,8 @@ def parse_arguments():
     parser.add_argument('--output_dir', type=str, 
                        default=None,
                        help='输出目录 (默认: 视频文件所在目录)')
+    parser.add_argument('--multi', type=str, default='1',
+                        help='说话人数量：1/2/3/4，或 n 表示多人（自动判断）。默认 1')
     return parser.parse_args()
 
 if __name__ == "__main__":
