@@ -6,6 +6,7 @@ Your task is to split this text into logical paragraphs. Follow these guidelines
 3. Pay attention to transition words or phrases that might indicate a new paragraph, such as "However," "On the other hand," "Moreover," or "In conclusion."
 4. Consider the overall flow and structure of the speech. Each paragraph should contain a main idea or theme.
 5. Maintain the original wording and punctuation within each paragraph.
+6. IMPORTANT: If the input contains speaker labels like "S1:", "S2:", "Speaker1:", "Speaker2:", etc., KEEP these labels exactly as-is at the beginning of their corresponding paragraphs. Do not remove, rename, or merge content across different speaker labels.
 <example>
 Welcome, everyone. Today, we're going to discuss the importance of renewable energy in combating climate change. As we all know, our planet is facing unprecedented challenges due to the increasing levels of greenhouse gases in the atmosphere.
 Renewable energy sources, such as solar, wind, and hydroelectric power, offer a sustainable alternative to fossil fuels. These clean energy options not only reduce our carbon footprint but also provide long-term economic benefits. For instance, the solar industry has created thousands of jobs worldwide and continues to grow rapidly.

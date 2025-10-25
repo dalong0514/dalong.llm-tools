@@ -77,11 +77,33 @@ def translate(txt_output):
     process_chunks(chunks, output_file)
 
 
+def _resolve_diarization_from_multi(multi_val: str):
+    # '1' => single speaker (no diarization)
+    # '2'/'3'/'4' => diarization with fixed count
+    # 'n' => diarization enabled with unknown count
+    multi_val = (multi_val or '1').strip().lower()
+    if multi_val == '1':
+        return False, None
+    if multi_val in ('2', '3', '4'):
+        return True, int(multi_val)
+    if multi_val == 'n':
+        return True, None
+    # fallback safe default
+    return False, None
+
 def video_translate(args):
     # 输出目录默认与输入文件同目录
     out_dir = args.output_dir or os.path.dirname(os.path.abspath(args.input_video))
     os.makedirs(out_dir, exist_ok=True)
-    txt_output = funasr_transcribe_local_file(args.input_video, out_dir, model='fun-asr')
+
+    diarization_enabled, speaker_count = _resolve_diarization_from_multi(args.multi)
+    txt_output = funasr_transcribe_local_file(
+        args.input_video,
+        out_dir,
+        model='fun-asr',
+        diarization_enabled=diarization_enabled,
+        speaker_count=speaker_count,
+    )
     if txt_output and os.path.exists(txt_output):
         translate(txt_output)
     else:
@@ -104,6 +126,8 @@ def parse_arguments():
     parser.add_argument('--output_dir', type=str, 
                        default=None,
                        help='输出目录 (默认: 视频文件所在目录)')
+    parser.add_argument('--multi', type=str, default='1', choices=['1','2','3','4','n'],
+                        help='多人转录模式：1=单人(默认,不分离)；2/3/4=固定人数说话人分离；n=自动多人分离')
     return parser.parse_args()
 
 if __name__ == "__main__":

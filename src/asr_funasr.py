@@ -102,6 +102,58 @@ def _extract_text_from_result_json(obj: dict) -> str:
     return t if t else ''
 
 
+def _extract_speaker_labeled_text_from_result_json(obj: dict) -> Optional[str]:
+    """When diarization is enabled and result contains sentences with speaker_id,
+    aggregate consecutive sentences by the same speaker and label as
+    "Speaker{n}: ..." blocks. Returns None if not applicable.
+    """
+    blocks: list[str] = []
+
+    def trim(s: str) -> str:
+        return s.strip()
+
+    def handle_transcripts_array(arr: list) -> None:
+        for item in arr:
+            if not isinstance(item, dict):
+                continue
+            sentences = item.get('sentences')
+            if not isinstance(sentences, list) or not sentences:
+                continue
+            current_speaker: Optional[int] = None
+            buffer = ''
+            for s in sentences:
+                if not isinstance(s, dict):
+                    continue
+                text = s.get('text')
+                sp = s.get('speaker_id') if isinstance(s.get('speaker_id'), int) else None
+                if not isinstance(text, str) or not text:
+                    continue
+                if sp != current_speaker:
+                    if current_speaker is not None and trim(buffer):
+                        blocks.append(f"Speaker{current_speaker + 1}: {trim(buffer)}")
+                    current_speaker = sp
+                    buffer = text
+                else:
+                    buffer += ('' if not buffer else ' ') + text
+            if current_speaker is not None and trim(buffer):
+                blocks.append(f"Speaker{current_speaker + 1}: {trim(buffer)}")
+
+    def walk(any_obj):
+        if isinstance(any_obj, dict):
+            arr = any_obj.get('transcripts')
+            if isinstance(arr, list):
+                handle_transcripts_array(arr)
+            for v in any_obj.values():
+                walk(v)
+        elif isinstance(any_obj, list):
+            for v in any_obj:
+                walk(v)
+
+    walk(obj)
+    joined = '\n\n'.join(blocks).strip()
+    return joined or None
+
+
 def _oss_upload_and_sign(
     file_path: Path,
     *,
@@ -156,6 +208,8 @@ def funasr_transcribe_local_file(
     oss_prefix: Optional[str] = None,
     http_fallback: bool = True,
     verbose: bool = True,
+    diarization_enabled: bool = False,
+    speaker_count: Optional[int] = None,
 ) -> Optional[str]:
     """Transcribe a local audio/video file via Aliyun Fun-ASR.
 
@@ -217,7 +271,12 @@ def funasr_transcribe_local_file(
 
     # Call Fun-ASR
     try:
-        task_resp = Transcription.async_call(model=model, file_urls=[signed_url], channel_id=[0])
+        extra_params = {"channel_id": [0]}
+        if diarization_enabled:
+            extra_params["diarization_enabled"] = True
+            if isinstance(speaker_count, int) and speaker_count >= 2:
+                extra_params["speaker_count"] = speaker_count
+        task_resp = Transcription.async_call(model=model, file_urls=[signed_url], **extra_params)
         transcribe_resp = Transcription.wait(task=task_resp.output.task_id)
     except Exception as e:
         print(f'调用 Fun-ASR 失败: {e}')
@@ -246,7 +305,10 @@ def funasr_transcribe_local_file(
         json_path = out_dir / f'{stem}_funasr.json'
         with open(json_path, 'w', encoding='utf-8') as f:
             json.dump(obj, f, ensure_ascii=False, indent=2)
-        txt = _extract_text_from_result_json(obj)
+        if diarization_enabled:
+            txt = _extract_speaker_labeled_text_from_result_json(obj) or _extract_text_from_result_json(obj)
+        else:
+            txt = _extract_text_from_result_json(obj)
         if txt:
             texts.append(txt)
 
@@ -268,4 +330,3 @@ def funasr_transcribe_local_file(
     with open(txt_path, 'w', encoding='utf-8') as f:
         f.write('\n\n'.join(texts))
     return str(txt_path)
-
