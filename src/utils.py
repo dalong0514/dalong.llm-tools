@@ -71,6 +71,8 @@ def modify_text(text):
         .replace('》(', '》（')\
         .replace(')」', '）」')\
         .replace(' 。', '。')\
+        .replace('</step3_refined_transcription>', '')\
+        .replace('</step3_refined_transcript>', '')\
         .replace('"。', '」。')
     new_text = new_text.strip()
     new_text = re.sub(r'(?<=[\u4e00-\u9fa5])\s+(?=[\u4e00-\u9fa5])', '', new_text)
