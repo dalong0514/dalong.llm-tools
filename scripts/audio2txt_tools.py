@@ -73,7 +73,16 @@ def extract_text_from_json(json_file, output_txt=None):
         print(f"文本提取失败: {e}")
         return None
 
-def transcribe_audio(input_audio, model_path, output_json=None, language="zh", device="mps", batch_size=4):
+def transcribe_audio(
+    input_audio,
+    model_path,
+    output_json=None,
+    language="zh",
+    device="mps",
+    batch_size=4,
+    num_speakers=None,
+    min_speakers=None,
+):
     """
     使用insanely-fast-whisper将音频转录为文本
     :param input_audio: 输入音频文件路径
@@ -82,6 +91,8 @@ def transcribe_audio(input_audio, model_path, output_json=None, language="zh", d
     :param language: 语言代码
     :param device: 计算设备（mps/cpu/cuda）
     :param batch_size: 批处理大小
+    :param num_speakers: 说话人数量（精确值，>=1）。与min_speakers互斥。
+    :param min_speakers: 说话人最小数量（>=1）。与num_speakers互斥。
     :return: 输出文件路径
     """
     if output_json is None:
@@ -94,6 +105,8 @@ def transcribe_audio(input_audio, model_path, output_json=None, language="zh", d
         '--device', device,
         '--transcript-path', output_json,
         '--batch-size', str(batch_size),
+        '--num-speakers', str(num_speakers) if num_speakers is not None else '1',
+        '--min-speakers', str(min_speakers) if min_speakers is not None else '1',
         '--language', language
     ]
     
