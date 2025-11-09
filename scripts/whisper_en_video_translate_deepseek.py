@@ -179,7 +179,16 @@ def convert_video_to_wav(input_file, output_file=None):
         return None
 
 
-def transcribe_audio(input_audio, model_path, output_json=None, language="zh", device="mps", batch_size=4):
+def transcribe_audio(
+    input_audio,
+    model_path,
+    output_json=None,
+    language="zh",
+    device="mps",
+    batch_size=4,
+    num_speakers=None,
+    min_speakers=None,
+):
     """
     使用insanely-fast-whisper将音频转录为文本
     :param input_audio: 输入音频文件路径
@@ -190,6 +199,17 @@ def transcribe_audio(input_audio, model_path, output_json=None, language="zh", d
     :param batch_size: 批处理大小
     :return: 输出文件路径
     """
+    # 基本参数校验（仅在提供时检查）
+    if num_speakers is not None and min_speakers is not None:
+        print("参数冲突：num_speakers 与 min_speakers 不能同时使用。")
+        return None
+    if num_speakers is not None and int(num_speakers) < 1:
+        print("参数错误：num_speakers 必须 >= 1。")
+        return None
+    if min_speakers is not None and int(min_speakers) < 1:
+        print("参数错误：min_speakers 必须 >= 1。")
+        return None
+
     if output_json is None:
         output_json = os.path.splitext(input_audio)[0] + '.json'
     
@@ -202,6 +222,11 @@ def transcribe_audio(input_audio, model_path, output_json=None, language="zh", d
         '--batch-size', str(batch_size),
         '--language', language
     ]
+    # 可选的说话人分离参数
+    if num_speakers is not None:
+        command += ['--num-speakers', str(int(num_speakers))]
+    if min_speakers is not None:
+        command += ['--min-speakers', str(int(min_speakers))]
     
     try:
         subprocess.run(command, check=True)
@@ -211,7 +236,14 @@ def transcribe_audio(input_audio, model_path, output_json=None, language="zh", d
         print(f"转录失败: {e}")
         return None
 
-def video_to_text(input_video, model_path, output_dir=None, language="zh"):
+def video_to_text(
+    input_video,
+    model_path,
+    output_dir=None,
+    language="zh",
+    num_speakers=None,
+    min_speakers=None,
+):
     """
     将视频文件转换为文本
     :param input_video: 输入视频文件路径
@@ -238,7 +270,14 @@ def video_to_text(input_video, model_path, output_dir=None, language="zh"):
     else:
         json_output = None
         
-    result = transcribe_audio(wav_file, model_path, json_output, language=language)
+    result = transcribe_audio(
+        wav_file,
+        model_path,
+        json_output,
+        language=language,
+        num_speakers=num_speakers,
+        min_speakers=min_speakers,
+    )
     
     # 删除临时wav文件
     if result and os.path.exists(wav_file):
@@ -262,7 +301,14 @@ def video_to_text(input_video, model_path, output_dir=None, language="zh"):
     return txt_output
 
 def video_translate(args):
-    txt_output = video_to_text(args.input_video, args.model_path, args.output_dir, args.language)
+    txt_output = video_to_text(
+        args.input_video,
+        args.model_path,
+        args.output_dir,
+        args.language,
+        num_speakers=args.num_speakers,
+        min_speakers=args.min_speakers,
+    )
     split_translate(txt_output)
 
 
@@ -281,7 +327,19 @@ def parse_arguments():
     parser.add_argument('--output_dir', type=str, 
                        default=None,
                        help='输出目录 (默认: 视频文件所在目录)')
-    return parser.parse_args()
+    parser.add_argument('--num-speakers', dest='num_speakers', type=int, default=None,
+                        help='音频中说话人的精确数量，>=1。与 --min-speakers 不能同时使用。')
+    parser.add_argument('--min-speakers', dest='min_speakers', type=int, default=None,
+                        help='说话人最小数量阈值，>=1。与 --num-speakers 不能同时使用。')
+    args = parser.parse_args()
+    # 参数校验
+    if args.num_speakers is not None and args.min_speakers is not None:
+        parser.error('参数冲突：--num-speakers 与 --min-speakers 不能同时使用。')
+    if args.num_speakers is not None and args.num_speakers < 1:
+        parser.error('--num-speakers 必须 >= 1')
+    if args.min_speakers is not None and args.min_speakers < 1:
+        parser.error('--min-speakers 必须 >= 1')
+    return args
 
 if __name__ == "__main__":
     args = parse_arguments()

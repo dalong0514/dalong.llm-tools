@@ -78,7 +78,14 @@ def translate(txt_output):
 
 
 def video_translate(args):
-    txt_output = video_to_text(args.input_video, args.model_path, args.output_dir, args.language)
+    txt_output = video_to_text(
+        args.input_video,
+        args.model_path,
+        args.output_dir,
+        args.language,
+        num_speakers=args.num_speakers,
+        min_speakers=args.min_speakers,
+    )
     if txt_output and os.path.exists(txt_output):
         translate(txt_output)
     else:
@@ -101,7 +108,18 @@ def parse_arguments():
     parser.add_argument('--output_dir', type=str, 
                        default=None,
                        help='输出目录 (默认: 视频文件所在目录)')
-    return parser.parse_args()
+    parser.add_argument('--num-speakers', dest='num_speakers', type=int, default=None,
+                        help='音频中说话人的精确数量，>=1。与 --min-speakers 不能同时使用。')
+    parser.add_argument('--min-speakers', dest='min_speakers', type=int, default=None,
+                        help='说话人最小数量阈值，>=1。与 --num-speakers 不能同时使用。')
+    args = parser.parse_args()
+    if args.num_speakers is not None and args.min_speakers is not None:
+        parser.error('参数冲突：--num-speakers 与 --min-speakers 不能同时使用。')
+    if args.num_speakers is not None and args.num_speakers < 1:
+        parser.error('--num-speakers 必须 >= 1')
+    if args.min_speakers is not None and args.min_speakers < 1:
+        parser.error('--min-speakers 必须 >= 1')
+    return args
 
 if __name__ == "__main__":
     args = parse_arguments()

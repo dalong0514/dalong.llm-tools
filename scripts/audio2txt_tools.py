@@ -95,6 +95,27 @@ def transcribe_audio(
     :param min_speakers: 说话人最小数量（>=1）。与num_speakers互斥。
     :return: 输出文件路径
     """
+    # 基本参数校验（仅在提供时检查）
+    if num_speakers is not None and min_speakers is not None:
+        print("参数冲突：num_speakers 与 min_speakers 不能同时使用。")
+        return None
+    if num_speakers is not None:
+        try:
+            if int(num_speakers) < 1:
+                print("参数错误：num_speakers 必须 >= 1。")
+                return None
+        except ValueError:
+            print("参数错误：num_speakers 必须为整数。")
+            return None
+    if min_speakers is not None:
+        try:
+            if int(min_speakers) < 1:
+                print("参数错误：min_speakers 必须 >= 1。")
+                return None
+        except ValueError:
+            print("参数错误：min_speakers 必须为整数。")
+            return None
+
     if output_json is None:
         output_json = os.path.splitext(input_audio)[0] + '.json'
     
@@ -103,12 +124,16 @@ def transcribe_audio(
         '--model-name', model_path,
         '--file-name', input_audio,
         '--device', device,
+        '--hf-token', "hf_token",
         '--transcript-path', output_json,
         '--batch-size', str(batch_size),
-        '--num-speakers', str(num_speakers) if num_speakers is not None else '1',
-        '--min-speakers', str(min_speakers) if min_speakers is not None else '1',
-        '--language', language
+        '--language', language,
     ]
+    # 可选的说话人分离参数
+    if num_speakers is not None:
+        command += ['--num-speakers', str(int(num_speakers))]
+    if min_speakers is not None:
+        command += ['--min-speakers', str(int(min_speakers))]
     
     try:
         subprocess.run(command, check=True)
@@ -118,8 +143,14 @@ def transcribe_audio(
         print(f"转录失败: {e}")
         return None
 
-
-def video_to_text(input_video, model_path, output_dir=None, language="zh"):
+def video_to_text(
+    input_video,
+    model_path,
+    output_dir=None,
+    language="zh",
+    num_speakers=None,
+    min_speakers=None,
+):
     """
     将视频文件转换为文本
     :param input_video: 输入视频文件路径
@@ -147,7 +178,14 @@ def video_to_text(input_video, model_path, output_dir=None, language="zh"):
     else:
         json_output = None
         
-    json_result = transcribe_audio(wav_file, model_path, json_output, language=language)
+    json_result = transcribe_audio(
+        wav_file,
+        model_path,
+        json_output,
+        language=language,
+        num_speakers=num_speakers,
+        min_speakers=min_speakers,
+    )
     
     # 删除临时wav文件
     if json_result and os.path.exists(wav_file):
