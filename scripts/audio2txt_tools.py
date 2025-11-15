@@ -5,6 +5,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import subprocess
 import json
 import argparse
+from src.helper import get_api_key
+
+api_key = get_api_key("hf")
 
 def convert_video_to_wav(input_file, output_file=None):
     """
@@ -124,7 +127,7 @@ def transcribe_audio(
         '--model-name', model_path,
         '--file-name', input_audio,
         '--device', device,
-        '--hf-token', "hf_token",
+        '--hf-token', api_key,
         '--transcript-path', output_json,
         '--batch-size', str(batch_size),
         '--language', language,

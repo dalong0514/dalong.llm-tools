@@ -37,7 +37,8 @@ def get_api_key(service="default"):
         "mistral": "MISTRAL_API_KEY",
         "fireworks": "FIREWORKS_API_KEY",
         "silicon": "SILICON_API_KEY",
-        "weaviate": "WCD_API_KEY"
+        "weaviate": "WCD_API_KEY",
+        "hf": "HUGGINGFACE_API_KEY"
     }
     return os.getenv(key_mapping.get(service, "API_KEY"))
 
