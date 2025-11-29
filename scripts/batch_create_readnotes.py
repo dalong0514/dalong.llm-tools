@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
+import os
 
 
 def batch_create_readnotes():
@@ -8,12 +9,15 @@ def batch_create_readnotes():
     base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20250101复制书籍"
     book_name = "2025205软件设计的哲学"
     default_content = "John Ousterhout.(2024).2025205软件设计的哲学.(茹炳晟等译).人民邮电出版社 => xxxx"
+    # 确保 base_path 存在，如果不存在则创建
+    target_path = os.path.join(base_path, book_name)
+    os.makedirs(target_path, exist_ok=True)
 
     for i in range(0, num):
         # 格式化序号，确保是4位数字，前两位是批次号，后两位是01
         formatted_num = f"{first_num + i:02}01"
         file_name = f"{book_name}{formatted_num}.md"
-        file_path = base_path + "/" + book_name + "/" + file_name
+        file_path = os.path.join(base_path, book_name, file_name)
 
         # 创建文件并写入内容
         with open(file_path, "w", encoding="utf-8") as f:
