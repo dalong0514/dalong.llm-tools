@@ -178,4 +178,4 @@ cython_debug/
 .pypirc
 
 # claude code
-.claude/
+.claude
