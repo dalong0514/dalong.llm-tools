@@ -416,10 +416,17 @@ def save_to_pickle(book: Book, output_dir: str) -> str:
 
 
 def save_chapter_markdown(book: Book, output_dir: str) -> List[str]:
-    """Write each spine item to a standalone Markdown file."""
-    markdown_paths: List[str] = []
+    """
+    Write each spine item to a standalone Markdown file.
 
-    for chapter in book.spine:
+    Additionally, write the entire book (all spine items) into a single `.txt`
+    file for convenient full-book reading/LLM context.
+    """
+    os.makedirs(output_dir, exist_ok=True)
+    markdown_paths: List[str] = []
+    ordered_spine = sorted(book.spine, key=lambda c: c.order)
+
+    for chapter in ordered_spine:
         filename = safe_filename_from_title(chapter.title, chapter.order + 1)
         out_path = os.path.join(output_dir, filename)
         with open(out_path, "w", encoding="utf-8") as f:
@@ -429,6 +436,32 @@ def save_chapter_markdown(book: Book, output_dir: str) -> List[str]:
             f.write("\n")
         markdown_paths.append(out_path)
         print(f"Wrote {out_path}")
+
+    book_txt_path = os.path.join(output_dir, "book.txt")
+    book_lines: List[str] = [
+        f"Title: {book.metadata.title}",
+        f"Authors: {', '.join(book.metadata.authors) if book.metadata.authors else 'Unknown'}",
+        f"Language: {book.metadata.language}",
+        f"Source: {book.source_file}",
+        f"Processed at: {book.processed_at}",
+        "",
+        "-----",
+        "",
+    ]
+
+    for chapter in ordered_spine:
+        book_lines.append(f"# {chapter.title}")
+        book_lines.append(f"<!-- href: {chapter.href} -->")
+        book_lines.append("")
+        if chapter.content.strip():
+            book_lines.append(chapter.content.strip())
+        book_lines.append("")
+        book_lines.append("-----")
+        book_lines.append("")
+
+    with open(book_txt_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(book_lines).rstrip() + "\n")
+    print(f"Wrote {book_txt_path}")
 
     return markdown_paths
 
