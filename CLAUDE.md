@@ -1,62 +1,45 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+本仓库包含一组基于 Python 3.10+ 的工具工作台，用于 LLM 驱动的媒体处理、提示词工作流以及各类集成辅助。请遵循以下规范，确保贡献内容一致、可维护且可用于生产环境。
 
-## Development Environment
+## 项目结构与模块组织
+- `src/`：脚本复用的核心工具（API Key 加载、文本格式化、音频切分等）。
+- `scripts/`：面向具体任务的 CLI（音频转写、Gemini 翻译、YouTube 下载等）；每个脚本依赖以 `pyproject.toml` 为准。
+- `prompt/`、`information_anlaysis/`、`mermaid/`：用于提示词工程、知识分析与图表的配套资产。
+- `working/`：进行中输入/输出的临时工作区；提交前请清理临时文件。
+- `archived/` 与 `jupyter-notebook/`：历史资料与探索性笔记本——运行时代码不要依赖这里的内容。
 
-This is a Python 3.10+ project using UV for package management. Key development commands:
+## 构建、测试与开发命令
+```bash
+python -m venv .venv && source .venv/bin/activate  # 本地 virtualenv
+pip install -r requirements.txt                    # 安装运行依赖（如使用 uv，也可用 `uv sync`）
+python main.py                                     # 环境冒烟测试
+python scripts/chat_with_llm.py --mode zh          # 示例：使用 working/input.md 跑一遍聊天流水线
+```
+请从仓库根目录运行脚本，以保证相对导入无需额外的 `PYTHONPATH` 配置即可正常工作。
 
-- **Install dependencies**: `uv sync`
-- **Run main application**: `uv run python main.py`
-- **Run individual scripts**: `uv run python scripts/<script_name>.py`
-- **Run Jupyter notebooks**: `uv run jupyter notebook`
+## 代码风格与命名约定
+- 使用 4 空格缩进、`snake_case` 的模块/函数命名，以及清晰的 docstring（在有帮助时可中英双语，语气保持与现有一致）。
+- 共享逻辑请放在 `src/`；`scripts/` 应保持为薄的编排层，并通过 `argparse` 提供入口。
+- 为新增的对外函数补充类型标注，并用 `pathlib.Path` 校验 I/O 路径。
+- 不要硬编码密钥/配置——通过 `src.helper.get_api_key()` / `get_base_url()` 加载。
 
-## Project Structure
+## 测试规范
+- 优先为新增模块在 `tests/` 目录下补充轻量级 `pytest` 用例；文件命名为 `test_<feature>.py`。
+- 对 CLI 工具，建议结合单元测试与样例夹具（可放在 `working/` 或 `examples/` 子目录），并在 PR 中记录手动验证步骤。
+- 新增流式交互时，请分享一次可复现的输出记录，便于评审在不复跑的情况下确认行为。
 
-- **src/**: Core utility modules
-  - `utils.py`: Text processing and file utilities
-  - `helper.py`: Environment and API key management
-  - `split_audio.py`: Audio processing utilities
-  - `embedding_file.py`: File embedding functionality
+## Commit 与 Pull Request 规范
+- 沿用现有简短、祈使句风格的摘要（例如 `Add Skilljar downloader`、用于日期投放的 `20250918-mac`）；如有 issue，请在合适位置引用 ID。
+- 保持提交聚焦；较大特性应拆分为多个逻辑清晰的提交。
+- PR 需描述变更内容，列出验证步骤（运行了哪些命令/测试），并注明所需 API Key 或配置文件。
+- 修改面向用户的产物或生成文档时，请提供变更前后上下文或截图。
 
-- **scripts/**: Individual tool scripts for specific tasks
-  - Audio processing: `audio2txt_tools.py`, `audio_process_tools.py`
-  - Translation: Various translation scripts for different LLM providers
-  - Text processing: `md_modify.py`, `replace_space.py`, `trim_extra_space.py`
-  - YouTube integration: `youtube_download.py`
+## 安全与配置建议
+- 凭据请存放在本地 `.env`，严禁提交密钥；新增环境变量键请在 PR 中说明。
+- 引入新集成时，请检查添加到 `pyproject.toml` 的依赖许可证兼容性，并尽量固定精确版本。
 
-- **archived/**: Legacy scripts and tools
-- **jupyter-notebook/**: Experimental notebooks for LLM workflows
-- **prompt/**: Prompt templates for different LLM tasks
-- **working/**: Temporary working files
+## 操作记录
 
-## Key Dependencies
-
-- LLM frameworks: `llama-index`, `langchain-openai`, `trulens-eval`
-- LLM providers: Google Gemini, OpenAI, DeepSeek, Kimi, Zhipu, Bailian, etc.
-- Audio processing: `insanely-fast-whisper`, `yt-dlp`
-- Text processing: `pangu`, `pymupdf`, `pyperclip`
-- Vector storage: `weaviate`
-
-## Environment Configuration
-
-Copy `.env.example` to `.env` and configure API keys for various LLM services:
-- `GOOGLE_API_KEY`, `OPENAI_API_KEY`, `DEEPSEEK_API_KEY`
-- `KIMI_API_KEY`, `ZHIPU_API_KEY`, `BAILIAN_API_KEY`
-- `MISTRAL_API_KEY`, `FIREWORKS_API_KEY`, `SILICON_API_KEY`
-- `WCD_API_KEY` for Weaviate vector database
-
-## Common Development Tasks
-
-1. **Adding new LLM provider**: Update `src/helper.py` with new API key mapping
-2. **Creating new translation script**: Follow patterns in `scripts/` directory
-3. **Text processing utilities**: Add to `src/utils.py`
-4. **Audio processing**: Use `src/split_audio.py` and related scripts
-
-## Architecture Notes
-
-- The project uses a modular approach with shared utilities in `src/`
-- Individual scripts are self-contained for specific tasks
-- Environment configuration is centralized in `src/helper.py`
-- Prompt templates are stored separately in `prompt/` directory
-- Jupyter notebooks are used for experimentation and prototyping
+- 我每次让你执行任务，你执行完后，都生成一个执行结果报告，保存为一个markdown文档，保存在`.42cog\work`文件夹中，文件名格式为`yyyy-mm-dd-hh-mm{操作总结}.md`。
+- 获取当前时间：生成work文件前，先调用`python get_time.py`获取准确的当前时间用于文件命名。
