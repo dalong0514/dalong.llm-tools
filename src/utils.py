@@ -3,11 +3,114 @@ import pangu
 import re
 from pathlib import Path
 import os
+from typing import List
 
 # 常见需要保持小写的功能词，避免不必要的首字母大写
 _LOWERCASE_WORDS = {
     "of", "and"
 }
+
+_CJK_CHAR_CLASS = r"\u4e00-\u9fff"
+
+# 使用私有区字符生成占位符，避免被 pangu 插入空格而导致无法还原
+_PUA_TOKEN_PREFIX = "\uE000"
+_PUA_TOKEN_SUFFIX = "\uE001"
+_PUA_TOKEN_BASE = 0xE100
+
+_MARKDOWN_FENCED_CODE_RE = re.compile(r"```[\s\S]*?```|~~~[\s\S]*?~~~")
+_MARKDOWN_INLINE_CODE_RE = re.compile(r"(?P<ticks>`+)(?P<code>[^\n]*?)(?P=ticks)")
+
+_MARKDOWN_STRONG_RE = re.compile(r"(?P<m>\*\*|__)\s+(?P<inner>.+?)\s+(?P=m)")
+_MARKDOWN_STRONG_LEFT_SPACE_RE = re.compile(r"(?P<m>\*\*|__)\s+(?P<inner>.+?)(?P=m)")
+_MARKDOWN_STRONG_RIGHT_SPACE_RE = re.compile(r"(?P<m>\*\*|__)(?P<inner>.+?)\s+(?P=m)")
+_MARKDOWN_STRIKE_RE = re.compile(r"(?P<m>~~)\s+(?P<inner>.+?)\s+(?P=m)")
+_MARKDOWN_STRIKE_LEFT_SPACE_RE = re.compile(r"(?P<m>~~)\s+(?P<inner>.+?)(?P=m)")
+_MARKDOWN_STRIKE_RIGHT_SPACE_RE = re.compile(r"(?P<m>~~)(?P<inner>.+?)\s+(?P=m)")
+
+_MARKDOWN_EM_RE = re.compile(r"(?P<m>\*|_)\s+(?P<inner>.+?)\s+(?P=m)")
+_MARKDOWN_EM_LEFT_SPACE_RE = re.compile(r"(?P<m>\*|_)\s+(?P<inner>.+?)(?P=m)")
+_MARKDOWN_EM_RIGHT_SPACE_RE = re.compile(r"(?P<m>\*|_)(?P<inner>.+?)\s+(?P=m)")
+
+
+def _make_pua_token(index: int) -> str:
+    return f"{_PUA_TOKEN_PREFIX}{chr(_PUA_TOKEN_BASE + index)}{_PUA_TOKEN_SUFFIX}"
+
+
+def _mask_with_regex(text: str, pattern: re.Pattern, store: List[str]) -> str:
+    def _repl(match: re.Match) -> str:
+        store.append(match.group(0))
+        return _make_pua_token(len(store) - 1)
+
+    return pattern.sub(_repl, text)
+
+
+def _unmask(text: str, store: List[str]) -> str:
+    for index, value in enumerate(store):
+        text = text.replace(_make_pua_token(index), value)
+    return text
+
+
+def _repair_markdown_spacing(text: str) -> str:
+    """修复 pangu 对 Markdown 语法符号插入空格导致的格式破坏。
+
+    典型问题：`**背景**` 被变为 `** 背景 **`，从而导致加粗失效或样式异常。
+    """
+
+    def _trim_inside_markers(line: str) -> str:
+        def _strong_repl(match: re.Match) -> str:
+            marker = match.group("m")
+            inner = match.group("inner").strip(" \t")
+            return f"{marker}{inner}{marker}"
+
+        def _strike_repl(match: re.Match) -> str:
+            marker = match.group("m")
+            inner = match.group("inner").strip(" \t")
+            return f"{marker}{inner}{marker}"
+
+        def _em_repl(match: re.Match) -> str:
+            marker = match.group("m")
+            inner = match.group("inner")
+            # 降低误伤：只修复包含中文时被插入的空格（例如 *背景* -> * 背景 *）
+            if not re.search(rf"[{_CJK_CHAR_CLASS}]", inner):
+                return match.group(0)
+            inner = inner.strip(" \t")
+            return f"{marker}{inner}{marker}"
+
+        # 先处理两边都有空格的情况，再处理只有一侧有空格的情况
+        line = _MARKDOWN_STRONG_RE.sub(_strong_repl, line)
+        line = _MARKDOWN_STRONG_LEFT_SPACE_RE.sub(_strong_repl, line)
+        line = _MARKDOWN_STRONG_RIGHT_SPACE_RE.sub(_strong_repl, line)
+
+        line = _MARKDOWN_STRIKE_RE.sub(_strike_repl, line)
+        line = _MARKDOWN_STRIKE_LEFT_SPACE_RE.sub(_strike_repl, line)
+        line = _MARKDOWN_STRIKE_RIGHT_SPACE_RE.sub(_strike_repl, line)
+
+        line = _MARKDOWN_EM_RE.sub(_em_repl, line)
+        line = _MARKDOWN_EM_LEFT_SPACE_RE.sub(_em_repl, line)
+        line = _MARKDOWN_EM_RIGHT_SPACE_RE.sub(_em_repl, line)
+
+        # 去掉中文与格式标记之间被插入的空格（不影响英文与标记之间的排版）
+        line = re.sub(rf"(?<=[{_CJK_CHAR_CLASS}])\s+(?=(\*\*|__|~~))", "", line)
+        line = re.sub(rf"(?<=(\*\*|__|~~))\s+(?=[{_CJK_CHAR_CLASS}])", "", line)
+        return line
+
+    return "".join(_trim_inside_markers(line) for line in text.splitlines(keepends=True))
+
+
+def _pangu_spacing_markdown_safe(text: str) -> str:
+    """在尽量不破坏 Markdown 结构的前提下执行 pangu spacing。
+
+    - 保护 fenced code blocks（``` / ~~~）与 inline code（`...`）不被改写
+    - 对其余文本执行 pangu，并修复常见的 Markdown 加粗/删除线被插入空格的问题
+    """
+    masked_blocks: List[str] = []
+    masked_text = _mask_with_regex(text, _MARKDOWN_FENCED_CODE_RE, masked_blocks)
+    masked_text = _mask_with_regex(masked_text, _MARKDOWN_INLINE_CODE_RE, masked_blocks)
+
+    spaced = pangu.spacing_text(masked_text)
+    spaced = _repair_markdown_spacing(spaced)
+    return _unmask(spaced, masked_blocks)
+
 
 def read_file(filename):
     """读取指定文件的内容
@@ -46,7 +149,7 @@ def modify_text(text):
     """处理文字的格式"""
     # 去 \n 是转 pdf 时启用
     # line = line.replace('\n', '')
-    text = pangu.spacing_text(text)
+    text = _pangu_spacing_markdown_safe(text)
     new_text = text.replace(' “', '“')\
         .replace('” ', '”')\
         .replace('“', '「')\
@@ -82,7 +185,7 @@ def modify_text_en(line):
     """处理文字的格式"""
     # 去 \n 是转 pdf 时启用
     # line = line.replace('\n', '')
-    line = pangu.spacing_text(line)
+    line = _pangu_spacing_markdown_safe(line)
     new_line = line.replace('“', '"')\
         .replace('”', '"')\
         .replace('・', '·')\
