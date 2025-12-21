@@ -40,6 +40,34 @@ def safe_filename_from_title(title: str, index: int) -> str:
     return f"{index:03d}-{sanitized}.md"
 
 
+_CHAPTER_TITLE_RE = re.compile(
+    r"^\s*chapter\s+(?P<number>\d+)\b(?:\s*[:.\-–—]\s*)?(?P<rest>.*)$",
+    re.IGNORECASE,
+)
+
+
+def safe_chapter_markdown_filename(title: str, index: int, source_stem: str) -> str:
+    """
+    Generate the Markdown filename for a chapter.
+
+    - Default: keep the legacy `{index:03d}-<sanitized-title>.md` format.
+    - For main chapters whose title starts with `chapter <n>` (case-insensitive),
+      switch to: `<source_stem>{n:02d}01-<sanitized-rest>.md`.
+    """
+    match = _CHAPTER_TITLE_RE.match(title)
+    if match:
+        number = int(match.group("number"))
+        rest = match.group("rest").strip()
+        normalized_rest = rest.lower()
+        sanitized_rest = re.sub(r"[^a-z0-9_-]+", "-", normalized_rest).strip("-")
+        if not sanitized_rest:
+            sanitized_rest = f"chapter-{number}"
+        chapter_code = f"{number:02d}01"
+        return f"{source_stem}{chapter_code}-{sanitized_rest}.md"
+
+    return safe_filename_from_title(title, index)
+
+
 def detect_toc_start(lines: Iterable[str], marker: str) -> bool:
     """Return True if the TOC marker appears in the content."""
     marker_lower = marker.lower()
@@ -141,11 +169,11 @@ def split_markdown_by_chapter(
     return chapters
 
 
-def save_chapters(chapters: List[Chapter], output_dir: Path) -> List[Path]:
+def save_chapters(chapters: List[Chapter], output_dir: Path, source_stem: str) -> List[Path]:
     output_dir.mkdir(parents=True, exist_ok=True)
     outputs: List[Path] = []
     for idx, chapter in enumerate(chapters, start=1):
-        filename = safe_filename_from_title(chapter.title, idx)
+        filename = safe_chapter_markdown_filename(chapter.title, idx, source_stem)
         out_path = output_dir / filename
         with out_path.open("w", encoding="utf-8") as handle:
             handle.write(f"# {chapter.title}\n\n")
@@ -269,7 +297,7 @@ def main() -> None:
         skip_headings_before=skip_headings_before,
     )
 
-    chapter_paths = save_chapters(chapters, output_dir)
+    chapter_paths = save_chapters(chapters, output_dir, input_path.stem)
     book_txt_path = save_book_txt(chapters, output_dir, input_path.name)
 
     print("\n--- Summary ---")
