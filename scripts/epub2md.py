@@ -8,6 +8,7 @@ the `Book` object, and writes one Markdown file per spine item.
 
 import os
 import pickle
+import re
 import shutil
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -297,6 +298,38 @@ def safe_filename_from_title(title: str, index: int) -> str:
     return f"{index:03d}-{sanitized}.md"
 
 
+_CHAPTER_TITLE_RE = re.compile(
+    r"^\s*chapter\s+(?P<number>\d+)\b(?:\s*[:.\-–—]\s*)?(?P<rest>.*)$",
+    re.IGNORECASE,
+)
+
+
+def safe_spine_markdown_filename(title: str, index: int, epub_stem: str) -> str:
+    """
+    Generate the Markdown filename for a spine item.
+
+    - Default: keep the legacy `{index:03d}-<sanitized-title>.md` format.
+    - For main chapters whose title starts with `chapter <n>` (case-insensitive),
+      switch to: `<epub_stem>{n:02d}01-<sanitized-rest>.md`.
+
+    Example:
+        `007-chapter-1-scaling.md` -> `2025213The-Scaling-Era0101-scaling.md`
+    """
+    match = _CHAPTER_TITLE_RE.match(title)
+    if match:
+        number = int(match.group("number"))
+        rest = match.group("rest").strip()
+        sanitized_rest = "".join(
+            c if c.isalnum() or c in "-_" else "-" for c in rest.lower()
+        ).strip("-")
+        if not sanitized_rest:
+            sanitized_rest = f"chapter-{number}"
+        chapter_code = f"{number:02d}01"
+        return f"{epub_stem}{chapter_code}-{sanitized_rest}.md"
+
+    return safe_filename_from_title(title, index)
+
+
 # --- Main Conversion Logic ---
 
 
@@ -425,9 +458,14 @@ def save_chapter_markdown(book: Book, output_dir: str) -> List[str]:
     os.makedirs(output_dir, exist_ok=True)
     markdown_paths: List[str] = []
     ordered_spine = sorted(book.spine, key=lambda c: c.order)
+    epub_stem = os.path.splitext(book.source_file)[0]
 
     for chapter in ordered_spine:
-        filename = safe_filename_from_title(chapter.title, chapter.order + 1)
+        filename = safe_spine_markdown_filename(
+            title=chapter.title,
+            index=chapter.order + 1,
+            epub_stem=epub_stem,
+        )
         out_path = os.path.join(output_dir, filename)
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(f"# {chapter.title}\n\n")
