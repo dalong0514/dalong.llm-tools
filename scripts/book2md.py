@@ -44,6 +44,61 @@ _CHAPTER_TITLE_RE = re.compile(
     r"^\s*chapter\s+(?P<number>\d+)\b(?:\s*[:.\-–—]\s*)?(?P<rest>.*)$",
     re.IGNORECASE,
 )
+_CHAPTER_TITLE_ZH_RE = re.compile(
+    r"^\s*第(?P<number>[0-9零〇一二三四五六七八九十百千两]+)\s*[章节回部篇]\s*(?:[:：.\-–—、]\s*)?(?P<rest>.*)$"
+)
+_CHINESE_NUMERAL_MAP = {
+    "零": 0,
+    "〇": 0,
+    "一": 1,
+    "二": 2,
+    "两": 2,
+    "三": 3,
+    "四": 4,
+    "五": 5,
+    "六": 6,
+    "七": 7,
+    "八": 8,
+    "九": 9,
+}
+_CHINESE_UNIT_MAP = {"十": 10, "百": 100, "千": 1000}
+
+
+def _sanitize_title_fragment(text: str) -> str:
+    normalized = text.strip().lower()
+    sanitized = re.sub(r"[^a-z0-9_-]+", "-", normalized)
+    return sanitized.strip("-")
+
+
+def _chinese_numeral_to_int(text: str) -> Optional[int]:
+    if not text:
+        return None
+    if text.isdigit():
+        return int(text)
+
+    total = 0
+    current = 0
+    for char in text:
+        if char in _CHINESE_NUMERAL_MAP:
+            current = _CHINESE_NUMERAL_MAP[char]
+        elif char in _CHINESE_UNIT_MAP:
+            unit_value = _CHINESE_UNIT_MAP[char]
+            if current == 0:
+                current = 1
+            total += current * unit_value
+            current = 0
+        else:
+            return None
+    total += current
+    return total if total > 0 else None
+
+
+def _build_chapter_filename(number: int, rest: str, source_stem: str) -> str:
+    sanitized_rest = _sanitize_title_fragment(rest)
+    if not sanitized_rest:
+        sanitized_rest = f"chapter-{number}"
+    chapter_code = f"{number:02d}01"
+    return f"{source_stem}{chapter_code}-{sanitized_rest}.md"
 
 
 def safe_chapter_markdown_filename(title: str, index: int, source_stem: str) -> str:
@@ -56,14 +111,21 @@ def safe_chapter_markdown_filename(title: str, index: int, source_stem: str) -> 
     """
     match = _CHAPTER_TITLE_RE.match(title)
     if match:
-        number = int(match.group("number"))
-        rest = match.group("rest").strip()
-        normalized_rest = rest.lower()
-        sanitized_rest = re.sub(r"[^a-z0-9_-]+", "-", normalized_rest).strip("-")
-        if not sanitized_rest:
-            sanitized_rest = f"chapter-{number}"
-        chapter_code = f"{number:02d}01"
-        return f"{source_stem}{chapter_code}-{sanitized_rest}.md"
+        return _build_chapter_filename(
+            number=int(match.group("number")),
+            rest=match.group("rest"),
+            source_stem=source_stem,
+        )
+
+    zh_match = _CHAPTER_TITLE_ZH_RE.match(title)
+    if zh_match:
+        number = _chinese_numeral_to_int(zh_match.group("number"))
+        if number is not None:
+            return _build_chapter_filename(
+                number=number,
+                rest=zh_match.group("rest"),
+                source_stem=source_stem,
+            )
 
     return safe_filename_from_title(title, index)
 
