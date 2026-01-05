@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
-import time
 import os
+import time
 
 
 def batch_create_readnotes():
     first_num = 0
-    num = 25
-    base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20250101复制书籍"
-    book_name = "2025205软件设计的哲学"
-    default_content = "John Ousterhout.(2024).2025205软件设计的哲学.(茹炳晟等译).人民邮电出版社 => xxxx"
+    num = 10
+    base_path = "/Users/Daglas/dalong.github/dalong.readnotes/20260101复制书籍"
+    book_name = "2026001芯片战争"
+    default_content = (
+        "Chris Miller.(2023).2026001芯片战争.(蔡树军译).浙江人民出版社 => xxxx"
+    )
     # 确保 base_path 存在，如果不存在则创建
     target_path = os.path.join(base_path, book_name)
     os.makedirs(target_path, exist_ok=True)
