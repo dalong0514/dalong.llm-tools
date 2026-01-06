@@ -35,37 +35,49 @@ DATA_DIR = PROJECT_ROOT / "data"
 SOURCE_DATA_PATH = DATA_DIR / "TwitterContentData.json"
 TRANSLATED_DATA_PATH = DATA_DIR / "TranslatedTwitterContentData.json"
 TEMP_TRANSLATED_DATA_PATH = DATA_DIR / "TempTranslatedTwitterContentData.json"
+FAIL_LOG_PATH = DATA_DIR / "TranslationFailures.jsonl"
 TRANSLATION_NOT_FOUND = utils.extract_translation("")
+MAX_RETRIES = 5
+BASE_BACKOFF_SECONDS = 2.0
+MAX_BACKOFF_SECONDS = 30.0
 
 
 def translate_once(origin_content: str, mode: str) -> Optional[str]:
     """Translate a single content string and post-process the result."""
-    try:
-        prompt_template = ChatPromptTemplate(
-            [
-                ("system", system_prompt),
-                ("user", "{content}"),
-            ]
-        )
-        prompt = prompt_template.invoke({"content": origin_content})
-        response = model.invoke(prompt)
-        response_text = response.content
-        out_content = utils.extract_translation(response_text)
+    prompt_template = ChatPromptTemplate(
+        [
+            ("system", system_prompt),
+            ("user", "{content}"),
+        ]
+    )
+    prompt = prompt_template.invoke({"content": origin_content})
+    last_error: Optional[str] = None
 
-        while out_content == TRANSLATION_NOT_FOUND:
+    for attempt in range(1, MAX_RETRIES + 1):
+        try:
             response = model.invoke(prompt)
             response_text = response.content
             out_content = utils.extract_translation(response_text)
 
-        return out_content
+            if out_content != TRANSLATION_NOT_FOUND:
+                return out_content
 
-    except Exception as err:  # noqa: BLE001
-        print(f"Error processing content: {err}")
-        if "429" in str(err):
-            print("Rate limit exceeded, waiting 30 seconds...")
-            time.sleep(30)
-            return translate_once(origin_content, mode)
-        return None
+            last_error = "translation tag not found"
+        except Exception as err:  # noqa: BLE001
+            last_error = str(err)
+
+        if attempt < MAX_RETRIES:
+            delay = min(BASE_BACKOFF_SECONDS * (2 ** (attempt - 1)), MAX_BACKOFF_SECONDS)
+            if last_error and "429" in last_error:
+                delay = max(delay, MAX_BACKOFF_SECONDS)
+            print(
+                "Retrying translation "
+                f"(attempt {attempt}/{MAX_RETRIES}) after {delay:.1f}s: {last_error}"
+            )
+            time.sleep(delay)
+
+    print(f"Translation failed after {MAX_RETRIES} attempts: {last_error}")
+    return None
 
 
 def load_source_entries(path: Path) -> List[Dict[str, Any]]:
@@ -79,6 +91,20 @@ def save_entries(path: Path, entries: List[Dict[str, Any]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as file:
         json.dump(entries, file, ensure_ascii=False, indent=2)
+
+
+def record_failure(index: int, entry: Dict[str, Any], reason: str) -> None:
+    """Append a failure record for later inspection."""
+    FAIL_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "index": index,
+        "id": entry.get("id"),
+        "reason": reason,
+        "text_preview": str(entry.get("text", ""))[:200],
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
+    }
+    with FAIL_LOG_PATH.open("a", encoding="utf-8") as file:
+        file.write(json.dumps(payload, ensure_ascii=False) + "\n")
 
 
 def translate_entries(entries: List[Dict[str, Any]], mode: str) -> List[Dict[str, Any]]:
@@ -95,6 +121,9 @@ def translate_entries(entries: List[Dict[str, Any]], mode: str) -> List[Dict[str
         translated_content = translate_once(text, mode)
         if translated_content is not None:
             entry["tranlastedContent"] = translated_content
+        else:
+            entry["tranlastedContent"] = ""
+            record_failure(index, entry, "translation failed after retries")
         save_entries(TEMP_TRANSLATED_DATA_PATH, entries)
     return entries
 
