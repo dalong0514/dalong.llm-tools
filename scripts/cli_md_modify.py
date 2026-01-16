@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 
-import glob
 import os
 import sys
 import time
+from pathlib import Path
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import argparse
@@ -14,21 +14,26 @@ from src.utils import modify_text, modify_text_en
 
 
 def modify_single_file_content(args):
-    file_name = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        "working",
-        "temp.md",
+    default_path = (
+        Path(__file__).resolve().parent.parent / "working" / "temp.md"
     )
-    with open(file_name, encoding="UTF-8") as file_obj:
+    file_name = Path(args.file).expanduser() if args.file else default_path
+    if not file_name.is_file():
+        raise FileNotFoundError(f"File not found: {file_name}")
+
+    with file_name.open(encoding="UTF-8") as file_obj:
         lines = file_obj.readlines()
-    # 对文字处理并写入文件
-    with open(file_name, "w", encoding="UTF-8") as file_obj:
-        for line in lines:
-            if line != "\n":
-                new_content = (
-                    modify_text_en(line) if args.lg == "en" else modify_text(line)
-                )
-                file_obj.write(new_content + "\n\n")
+
+    processed_lines = []
+    for line in lines:
+        if line != "\n":
+            new_content = modify_text_en(line) if args.lg == "en" else modify_text(line)
+            processed_lines.append(new_content)
+
+    processed_text = "\n\n".join(processed_lines)
+    if processed_lines:
+        processed_text += "\n\n"
+    pyperclip.copy(processed_text)
 
 
 def parse_arguments():
@@ -40,6 +45,7 @@ def parse_arguments():
     parser.add_argument(
         "--lg", type=str, default="zh", help="音频语言代码 (默认: zh/en)"
     )
+    parser.add_argument("--file", type=str, help="输入文件路径 (可选)")
     return parser.parse_args()
 
 
