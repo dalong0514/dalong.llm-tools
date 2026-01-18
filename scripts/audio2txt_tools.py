@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
-import sys, time, os, re
-import os, time, sys
+import os
+import re
+import sys
+import time
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import subprocess
-import json
 import argparse
+import json
+import subprocess
+
 from src.helper import get_api_key
 
 api_key = get_api_key("hf")
+
 
 def convert_video_to_wav(input_file, output_file=None):
     """
@@ -18,28 +23,32 @@ def convert_video_to_wav(input_file, output_file=None):
     """
     if output_file is None:
         base_name = os.path.splitext(input_file)[0]
-        output_file = base_name + '_converted.wav'
-    
+        output_file = base_name + "_converted.wav"
+
     # 如果输入文件已经是wav格式且路径相同，创建一个新的输出路径
     if os.path.abspath(input_file) == os.path.abspath(output_file):
         base_name = os.path.splitext(output_file)[0]
-        output_file = base_name + '_converted.wav'
-    
+        output_file = base_name + "_converted.wav"
+
     # 检查输入文件是否存在
     if not os.path.exists(input_file):
         print(f"输入文件不存在: {input_file}")
         return None
-    
+
     command = [
-        'ffmpeg',
-        '-y',  # 自动覆盖输出文件
-        '-i', input_file,
-        '-ar', '16000',  # 采样率
-        '-ac', '1',      # 单声道
-        '-c:a', 'pcm_s16le',  # 音频编码
-        output_file
+        "ffmpeg",
+        "-y",  # 自动覆盖输出文件
+        "-i",
+        input_file,
+        "-ar",
+        "16000",  # 采样率
+        "-ac",
+        "1",  # 单声道
+        "-c:a",
+        "pcm_s16le",  # 音频编码
+        output_file,
     ]
-    
+
     try:
         subprocess.run(command, check=True)
         print(f"转换成功！输出文件: {output_file}")
@@ -47,6 +56,7 @@ def convert_video_to_wav(input_file, output_file=None):
     except subprocess.CalledProcessError as e:
         print(f"转换失败: {e}")
         return None
+
 
 def extract_text_from_json(json_file, output_txt=None):
     """
@@ -56,25 +66,26 @@ def extract_text_from_json(json_file, output_txt=None):
     :return: 输出文件路径
     """
     if output_txt is None:
-        output_txt = os.path.splitext(json_file)[0] + '.txt'
-    
+        output_txt = os.path.splitext(json_file)[0] + ".txt"
+
     try:
-        with open(json_file, 'r', encoding='utf-8') as f:
+        with open(json_file, "r", encoding="utf-8") as f:
             data = json.load(f)
-        
+
         # 提取所有chunks中的text并拼接
         # full_text = ' '.join(chunk['text'] for chunk in data['chunks'])
         # 直接提取text字段
-        full_text = data['text']
+        full_text = data["text"]
 
-        with open(output_txt, 'w', encoding='utf-8') as f:
+        with open(output_txt, "w", encoding="utf-8") as f:
             f.write(full_text)
-        
+
         print(f"文本提取成功！输出文件: {output_txt}")
         return output_txt
     except Exception as e:
         print(f"文本提取失败: {e}")
         return None
+
 
 def transcribe_audio(
     input_audio,
@@ -120,24 +131,31 @@ def transcribe_audio(
             return None
 
     if output_json is None:
-        output_json = os.path.splitext(input_audio)[0] + '.json'
-    
+        output_json = os.path.splitext(input_audio)[0] + ".json"
+
     command = [
-        'insanely-fast-whisper',
-        '--model-name', model_path,
-        '--file-name', input_audio,
-        '--device', device,
-        '--hf-token', api_key,
-        '--transcript-path', output_json,
-        '--batch-size', str(batch_size),
-        '--language', language,
+        "insanely-fast-whisper",
+        "--model-name",
+        model_path,
+        "--file-name",
+        input_audio,
+        "--device",
+        device,
+        "--hf-token",
+        api_key,
+        "--transcript-path",
+        output_json,
+        "--batch-size",
+        str(batch_size),
+        "--language",
+        language,
     ]
     # 可选的说话人分离参数
     if num_speakers is not None:
-        command += ['--num-speakers', str(int(num_speakers))]
+        command += ["--num-speakers", str(int(num_speakers))]
     if min_speakers is not None:
-        command += ['--min-speakers', str(int(min_speakers))]
-    
+        command += ["--min-speakers", str(int(min_speakers))]
+
     try:
         subprocess.run(command, check=True)
         print(f"转录成功！输出文件: {output_json}")
@@ -145,6 +163,7 @@ def transcribe_audio(
     except subprocess.CalledProcessError as e:
         print(f"转录失败: {e}")
         return None
+
 
 def video_to_text(
     input_video,
@@ -165,22 +184,24 @@ def video_to_text(
     # 转换视频为音频
     if output_dir:
         base_name = os.path.basename(input_video)
-        audio_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '_converted.wav')
+        audio_output = os.path.join(
+            output_dir, os.path.splitext(base_name)[0] + "_converted.wav"
+        )
     else:
         audio_output = None
-        
+
     wav_file = convert_video_to_wav(input_video, audio_output)
     if not wav_file:
         print("音频转换失败")
         return None
-        
+
     # 转录音频为文本
     if output_dir:
         base_name = os.path.basename(wav_file)
-        json_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.json')
+        json_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + ".json")
     else:
         json_output = None
-        
+
     json_result = transcribe_audio(
         wav_file,
         model_path,
@@ -189,7 +210,7 @@ def video_to_text(
         num_speakers=num_speakers,
         min_speakers=min_speakers,
     )
-    
+
     # 删除临时wav文件
     if json_result and os.path.exists(wav_file):
         try:
@@ -197,15 +218,17 @@ def video_to_text(
             print(f"已删除临时音频文件: {wav_file}")
         except OSError as e:
             print(f"删除音频文件失败: {e}")
-    
+
     # 提取文本
     if json_result:
         if output_dir:
             base_name = os.path.basename(json_result)
-            txt_output = os.path.join(output_dir, os.path.splitext(base_name)[0] + '.txt')
+            txt_output = os.path.join(
+                output_dir, os.path.splitext(base_name)[0] + ".txt"
+            )
         else:
             txt_output = None
-            
+
         final_result = extract_text_from_json(json_result, txt_output)
         return final_result
     else:
@@ -219,15 +242,19 @@ def parse_arguments():
     :return: 包含参数的命名空间
     """
     parser = argparse.ArgumentParser(description="将视频文件转换为文字转录")
-    parser.add_argument('input_video', type=str, help='输入视频文件路径')
-    parser.add_argument('--language', type=str, default='zh', 
-                       help='音频语言代码 (默认: zh/en)')
-    parser.add_argument('--model_path', type=str, 
-                       default='/Users/Daglas/dalong.modelsets/whisper-large-v3-turbo',
-                       help='whisper模型路径')
-    parser.add_argument('--output_dir', type=str, 
-                       default=None,
-                       help='输出目录 (默认: 视频文件所在目录)')
+    parser.add_argument("input_video", type=str, help="输入视频文件路径")
+    parser.add_argument(
+        "--language", type=str, default="zh", help="音频语言代码 (默认: zh/en)"
+    )
+    parser.add_argument(
+        "--model_path",
+        type=str,
+        default="/Users/Daglas/dalong.com/D.MyLibrary/dalong.modelsets/whisper-large-v3-turbo",
+        help="whisper模型路径",
+    )
+    parser.add_argument(
+        "--output_dir", type=str, default=None, help="输出目录 (默认: 视频文件所在目录)"
+    )
     return parser.parse_args()
 
 
