@@ -45,7 +45,13 @@ def parse_arguments():
     parser.add_argument(
         "--lg", type=str, default="zh", help="音频语言代码 (默认: zh/en)"
     )
-    parser.add_argument("--file", type=str, help="输入文件路径 (可选)")
+    parser.add_argument(
+        "--file",
+        type=str,
+        nargs='?',
+        default=None,
+        help="输入文件路径 (可选，默认: working/temp.md)"
+    )
     return parser.parse_args()
 
 
