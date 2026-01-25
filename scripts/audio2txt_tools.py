@@ -10,6 +10,7 @@ import json
 import subprocess
 
 from src.helper import get_api_key
+from src.device import get_best_device
 
 api_key = get_api_key("hf")
 
@@ -92,7 +93,7 @@ def transcribe_audio(
     model_path,
     output_json=None,
     language="zh",
-    device="mps",
+    device=None,
     batch_size=4,
     num_speakers=None,
     min_speakers=None,
@@ -129,6 +130,11 @@ def transcribe_audio(
         except ValueError:
             print("参数错误：min_speakers 必须为整数。")
             return None
+
+    # 自动检测设备
+    if device is None:
+        device = get_best_device()
+        print(f"自动检测设备: {device}")
 
     if output_json is None:
         output_json = os.path.splitext(input_audio)[0] + ".json"
@@ -170,6 +176,7 @@ def video_to_text(
     model_path,
     output_dir=None,
     language="zh",
+    device=None,
     num_speakers=None,
     min_speakers=None,
 ):
@@ -207,6 +214,7 @@ def video_to_text(
         model_path,
         json_output,
         language=language,
+        device=device,
         num_speakers=num_speakers,
         min_speakers=min_speakers,
     )
@@ -255,6 +263,13 @@ def parse_arguments():
     parser.add_argument(
         "--output_dir", type=str, default=None, help="输出目录 (默认: 视频文件所在目录)"
     )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        choices=["cuda", "mps", "cpu"],
+        help="计算设备 (默认: 自动检测)",
+    )
     return parser.parse_args()
 
 
@@ -263,4 +278,10 @@ if __name__ == "__main__":
     # 如果没有指定输出目录，使用视频文件所在目录
     if args.output_dir is None:
         args.output_dir = os.path.dirname(args.input_video)
-    video_to_text(args)
+    video_to_text(
+        args.input_video,
+        args.model_path,
+        args.output_dir,
+        args.language,
+        device=args.device,
+    )

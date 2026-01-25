@@ -193,7 +193,7 @@ def transcribe_audio(
     model_path,
     output_json=None,
     language="zh",
-    device="mps",
+    device=None,
     batch_size=4,
     num_speakers=None,
     min_speakers=None,
@@ -218,6 +218,12 @@ def transcribe_audio(
     if min_speakers is not None and int(min_speakers) < 1:
         print("参数错误：min_speakers 必须 >= 1。")
         return None
+
+    # 自动检测设备
+    if device is None:
+        from src.device import get_best_device
+        device = get_best_device()
+        print(f"自动检测设备: {device}")
 
     if output_json is None:
         output_json = os.path.splitext(input_audio)[0] + ".json"
@@ -257,6 +263,7 @@ def video_to_text(
     model_path,
     output_dir=None,
     language="zh",
+    device=None,
     num_speakers=None,
     min_speakers=None,
 ):
@@ -291,6 +298,7 @@ def video_to_text(
         model_path,
         json_output,
         language=language,
+        device=device,
         num_speakers=num_speakers,
         min_speakers=min_speakers,
     )
@@ -325,6 +333,7 @@ def video_translate(args):
         args.model_path,
         args.output_dir,
         args.language,
+        device=args.device,
         num_speakers=args.num_speakers,
         min_speakers=args.min_speakers,
     )
@@ -363,6 +372,13 @@ def parse_arguments():
         type=int,
         default=None,
         help="说话人最小数量阈值，>=1。与 --num-speakers 不能同时使用。",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        choices=["cuda", "mps", "cpu"],
+        help="计算设备 (默认: 自动检测)",
     )
     args = parser.parse_args()
     # 参数校验
