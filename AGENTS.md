@@ -46,7 +46,3 @@ python scripts/chat_with_llm.py --mode zh          # 示例：使用 working/inp
 ## 安全与配置建议
 - 凭据请存放在本地 `.env`，严禁提交密钥；新增环境变量键请在 PR 中说明。
 - 引入新集成时，请检查添加到 `pyproject.toml` 的依赖许可证兼容性，并尽量固定精确版本。
-
-## 操作记录
-- 我每次让你执行任务，你执行完后，都生成一个执行结果报告，保存为一个markdown文档，保存在`chats/summary`文件夹中，文件名格式为`yyyy-mm-dd-hh-mm{操作总结}.md`。
-- 获取当前时间：生成work文件前，在bash中先调用命令[date "+%Y-%m-%d-%H-%M"]获取准确的当前时间用于文件命名。
