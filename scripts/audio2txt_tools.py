@@ -267,8 +267,8 @@ def parse_arguments():
         "--device",
         type=str,
         default=None,
-        choices=["cuda", "mps", "cpu"],
-        help="计算设备 (默认: 自动检测)",
+        choices=["0", "mps", "cpu"],
+        help="计算设备: 0=CUDA, mps=Apple芯片, cpu (默认: 自动检测)",
     )
     return parser.parse_args()
 

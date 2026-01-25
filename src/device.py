@@ -3,9 +3,13 @@ import torch
 
 
 def get_best_device() -> str:
-    """自动检测最佳计算设备，优先级：CUDA → MPS → CPU"""
+    """自动检测最佳计算设备，优先级：CUDA → MPS → CPU
+
+    注意：insanely-fast-whisper 对 CUDA 设备只接受数字 ID（如 "0"），
+    它内部会自动加上 "cuda:" 前缀
+    """
     if torch.cuda.is_available():
-        return "cuda"
+        return "0"
     elif torch.backends.mps.is_available():
         return "mps"
     return "cpu"
