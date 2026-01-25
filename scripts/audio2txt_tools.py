@@ -145,10 +145,8 @@ def transcribe_audio(
         model_path,
         "--file-name",
         input_audio,
-        "--device",
+        "--device-id",
         device,
-        "--hf-token",
-        api_key,
         "--transcript-path",
         output_json,
         "--batch-size",
@@ -156,11 +154,13 @@ def transcribe_audio(
         "--language",
         language,
     ]
-    # 可选的说话人分离参数
-    if num_speakers is not None:
-        command += ["--num-speakers", str(int(num_speakers))]
-    if min_speakers is not None:
-        command += ["--min-speakers", str(int(min_speakers))]
+    # 说话人分离参数（需要 hf-token）
+    if num_speakers is not None or min_speakers is not None:
+        command += ["--hf-token", api_key]
+        if num_speakers is not None:
+            command += ["--num-speakers", str(int(num_speakers))]
+        if min_speakers is not None:
+            command += ["--min-speakers", str(int(min_speakers))]
 
     try:
         subprocess.run(command, check=True)
