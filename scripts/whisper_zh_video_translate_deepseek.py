@@ -8,6 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import argparse
 
 from audio2txt_tools import video_to_text
+from src.device import get_default_whisper_model_path
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
@@ -80,9 +81,11 @@ def translate(txt_output):
 
 
 def video_translate(args):
+    # 如果没有指定模型路径，根据设备自动选择
+    model_path = args.model_path or get_default_whisper_model_path(args.device)
     txt_output = video_to_text(
         args.input_video,
-        args.model_path,
+        model_path,
         args.output_dir,
         args.language,
         device=args.device,
@@ -109,8 +112,8 @@ def parse_arguments():
     parser.add_argument(
         "--model_path",
         type=str,
-        default="/Users/Daglas/dalong.com/D.MyLibrary/dalong.modelsets/whisper-large-v3-turbo",
-        help="whisper模型路径",
+        default=None,
+        help="whisper模型路径 (默认: 根据设备自动选择)",
     )
     parser.add_argument(
         "--output_dir", type=str, default=None, help="输出目录 (默认: 视频文件所在目录)"

@@ -14,6 +14,7 @@ from langchain_openai import ChatOpenAI
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.utils as common_tools
 from src.helper import get_api_key, get_base_url
+from src.device import get_default_whisper_model_path
 from src.utils import read_prompt_file
 
 prompt_split = read_prompt_file("prompt_split_en")
@@ -328,9 +329,11 @@ def video_to_text(
 
 
 def video_translate(args):
+    # 如果没有指定模型路径，根据设备自动选择
+    model_path = args.model_path or get_default_whisper_model_path(args.device)
     txt_output = video_to_text(
         args.input_video,
-        args.model_path,
+        model_path,
         args.output_dir,
         args.language,
         device=args.device,
@@ -353,8 +356,8 @@ def parse_arguments():
     parser.add_argument(
         "--model_path",
         type=str,
-        default="/Users/Daglas/dalong.com/D.MyLibrary/dalong.modelsets/whisper-large-v3-turbo",
-        help="whisper模型路径",
+        default=None,
+        help="whisper模型路径 (默认: 根据设备自动选择)",
     )
     parser.add_argument(
         "--output_dir", type=str, default=None, help="输出目录 (默认: 视频文件所在目录)"

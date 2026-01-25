@@ -10,7 +10,7 @@ import json
 import subprocess
 
 from src.helper import get_api_key
-from src.device import get_best_device
+from src.device import get_best_device, get_default_whisper_model_path
 
 api_key = get_api_key("hf")
 
@@ -257,8 +257,8 @@ def parse_arguments():
     parser.add_argument(
         "--model_path",
         type=str,
-        default="/Users/Daglas/dalong.com/D.MyLibrary/dalong.modelsets/whisper-large-v3-turbo",
-        help="whisper模型路径",
+        default=None,
+        help="whisper模型路径 (默认: 根据设备自动选择)",
     )
     parser.add_argument(
         "--output_dir", type=str, default=None, help="输出目录 (默认: 视频文件所在目录)"
@@ -278,9 +278,11 @@ if __name__ == "__main__":
     # 如果没有指定输出目录，使用视频文件所在目录
     if args.output_dir is None:
         args.output_dir = os.path.dirname(args.input_video)
+    # 如果没有指定模型路径，根据设备自动选择
+    model_path = args.model_path or get_default_whisper_model_path(args.device)
     video_to_text(
         args.input_video,
-        args.model_path,
+        model_path,
         args.output_dir,
         args.language,
         device=args.device,
