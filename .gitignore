@@ -179,3 +179,5 @@ cython_debug/
 
 # claude code
 .claude
+
+.audio
