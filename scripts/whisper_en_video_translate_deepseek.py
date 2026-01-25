@@ -193,7 +193,7 @@ def transcribe_audio(
     input_audio,
     model_path,
     output_json=None,
-    language="zh",
+    language="en",
     device=None,
     batch_size=4,
     num_speakers=None,
