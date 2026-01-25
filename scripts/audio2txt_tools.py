@@ -10,6 +10,7 @@ import json
 import subprocess
 
 from src.helper import get_api_key
+from src.device import get_best_device
 
 api_key = get_api_key("hf")
 
@@ -92,7 +93,7 @@ def transcribe_audio(
     model_path,
     output_json=None,
     language="zh",
-    device="mps",
+    device=None,
     batch_size=4,
     num_speakers=None,
     min_speakers=None,
@@ -103,12 +104,15 @@ def transcribe_audio(
     :param model_path: whisper模型路径
     :param output_json: 输出json文件路径（可选）
     :param language: 语言代码
-    :param device: 计算设备（mps/cpu/cuda）
+    :param device: 计算设备（cuda/mps/cpu），None 表示自动检测
     :param batch_size: 批处理大小
     :param num_speakers: 说话人数量（精确值，>=1）。与min_speakers互斥。
     :param min_speakers: 说话人最小数量（>=1）。与num_speakers互斥。
     :return: 输出文件路径
     """
+    # 自动检测设备
+    if device is None:
+        device = get_best_device()
     # 基本参数校验（仅在提供时检查）
     if num_speakers is not None and min_speakers is not None:
         print("参数冲突：num_speakers 与 min_speakers 不能同时使用。")
@@ -170,6 +174,7 @@ def video_to_text(
     model_path,
     output_dir=None,
     language="zh",
+    device=None,
     num_speakers=None,
     min_speakers=None,
 ):
@@ -179,6 +184,7 @@ def video_to_text(
     :param model_path: whisper模型路径
     :param output_dir: 输出目录（可选）
     :param language: 语言代码
+    :param device: 计算设备（cuda/mps/cpu），None 表示自动检测
     :return: 转录结果文件路径
     """
     # 转换视频为音频
@@ -207,6 +213,7 @@ def video_to_text(
         model_path,
         json_output,
         language=language,
+        device=device,
         num_speakers=num_speakers,
         min_speakers=min_speakers,
     )
@@ -255,6 +262,13 @@ def parse_arguments():
     parser.add_argument(
         "--output_dir", type=str, default=None, help="输出目录 (默认: 视频文件所在目录)"
     )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        choices=["cuda", "mps", "cpu"],
+        help="计算设备 (默认: 自动检测)",
+    )
     return parser.parse_args()
 
 
@@ -263,4 +277,10 @@ if __name__ == "__main__":
     # 如果没有指定输出目录，使用视频文件所在目录
     if args.output_dir is None:
         args.output_dir = os.path.dirname(args.input_video)
-    video_to_text(args)
+    video_to_text(
+        args.input_video,
+        args.model_path,
+        args.output_dir,
+        args.language,
+        device=args.device,
+    )

@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import src.utils as common_tools
 from src.helper import get_api_key, get_base_url
 from src.utils import read_prompt_file
+from src.device import get_best_device
 
 prompt_split = read_prompt_file("prompt_split_en")
 system_prompt = read_prompt_file("prompt_translate")
@@ -193,7 +194,7 @@ def transcribe_audio(
     model_path,
     output_json=None,
     language="zh",
-    device="mps",
+    device=None,
     batch_size=4,
     num_speakers=None,
     min_speakers=None,
@@ -204,10 +205,13 @@ def transcribe_audio(
     :param model_path: whisper模型路径
     :param output_json: 输出json文件路径（可选）
     :param language: 语言代码
-    :param device: 计算设备（mps/cpu/cuda）
+    :param device: 计算设备（cuda/mps/cpu），None 表示自动检测
     :param batch_size: 批处理大小
     :return: 输出文件路径
     """
+    # 自动检测设备
+    if device is None:
+        device = get_best_device()
     # 基本参数校验（仅在提供时检查）
     if num_speakers is not None and min_speakers is not None:
         print("参数冲突：num_speakers 与 min_speakers 不能同时使用。")
@@ -257,6 +261,7 @@ def video_to_text(
     model_path,
     output_dir=None,
     language="zh",
+    device=None,
     num_speakers=None,
     min_speakers=None,
 ):
@@ -266,6 +271,7 @@ def video_to_text(
     :param model_path: whisper模型路径
     :param output_dir: 输出目录（可选）
     :param language: 语言代码
+    :param device: 计算设备（cuda/mps/cpu），None 表示自动检测
     :return: 转录结果文件路径
     """
     # 转换视频为音频
@@ -291,6 +297,7 @@ def video_to_text(
         model_path,
         json_output,
         language=language,
+        device=device,
         num_speakers=num_speakers,
         min_speakers=min_speakers,
     )
@@ -325,6 +332,7 @@ def video_translate(args):
         args.model_path,
         args.output_dir,
         args.language,
+        device=args.device,
         num_speakers=args.num_speakers,
         min_speakers=args.min_speakers,
     )
@@ -363,6 +371,13 @@ def parse_arguments():
         type=int,
         default=None,
         help="说话人最小数量阈值，>=1。与 --num-speakers 不能同时使用。",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        choices=["cuda", "mps", "cpu"],
+        help="计算设备 (默认: 自动检测)",
     )
     args = parser.parse_args()
     # 参数校验

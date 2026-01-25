@@ -85,6 +85,7 @@ def video_translate(args):
         args.model_path,
         args.output_dir,
         args.language,
+        device=args.device,
         num_speakers=args.num_speakers,
         min_speakers=args.min_speakers,
     )
@@ -127,6 +128,13 @@ def parse_arguments():
         type=int,
         default=None,
         help="说话人最小数量阈值，>=1。与 --num-speakers 不能同时使用。",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        choices=["cuda", "mps", "cpu"],
+        help="计算设备 (默认: 自动检测)",
     )
     args = parser.parse_args()
     # 参数校验

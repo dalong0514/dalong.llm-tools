@@ -11,6 +11,7 @@ import src.utils as common_tools
 from src.helper import get_api_key, get_base_url
 from src.utils import read_prompt_file
 from src.asr_funasr import funasr_transcribe_local_file
+from src.device import get_best_device
 
 prompt_split = read_prompt_file("prompt_split_en")
 system_prompt = read_prompt_file("prompt_translate")
@@ -180,17 +181,20 @@ def convert_video_to_wav(input_file, output_file=None):
         return None
 
 
-def transcribe_audio(input_audio, model_path, output_json=None, language="zh", device="mps", batch_size=4):
+def transcribe_audio(input_audio, model_path, output_json=None, language="zh", device=None, batch_size=4):
     """
     使用insanely-fast-whisper将音频转录为文本
     :param input_audio: 输入音频文件路径
     :param model_path: whisper模型路径
     :param output_json: 输出json文件路径（可选）
     :param language: 语言代码
-    :param device: 计算设备（mps/cpu/cuda）
+    :param device: 计算设备（cuda/mps/cpu），None 表示自动检测
     :param batch_size: 批处理大小
     :return: 输出文件路径
     """
+    # 自动检测设备
+    if device is None:
+        device = get_best_device()
     if output_json is None:
         output_json = os.path.splitext(input_audio)[0] + '.json'
     
@@ -212,13 +216,14 @@ def transcribe_audio(input_audio, model_path, output_json=None, language="zh", d
         print(f"转录失败: {e}")
         return None
 
-def video_to_text(input_video, model_path, output_dir=None, language="zh"):
+def video_to_text(input_video, model_path, output_dir=None, language="zh", device=None):
     """
     将视频文件转换为文本
     :param input_video: 输入视频文件路径
     :param model_path: whisper模型路径
     :param output_dir: 输出目录（可选）
     :param language: 语言代码
+    :param device: 计算设备（cuda/mps/cpu），None 表示自动检测
     :return: 转录结果文件路径
     """
     # 转换视频为音频
@@ -239,7 +244,7 @@ def video_to_text(input_video, model_path, output_dir=None, language="zh"):
     else:
         json_output = None
         
-    result = transcribe_audio(wav_file, model_path, json_output, language=language)
+    result = transcribe_audio(wav_file, model_path, json_output, language=language, device=device)
     
     # 删除临时wav文件
     if result and os.path.exists(wav_file):
@@ -312,6 +317,13 @@ def parse_arguments():
                        help='输出目录 (默认: 视频文件所在目录)')
     parser.add_argument('--multi', type=str, default='1', choices=['1','2','3','4','n'],
                         help='多人转录模式：1=单人(默认,不分离)；2/3/4=固定人数说话人分离；n=自动多人分离')
+    parser.add_argument(
+        "--device",
+        type=str,
+        default=None,
+        choices=["cuda", "mps", "cpu"],
+        help="计算设备 (默认: 自动检测)",
+    )
     return parser.parse_args()
 
 if __name__ == "__main__":
