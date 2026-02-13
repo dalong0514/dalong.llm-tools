@@ -22,7 +22,7 @@ def batch_insert_num(start, end, date, file_path):
 
 
 # 用户输入的参数
-file_path = "/Users/Daglas/dalong.com/B.MyCreate/dalong.github/dalong.llm-tools/working/temp.md"  # 更改为你的实际路径
+file_path = "/mnt/d/dalong.com/B.MyCreate/01.AI/dalong.llm-tools/working/temp.md"  # 更改为你的实际路径
 start = int(input("Enter start number: "))  # 例如输入91
 end = int(input("Enter end number: "))  # 例如输入121
 date = input("Enter the date: ")  # 例如输入2024-03-24
