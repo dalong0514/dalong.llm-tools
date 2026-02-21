@@ -177,7 +177,5 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# claude code
-.claude
 
 .audio
