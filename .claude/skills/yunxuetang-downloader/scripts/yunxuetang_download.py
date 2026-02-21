@@ -647,82 +647,119 @@ async def _scroll_and_download_doc(page, on_request, doc_img_urls: list[str],
     # 文档查看器是翻页式的, 每次加载10页为一批
     # 需要点击"下一页"按钮翻过批次边界 (第11, 21, 31...页) 触发下一批加载
 
-    # 查找下一页按钮
-    next_btn_sel = None
-    for sel in [
-        "[class*='next']", "[class*='right-arrow']", "[class*='arrow-right']",
-        "[class*='pageNext']", "[class*='page-next']",
-        "button[class*='right']", "[class*='btn-next']",
-        ".el-icon-arrow-right", ".icon-right", "[class*='icon-next']",
-    ]:
-        try:
-            el = await page.query_selector(sel)
-            if el and await el.is_visible():
-                next_btn_sel = sel
-                break
-        except Exception:
-            pass
+    # 1. 从页面获取总页数和下一页按钮信息
+    viewer_info = await page.evaluate("""
+        () => {
+            const info = { totalPages: 0, nextBtn: null };
 
-    # 兜底: 遍历所有可能的箭头按钮
-    if not next_btn_sel:
-        try:
-            found_sel = await page.evaluate("""
-                () => {
-                    const all = document.querySelectorAll('button, [role="button"], [class*="arrow"], [class*="next"], svg, i');
-                    for (const el of all) {
-                        const cls = (el.className?.baseVal || el.className || '').toString();
-                        const text = el.textContent || '';
-                        if ((cls.match(/next|right|forward|arrow/i) || text.match(/[>›»→▶]/))
-                            && el.offsetWidth > 0 && el.offsetHeight > 0) {
-                            el.dataset.yxtNext = '1';
-                            return '[data-yxt-next="1"]';
-                        }
-                    }
-                    return null;
+            // 查找页码指示器 (如 "1/17", "1 / 17")
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            let node;
+            while (node = walker.nextNode()) {
+                const text = node.textContent.trim();
+                const m = text.match(/(\\d+)\\s*[/／]\\s*(\\d+)/);
+                if (m && parseInt(m[2]) > 1) {
+                    info.totalPages = parseInt(m[2]);
+                    break;
                 }
-            """)
-            if found_sel:
-                next_btn_sel = found_sel
-        except Exception:
-            pass
+            }
 
-    log(f"  下一页按钮: {next_btn_sel or '未找到, 将使用键盘'}")
+            // 查找下一页按钮: 在页面右侧的小型可点击元素
+            const vpW = window.innerWidth;
+            const vpH = window.innerHeight;
+            const candidates = [];
+            const all = document.querySelectorAll('*');
+            for (const el of all) {
+                const rect = el.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) continue;
+                if (rect.width > 150 || rect.height > 150) continue;
+                // 只看页面右半部分的元素
+                if (rect.x + rect.width / 2 < vpW * 0.6) continue;
 
-    # 点击页面中心获得焦点
-    try:
-        vp = page.viewport_size
-        if vp:
-            await page.mouse.click(vp['width'] // 2, vp['height'] // 2)
+                const cls = (el.className?.baseVal || el.className || '').toString();
+                const tag = el.tagName.toLowerCase();
+                const style = getComputedStyle(el);
+                const clickable = style.cursor === 'pointer' || tag === 'button' ||
+                                  tag === 'a' || tag === 'svg' || tag === 'i' ||
+                                  el.onclick || el.getAttribute('role') === 'button';
+                if (!clickable) continue;
+
+                candidates.push({
+                    cls: cls.substring(0, 100),
+                    tag, x: Math.round(rect.x), y: Math.round(rect.y),
+                    w: Math.round(rect.width), h: Math.round(rect.height),
+                    centerX: Math.round(rect.x + rect.width / 2),
+                    centerY: Math.round(rect.y + rect.height / 2)
+                });
+            }
+            info.candidates = candidates;
+            return info;
+        }
+    """)
+
+    total_pages = viewer_info.get('totalPages', 0)
+    candidates = viewer_info.get('candidates', [])
+    log(f"  总页数: {total_pages or '未知'}, 候选按钮: {len(candidates)} 个")
+    for c in candidates[:5]:
+        log(f"    <{c['tag']}> cls={c['cls'][:50]} pos=({c['x']},{c['y']}) size={c['w']}x{c['h']}")
+
+    # 2. 确定翻页按钮的点击坐标 (左=上一页, 右=下一页)
+    vp = page.viewport_size or {'width': 1280, 'height': 800}
+
+    # 在页面右侧 (>70% 宽度), 垂直居中区域 (20%-80%) 找下一页按钮
+    next_btn, prev_btn = None, None
+    for c in candidates:
+        cy_ok = vp['height'] * 0.2 < c['centerY'] < vp['height'] * 0.8
+        if not cy_ok:
+            continue
+        if c['centerX'] > vp['width'] * 0.7:
+            if next_btn is None or c['centerX'] > next_btn['centerX']:
+                next_btn = c
+        elif c['centerX'] < vp['width'] * 0.3:
+            if prev_btn is None or c['centerX'] < prev_btn['centerX']:
+                prev_btn = c
+
+    if next_btn:
+        log(f"  下一页按钮: ({next_btn['centerX']},{next_btn['centerY']}) cls={next_btn['cls'][:40]}")
+    if prev_btn:
+        log(f"  上一页按钮: ({prev_btn['centerX']},{prev_btn['centerY']}) cls={prev_btn['cls'][:40]}")
+
+    # 3. 双向翻页: 先往前翻到第1页, 再往后翻到最后一页
+    #    这样无论从哪页开始, 都能捕获所有批次 (每10页一批)
+    async def flip_pages(direction: str, max_steps: int):
+        """direction: 'prev' 或 'next'"""
+        nonlocal prev_count, no_new_count
+        btn = prev_btn if direction == 'prev' else next_btn
+        key = 'ArrowLeft' if direction == 'prev' else 'ArrowRight'
+        prev_count = len(doc_img_urls)
+        no_new_count = 0
+        for step in range(max_steps):
+            if btn:
+                await page.mouse.click(btn['centerX'], btn['centerY'])
+                await page.wait_for_timeout(300)
+            await page.keyboard.press(key)
             await page.wait_for_timeout(500)
-    except Exception:
-        pass
 
-    # 逐页翻页, 每次翻页后检查是否有新图片加载 (每10页一批)
+            if len(doc_img_urls) > prev_count:
+                log(f"  [{direction}] 翻页 {step}: 已加载 {len(doc_img_urls)} 页")
+                prev_count = len(doc_img_urls)
+                no_new_count = 0
+            else:
+                no_new_count += 1
+                if no_new_count >= 15:
+                    break
+
     prev_count = len(doc_img_urls)
     no_new_count = 0
-    for step in range(500):
-        # 点击下一页按钮
-        if next_btn_sel:
-            try:
-                btn = await page.query_selector(next_btn_sel)
-                if btn and await btn.is_visible():
-                    await btn.click()
-            except Exception:
-                pass
+    max_steps = (total_pages + 5) if total_pages > 0 else 500
 
-        # 同时用键盘 ArrowRight 作为备选
-        await page.keyboard.press('ArrowRight')
-        await page.wait_for_timeout(500)
+    # 先往前翻 (回到第1页, 触发加载前面的批次)
+    log("  [phase1] 往前翻页...")
+    await flip_pages('prev', max_steps)
 
-        if len(doc_img_urls) > prev_count:
-            log(f"  翻页: 已加载 {len(doc_img_urls)} 页")
-            prev_count = len(doc_img_urls)
-            no_new_count = 0
-        else:
-            no_new_count += 1
-            # 连续多次无新图片 = 已翻到最后一页
-            if no_new_count >= 15:
-                break
+    # 再往后翻 (翻到最后一页, 触发加载后面的批次)
+    log("  [phase2] 往后翻页...")
+    await flip_pages('next', max_steps)
 
     # 滚动完毕, 移除 listener
     page.remove_listener('request', on_request)
