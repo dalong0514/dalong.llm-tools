@@ -623,6 +623,107 @@ async def download_doc(page, kng_id: str, name: str, output_dir: Path) -> bool:
     return True
 
 
+# ──────── 文档: 在当前页面滚动捕获并下载 ────────
+
+async def _scroll_and_download_doc(page, on_request, doc_img_urls: list[str],
+                                    doc_img_set: set[str], name: str,
+                                    output_dir: Path) -> bool:
+    """在当前已加载的文档页面上滚动, 捕获懒加载图片 URL, 下载并合成 PDF.
+
+    on_request listener 仍然挂着, 本函数负责滚动、等待、最后移除 listener.
+    doc_img_urls / doc_img_set 已在类型检测阶段收集了初始 URL.
+    """
+    import requests
+    from PIL import Image
+
+    output_pdf = output_dir / f"{safe_name(name)}.pdf"
+    if output_pdf.exists() and output_pdf.stat().st_size > 1000:
+        page.remove_listener('request', on_request)
+        log(f"  [SKIP] {output_pdf.name}")
+        return True
+
+    log(f"  初始加载: {len(doc_img_urls)} 页")
+
+    # 查找滚动容器
+    scroll_target = None
+    for sel in [".doc-preview-container", ".doc-content",
+                "[class*='doc-preview']", "[class*='doc-container']",
+                "[class*='preview-content']", "[class*='kng-doc']",
+                ".main-content", "#content", ".el-main"]:
+        try:
+            el = await page.query_selector(sel)
+            if el:
+                box = await el.bounding_box()
+                if box and box['height'] > 100:
+                    scroll_target = sel
+                    break
+        except Exception:
+            pass
+
+    # 滚动加载剩余页面
+    prev_count = len(doc_img_urls)
+    no_new_count = 0
+    for step in range(200):
+        if scroll_target:
+            await page.evaluate(
+                f"(s) => {{ const el = document.querySelector('{scroll_target}'); if(el) el.scrollTop = s * 800; }}",
+                step)
+        else:
+            await page.evaluate("(s) => window.scrollTo(0, s * 800)", step)
+        await page.wait_for_timeout(500)
+
+        if len(doc_img_urls) > prev_count:
+            prev_count = len(doc_img_urls)
+            no_new_count = 0
+        else:
+            no_new_count += 1
+            if no_new_count >= 5:
+                break
+
+    # 滚动完毕, 移除 listener
+    page.remove_listener('request', on_request)
+    await page.wait_for_timeout(1000)
+    log(f"  共捕获 {len(doc_img_urls)} 页图片 URL")
+
+    if not doc_img_urls:
+        log("  [ERR] 未捕获到图片 URL")
+        return False
+
+    # 按页码排序 (每个 URL 带各自的签名 token)
+    def page_num(url):
+        m = re.search(r'/(\d+)\.jpg', url)
+        return int(m.group(1)) if m else 0
+    doc_img_urls.sort(key=page_num)
+
+    # 下载图片
+    session = requests.Session()
+    session.headers.update({
+        'Referer': 'https://tz.yunxuetang.cn/',
+        'User-Agent': ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+                       'AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36'),
+    })
+
+    images = []
+    for i, url in enumerate(doc_img_urls):
+        try:
+            resp = session.get(url, timeout=30)
+            if resp.status_code == 200 and len(resp.content) > 500:
+                images.append(Image.open(BytesIO(resp.content)).convert('RGB'))
+            else:
+                log(f"  Page {i + 1} HTTP {resp.status_code}")
+        except Exception as e:
+            log(f"  Page {i + 1} ERROR: {e}")
+
+    if not images:
+        log("  [ERR] 未下载到任何图片")
+        return False
+
+    output_pdf.parent.mkdir(parents=True, exist_ok=True)
+    images[0].save(str(output_pdf), save_all=True, append_images=images[1:])
+    log(f"  [OK] {output_pdf.name} ({len(images)} 页, {output_pdf.stat().st_size // 1024}KB)")
+    return True
+
+
 # ──────── 单课程下载 ────────
 
 async def download_single_course(kng_id: str, name: str, output_dir: Path,
@@ -698,21 +799,21 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
                     log("  已点击「开始学习」")
                 await page.wait_for_timeout(5000)
 
-            page.remove_listener('request', on_request)
-
             # 根据检测结果下载
             if img_detected:
                 log(f"[类型] 文档 (已捕获 {len(doc_img_urls)} 页)")
                 # listener 仍然挂着, 在当前页面滚动捕获更多图片
                 ok = await _scroll_and_download_doc(
-                    page, on_request, doc_img_urls,
+                    page, on_request, doc_img_urls, doc_img_set,
                     name or kng_id, output_dir)
             elif m3u8_detected:
+                page.remove_listener('request', on_request)
                 log(f"[类型] 视频 (检测到 m3u8)")
                 await click_play_button(page)
                 await page.wait_for_timeout(3000)
                 ok = await download_video(page, name or kng_id, output_dir)
             else:
+                page.remove_listener('request', on_request)
                 # 检查是否有 video 元素
                 has_video = await page.evaluate(
                     "() => !!document.querySelector('video')?.src || !!document.querySelector('video source')?.src"
