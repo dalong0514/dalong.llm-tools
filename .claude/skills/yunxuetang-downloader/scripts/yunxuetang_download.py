@@ -633,6 +633,8 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
     output_dir.mkdir(parents=True, exist_ok=True)
     m3u8_detected = False
     img_detected = False
+    doc_img_urls: list[str] = []
+    doc_img_set: set[str] = set()
 
     def on_request(req):
         nonlocal m3u8_detected, img_detected
@@ -641,6 +643,10 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
             m3u8_detected = True
         elif 'cdn-tce-file' in u and '/100100/' in u and u.split('?')[0].endswith('.jpg'):
             img_detected = True
+            base = u.split('?')[0]
+            if base not in doc_img_set:
+                doc_img_set.add(base)
+                doc_img_urls.append(u)
 
     temp_profile = copy_chrome_profile(chrome_data)
     try:
@@ -696,9 +702,11 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
 
             # 根据检测结果下载
             if img_detected:
-                log(f"[类型] 文档 (检测到页面图片)")
-                # download_doc 内部自行导航+挂 listener+滚动捕获
-                ok = await download_doc(page, kng_id, name or kng_id, output_dir)
+                log(f"[类型] 文档 (已捕获 {len(doc_img_urls)} 页)")
+                # listener 仍然挂着, 在当前页面滚动捕获更多图片
+                ok = await _scroll_and_download_doc(
+                    page, on_request, doc_img_urls,
+                    name or kng_id, output_dir)
             elif m3u8_detected:
                 log(f"[类型] 视频 (检测到 m3u8)")
                 await click_play_button(page)
