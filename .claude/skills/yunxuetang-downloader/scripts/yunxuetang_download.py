@@ -644,45 +644,89 @@ async def _scroll_and_download_doc(page, on_request, doc_img_urls: list[str],
 
     log(f"  初始加载: {len(doc_img_urls)} 页")
 
-    # 查找滚动容器
-    scroll_target = None
-    for sel in [".doc-preview-container", ".doc-content",
-                "[class*='doc-preview']", "[class*='doc-container']",
-                "[class*='preview-content']", "[class*='kng-doc']",
-                ".main-content", "#content", ".el-main"]:
+    # 文档查看器是翻页式的, 每次加载10页为一批
+    # 需要点击"下一页"按钮翻过批次边界 (第11, 21, 31...页) 触发下一批加载
+
+    # 查找下一页按钮
+    next_btn_sel = None
+    for sel in [
+        "[class*='next']", "[class*='right-arrow']", "[class*='arrow-right']",
+        "[class*='pageNext']", "[class*='page-next']",
+        "button[class*='right']", "[class*='btn-next']",
+        ".el-icon-arrow-right", ".icon-right", "[class*='icon-next']",
+    ]:
         try:
             el = await page.query_selector(sel)
-            if el:
-                box = await el.bounding_box()
-                if box and box['height'] > 100:
-                    scroll_target = sel
-                    break
+            if el and await el.is_visible():
+                next_btn_sel = sel
+                break
         except Exception:
             pass
 
-    # 滚动加载剩余页面
+    # 兜底: 遍历所有可能的箭头按钮
+    if not next_btn_sel:
+        try:
+            found_sel = await page.evaluate("""
+                () => {
+                    const all = document.querySelectorAll('button, [role="button"], [class*="arrow"], [class*="next"], svg, i');
+                    for (const el of all) {
+                        const cls = (el.className?.baseVal || el.className || '').toString();
+                        const text = el.textContent || '';
+                        if ((cls.match(/next|right|forward|arrow/i) || text.match(/[>›»→▶]/))
+                            && el.offsetWidth > 0 && el.offsetHeight > 0) {
+                            el.dataset.yxtNext = '1';
+                            return '[data-yxt-next="1"]';
+                        }
+                    }
+                    return null;
+                }
+            """)
+            if found_sel:
+                next_btn_sel = found_sel
+        except Exception:
+            pass
+
+    log(f"  下一页按钮: {next_btn_sel or '未找到, 将使用键盘'}")
+
+    # 点击页面中心获得焦点
+    try:
+        vp = page.viewport_size
+        if vp:
+            await page.mouse.click(vp['width'] // 2, vp['height'] // 2)
+            await page.wait_for_timeout(500)
+    except Exception:
+        pass
+
+    # 逐页翻页, 每次翻页后检查是否有新图片加载 (每10页一批)
     prev_count = len(doc_img_urls)
     no_new_count = 0
-    for step in range(200):
-        if scroll_target:
-            await page.evaluate(
-                f"(s) => {{ const el = document.querySelector('{scroll_target}'); if(el) el.scrollTop = s * 800; }}",
-                step)
-        else:
-            await page.evaluate("(s) => window.scrollTo(0, s * 800)", step)
+    for step in range(500):
+        # 点击下一页按钮
+        if next_btn_sel:
+            try:
+                btn = await page.query_selector(next_btn_sel)
+                if btn and await btn.is_visible():
+                    await btn.click()
+            except Exception:
+                pass
+
+        # 同时用键盘 ArrowRight 作为备选
+        await page.keyboard.press('ArrowRight')
         await page.wait_for_timeout(500)
 
         if len(doc_img_urls) > prev_count:
+            log(f"  翻页: 已加载 {len(doc_img_urls)} 页")
             prev_count = len(doc_img_urls)
             no_new_count = 0
         else:
             no_new_count += 1
-            if no_new_count >= 5:
+            # 连续多次无新图片 = 已翻到最后一页
+            if no_new_count >= 15:
                 break
 
     # 滚动完毕, 移除 listener
     page.remove_listener('request', on_request)
-    await page.wait_for_timeout(1000)
+    await page.wait_for_timeout(2000)
     log(f"  共捕获 {len(doc_img_urls)} 页图片 URL")
 
     if not doc_img_urls:
