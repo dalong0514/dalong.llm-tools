@@ -498,8 +498,16 @@ async def download_video(page, name: str, output_dir: Path) -> bool:
 
 # ──────── 文档下载 (滚动截图) ────────
 
-async def capture_doc_images(page) -> list[str]:
-    """先挂监听再 reload 页面, 确保捕获所有图片请求"""
+async def download_doc(page, kng_id: str, name: str, output_dir: Path) -> bool:
+    """对齐成功脚本: 先挂 listener → 再导航到 doc URL → 点击开始 → 滚动捕获全部图片 URL → 下载 → PDF"""
+    import requests
+    from PIL import Image
+
+    output_pdf = output_dir / f"{safe_name(name)}.pdf"
+    if output_pdf.exists() and output_pdf.stat().st_size > 1000:
+        log(f"  [SKIP] {output_pdf.name}")
+        return True
+
     img_urls: list[str] = []
     img_set: set[str] = set()
 
@@ -512,21 +520,37 @@ async def capture_doc_images(page) -> list[str]:
                 img_set.add(base)
                 img_urls.append(u)
 
-    # 先挂监听, 再 reload, 让 listener 捕获页面加载时的图片请求
+    # 1. 先挂 listener
     page.on('request', on_request)
-    try:
-        await page.reload(wait_until="networkidle", timeout=30000)
-    except Exception:
-        pass
-    await page.wait_for_timeout(3000)
 
-    # reload 后可能需要重新点击「开始学习」
-    await click_start_button(page)
-    await page.wait_for_timeout(5000)
+    # 2. 再导航 (listener 在导航过程中捕获图片请求)
+    for url_template in [
+        f"https://tz.yunxuetang.cn/kng/#/doc/play?kngId={kng_id}&projectId=&btid=&gwnlUrl=",
+        f"https://tz.yunxuetang.cn/kng/#/video/play?kngId={kng_id}&projectId=&btid=&gwnlUrl=",
+    ]:
+        try:
+            await page.goto(url_template, wait_until="networkidle", timeout=30000)
+        except Exception:
+            pass
+        await page.wait_for_timeout(3000)
 
-    log(f"  初始加载: {len(img_urls)} 页")
+        # 3. 点击「开始学习」
+        clicked = await click_start_button(page)
+        if clicked:
+            log("  已点击「开始学习」")
+        await page.wait_for_timeout(5000)
 
-    # 查找文档滚动容器
+        if img_urls:
+            log(f"  初始加载: {len(img_urls)} 页")
+            break
+        log(f"  URL {url_template.split('#')[1][:20]} 无图片, 尝试下一个...")
+
+    if not img_urls:
+        page.remove_listener('request', on_request)
+        log("  [ERR] 未捕获到图片 URL")
+        return False
+
+    # 4. 滚动加载剩余页面
     scroll_target = None
     for sel in [".doc-preview-container", ".doc-content",
                 "[class*='doc-preview']", "[class*='doc-container']",
@@ -538,12 +562,10 @@ async def capture_doc_images(page) -> list[str]:
                 box = await el.bounding_box()
                 if box and box['height'] > 100:
                     scroll_target = sel
-                    log(f"  找到文档容器: {sel}")
                     break
         except Exception:
             pass
 
-    # 滚动加载剩余页面
     prev_count = len(img_urls)
     no_new_count = 0
     for step in range(200):
@@ -556,7 +578,6 @@ async def capture_doc_images(page) -> list[str]:
         await page.wait_for_timeout(500)
 
         if len(img_urls) > prev_count:
-            log(f"  滚动 {step}: 已加载 {len(img_urls)} 页")
             prev_count = len(img_urls)
             no_new_count = 0
         else:
@@ -567,25 +588,8 @@ async def capture_doc_images(page) -> list[str]:
     page.remove_listener('request', on_request)
     await page.wait_for_timeout(1000)
     log(f"  共捕获 {len(img_urls)} 页图片 URL")
-    return img_urls
 
-
-async def download_doc(page, name: str, output_dir: Path) -> bool:
-    """捕获至少一个图片 URL, 用 URL 模式顺序下载全部页面后合成 PDF"""
-    import requests
-    from PIL import Image
-
-    output_pdf = output_dir / f"{safe_name(name)}.pdf"
-    if output_pdf.exists() and output_pdf.stat().st_size > 1000:
-        log(f"  [SKIP] {output_pdf.name}")
-        return True
-
-    img_urls = await capture_doc_images(page)
-    if not img_urls:
-        log("  [ERR] 未捕获到图片 URL")
-        return False
-
-    # 按页码排序, 取第一个 URL 提取模式
+    # 5. 按页码排序, 用各自的签名 URL 下载 (token 是按页签名的)
     def page_num(url):
         m = re.search(r'/(\d+)\.jpg', url)
         return int(m.group(1)) if m else 0
@@ -599,47 +603,15 @@ async def download_doc(page, name: str, output_dir: Path) -> bool:
     })
 
     images = []
-
-    # 策略: 从第一个 URL 提取 base pattern, 顺序遍历页码下载
-    first_url = img_urls[0]
-    m = re.match(
-        r'(https://cdn-tce-file\.yunxuetang\.cn/.+?/\d+/)(\d+)(\.jpg)(\?.*)',
-        first_url, re.DOTALL
-    )
-    if m:
-        base, ext, query = m.group(1), m.group(3), m.group(4)
-        log(f"  使用顺序下载模式 (从 URL 模式构造全部页码)...")
-        pg = 1
-        while pg <= 500:
-            url = f"{base}{pg}{ext}{query}"
-            try:
-                resp = session.get(url, timeout=30)
-                if resp.status_code == 200 and len(resp.content) > 500:
-                    images.append(Image.open(BytesIO(resp.content)).convert('RGB'))
-                    if pg % 10 == 0:
-                        log(f"  已下载 {pg} 页")
-                    pg += 1
-                elif resp.status_code in (400, 403, 404):
-                    log(f"  共 {pg - 1} 页")
-                    break
-                else:
-                    log(f"  Page {pg} HTTP {resp.status_code}, 停止")
-                    break
-            except Exception as e:
-                log(f"  Page {pg} ERROR: {e}")
-                break
-    else:
-        # 降级: 直接用捕获到的 URL 列表下载
-        log(f"  使用捕获模式下载 {len(img_urls)} 页...")
-        for i, url in enumerate(img_urls):
-            try:
-                resp = session.get(url, timeout=30)
-                if resp.status_code == 200 and len(resp.content) > 500:
-                    images.append(Image.open(BytesIO(resp.content)).convert('RGB'))
-                else:
-                    log(f"  Page {i + 1} HTTP {resp.status_code}")
-            except Exception as e:
-                log(f"  Page {i + 1} ERROR: {e}")
+    for i, url in enumerate(img_urls):
+        try:
+            resp = session.get(url, timeout=30)
+            if resp.status_code == 200 and len(resp.content) > 500:
+                images.append(Image.open(BytesIO(resp.content)).convert('RGB'))
+            else:
+                log(f"  Page {i + 1} HTTP {resp.status_code}")
+        except Exception as e:
+            log(f"  Page {i + 1} ERROR: {e}")
 
     if not images:
         log("  [ERR] 未下载到任何图片")
@@ -725,17 +697,8 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
             # 根据检测结果下载
             if img_detected:
                 log(f"[类型] 文档 (检测到页面图片)")
-                # 导航到 doc URL 以触发新的图片请求
-                doc_url = (f"https://tz.yunxuetang.cn/kng/#/doc/play"
-                           f"?kngId={kng_id}&projectId=&btid=&gwnlUrl=")
-                try:
-                    await page.goto(doc_url, wait_until="networkidle", timeout=30000)
-                except Exception:
-                    pass
-                await page.wait_for_timeout(3000)
-                await click_start_button(page)
-                await page.wait_for_timeout(5000)
-                ok = await download_doc(page, name or kng_id, output_dir)
+                # download_doc 内部自行导航+挂 listener+滚动捕获
+                ok = await download_doc(page, kng_id, name or kng_id, output_dir)
             elif m3u8_detected:
                 log(f"[类型] 视频 (检测到 m3u8)")
                 await click_play_button(page)
