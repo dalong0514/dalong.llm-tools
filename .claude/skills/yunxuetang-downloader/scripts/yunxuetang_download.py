@@ -499,7 +499,7 @@ async def download_video(page, name: str, output_dir: Path) -> bool:
 # ──────── 文档下载 (滚动截图) ────────
 
 async def capture_doc_images(page) -> list[str]:
-    """滚动文档页面, 通过请求拦截捕获所有页面图片 URL"""
+    """先挂监听再 reload 页面, 确保捕获所有图片请求"""
     img_urls: list[str] = []
     img_set: set[str] = set()
 
@@ -512,8 +512,19 @@ async def capture_doc_images(page) -> list[str]:
                 img_set.add(base)
                 img_urls.append(u)
 
+    # 先挂监听, 再 reload, 让 listener 捕获页面加载时的图片请求
     page.on('request', on_request)
+    try:
+        await page.reload(wait_until="networkidle", timeout=30000)
+    except Exception:
+        pass
     await page.wait_for_timeout(3000)
+
+    # reload 后可能需要重新点击「开始学习」
+    await click_start_button(page)
+    await page.wait_for_timeout(5000)
+
+    log(f"  初始加载: {len(img_urls)} 页")
 
     # 查找文档滚动容器
     scroll_target = None
@@ -527,12 +538,13 @@ async def capture_doc_images(page) -> list[str]:
                 box = await el.bounding_box()
                 if box and box['height'] > 100:
                     scroll_target = sel
+                    log(f"  找到文档容器: {sel}")
                     break
         except Exception:
             pass
 
-    # 滚动加载
-    prev_count = 0
+    # 滚动加载剩余页面
+    prev_count = len(img_urls)
     no_new_count = 0
     for step in range(200):
         if scroll_target:
@@ -544,6 +556,7 @@ async def capture_doc_images(page) -> list[str]:
         await page.wait_for_timeout(500)
 
         if len(img_urls) > prev_count:
+            log(f"  滚动 {step}: 已加载 {len(img_urls)} 页")
             prev_count = len(img_urls)
             no_new_count = 0
         else:
@@ -553,11 +566,12 @@ async def capture_doc_images(page) -> list[str]:
 
     page.remove_listener('request', on_request)
     await page.wait_for_timeout(1000)
+    log(f"  共捕获 {len(img_urls)} 页图片 URL")
     return img_urls
 
 
 async def download_doc(page, name: str, output_dir: Path) -> bool:
-    """捕获文档页面图片并合成 PDF"""
+    """捕获至少一个图片 URL, 用 URL 模式顺序下载全部页面后合成 PDF"""
     import requests
     from PIL import Image
 
@@ -571,13 +585,12 @@ async def download_doc(page, name: str, output_dir: Path) -> bool:
         log("  [ERR] 未捕获到图片 URL")
         return False
 
-    # 按页码排序
+    # 按页码排序, 取第一个 URL 提取模式
     def page_num(url):
         m = re.search(r'/(\d+)\.jpg', url)
         return int(m.group(1)) if m else 0
     img_urls.sort(key=page_num)
 
-    log(f"  下载 {len(img_urls)} 页图片...")
     session = requests.Session()
     session.headers.update({
         'Referer': 'https://tz.yunxuetang.cn/',
@@ -586,15 +599,47 @@ async def download_doc(page, name: str, output_dir: Path) -> bool:
     })
 
     images = []
-    for i, url in enumerate(img_urls):
-        try:
-            resp = session.get(url, timeout=30)
-            if resp.status_code == 200 and len(resp.content) > 500:
-                images.append(Image.open(BytesIO(resp.content)).convert('RGB'))
-            else:
-                log(f"  Page {i + 1} HTTP {resp.status_code}")
-        except Exception as e:
-            log(f"  Page {i + 1} ERROR: {e}")
+
+    # 策略: 从第一个 URL 提取 base pattern, 顺序遍历页码下载
+    first_url = img_urls[0]
+    m = re.match(
+        r'(https://cdn-tce-file\.yunxuetang\.cn/.+?/\d+/)(\d+)(\.jpg)(\?.*)',
+        first_url, re.DOTALL
+    )
+    if m:
+        base, ext, query = m.group(1), m.group(3), m.group(4)
+        log(f"  使用顺序下载模式 (从 URL 模式构造全部页码)...")
+        pg = 1
+        while pg <= 500:
+            url = f"{base}{pg}{ext}{query}"
+            try:
+                resp = session.get(url, timeout=30)
+                if resp.status_code == 200 and len(resp.content) > 500:
+                    images.append(Image.open(BytesIO(resp.content)).convert('RGB'))
+                    if pg % 10 == 0:
+                        log(f"  已下载 {pg} 页")
+                    pg += 1
+                elif resp.status_code in (400, 403, 404):
+                    log(f"  共 {pg - 1} 页")
+                    break
+                else:
+                    log(f"  Page {pg} HTTP {resp.status_code}, 停止")
+                    break
+            except Exception as e:
+                log(f"  Page {pg} ERROR: {e}")
+                break
+    else:
+        # 降级: 直接用捕获到的 URL 列表下载
+        log(f"  使用捕获模式下载 {len(img_urls)} 页...")
+        for i, url in enumerate(img_urls):
+            try:
+                resp = session.get(url, timeout=30)
+                if resp.status_code == 200 and len(resp.content) > 500:
+                    images.append(Image.open(BytesIO(resp.content)).convert('RGB'))
+                else:
+                    log(f"  Page {i + 1} HTTP {resp.status_code}")
+            except Exception as e:
+                log(f"  Page {i + 1} ERROR: {e}")
 
     if not images:
         log("  [ERR] 未下载到任何图片")
@@ -680,6 +725,16 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
             # 根据检测结果下载
             if img_detected:
                 log(f"[类型] 文档 (检测到页面图片)")
+                # 导航到 doc URL 以触发新的图片请求
+                doc_url = (f"https://tz.yunxuetang.cn/kng/#/doc/play"
+                           f"?kngId={kng_id}&projectId=&btid=&gwnlUrl=")
+                try:
+                    await page.goto(doc_url, wait_until="networkidle", timeout=30000)
+                except Exception:
+                    pass
+                await page.wait_for_timeout(3000)
+                await click_start_button(page)
+                await page.wait_for_timeout(5000)
                 ok = await download_doc(page, name or kng_id, output_dir)
             elif m3u8_detected:
                 log(f"[类型] 视频 (检测到 m3u8)")
@@ -707,13 +762,11 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
         shutil.rmtree(temp_profile, ignore_errors=True)
 
 
-# ──────── 批量下载 ────────
+# ──────── 顺序下载 (逐个独立子进程) ────────
 
-async def download_batch(course_list_file: Path, output_dir: Path,
-                         chrome_data: Path, start_index: int = 0) -> dict:
-    """批量下载课程列表中的所有课程"""
-    from playwright.async_api import async_playwright
-
+def run_all_sequential(course_list_file: Path, output_dir: Path,
+                       start_index: int = 0):
+    """逐个课程独立子进程下载, 每完成一个保存进度"""
     with open(course_list_file, encoding='utf-8') as f:
         courses = json.load(f)
 
@@ -727,11 +780,14 @@ async def download_batch(course_list_file: Path, output_dir: Path,
             with open(progress_file, encoding='utf-8') as f:
                 progress = json.load(f)
             done_ids = set(progress.get('done', []))
-            log(f"[进度] 已完成 {len(done_ids)}/{len(courses)}")
         except Exception:
             pass
 
-    stats = {'ok_video': 0, 'ok_doc': 0, 'failed': [], 'skipped': 0}
+    total = len(courses)
+    log(f"[进度] 已完成 {len(done_ids)}/{total}, 从第 {start_index + 1} 个开始")
+
+    script_path = str(Path(__file__).resolve())
+    failed = []
 
     for idx, course in enumerate(courses):
         if idx < start_index:
@@ -741,122 +797,35 @@ async def download_batch(course_list_file: Path, output_dir: Path,
         name = course.get('name', f'item_{idx + 1}')
 
         if kng_id in done_ids:
-            stats['skipped'] += 1
             continue
 
         log(f"\n{'='*60}")
-        log(f"[{idx + 1}/{len(courses)}] {name[:60]}")
+        log(f"[{idx + 1}/{total}] {name[:60]}")
+        log(f"  已完成: {len(done_ids)}, 剩余: {total - len(done_ids)}")
 
-        temp_profile = copy_chrome_profile(chrome_data)
-        try:
-            async with async_playwright() as p:
-                browser = await p.chromium.launch_persistent_context(
-                    user_data_dir=str(temp_profile), channel="chrome",
-                    headless=False,
-                    args=["--disable-blink-features=AutomationControlled",
-                          "--no-first-run", "--no-default-browser-check",
-                          "--disable-sync", "--no-sandbox",
-                          "--autoplay-policy=no-user-gesture-required"],
-                    timeout=60000,
-                )
-                page = await browser.new_page()
-                await page.add_init_script(RECORDER_INIT_JS)
+        # 用独立子进程调用 single 模式
+        result = subprocess.run(
+            [sys.executable, script_path,
+             "--output-dir", str(output_dir),
+             "single",
+             "--kng-id", kng_id,
+             "--name", name],
+            timeout=None,
+        )
 
-                # 类型检测
-                m3u8_detected = False
-                img_detected = False
-
-                def on_request(req):
-                    nonlocal m3u8_detected, img_detected
-                    u = req.url
-                    if 'm3u8' in u and ('streamobs' in u or 'yunxuetang' in u):
-                        m3u8_detected = True
-                    elif ('cdn-tce-file' in u and '/100100/' in u
-                          and u.split('?')[0].endswith('.jpg')):
-                        img_detected = True
-
-                page.on('request', on_request)
-
-                # 先试 video URL
-                video_url = (f"https://tz.yunxuetang.cn/kng/#/video/play"
-                             f"?kngId={kng_id}&projectId=&btid=&gwnlUrl=")
-                try:
-                    await page.goto(video_url, wait_until="networkidle", timeout=30000)
-                except Exception:
-                    pass
-                await page.wait_for_timeout(3000)
-
-                clicked = await click_start_button(page)
-                if clicked:
-                    log("  已点击「开始学习」")
-                await page.wait_for_timeout(5000)
-
-                # 未检测到内容, 试 doc URL
-                if not m3u8_detected and not img_detected:
-                    doc_url = (f"https://tz.yunxuetang.cn/kng/#/doc/play"
-                               f"?kngId={kng_id}&projectId=&btid=&gwnlUrl=")
-                    try:
-                        await page.goto(doc_url, wait_until="networkidle", timeout=30000)
-                    except Exception:
-                        pass
-                    await page.wait_for_timeout(3000)
-                    clicked = await click_start_button(page)
-                    if clicked:
-                        log("  已点击「开始学习」")
-                    await page.wait_for_timeout(5000)
-
-                page.remove_listener('request', on_request)
-
-                ok = False
-                if img_detected:
-                    log(f"  [类型] 文档")
-                    ok = await download_doc(page, name, output_dir)
-                    if ok:
-                        stats['ok_doc'] += 1
-                elif m3u8_detected:
-                    log(f"  [类型] 视频")
-                    await click_play_button(page)
-                    await page.wait_for_timeout(3000)
-                    ok = await download_video(page, name, output_dir)
-                    if ok:
-                        stats['ok_video'] += 1
-                else:
-                    has_video = await page.evaluate(
-                        "() => !!document.querySelector('video')"
-                    )
-                    if has_video:
-                        log(f"  [类型] 视频 (video 元素)")
-                        await click_play_button(page)
-                        await page.wait_for_timeout(3000)
-                        ok = await download_video(page, name, output_dir)
-                        if ok:
-                            stats['ok_video'] += 1
-                    else:
-                        log("  [SKIP] 无法检测类型")
-
-                if not ok:
-                    stats['failed'].append(name)
-
-                if ok:
-                    done_ids.add(kng_id)
-                    # 保存进度
-                    with open(progress_file, 'w', encoding='utf-8') as f:
-                        json.dump({'done': list(done_ids)}, f, ensure_ascii=False)
-
-                await browser.close()
-
-        except Exception as e:
-            log(f"  [ERR] {e}")
-            stats['failed'].append(name)
-        finally:
-            shutil.rmtree(temp_profile, ignore_errors=True)
+        if result.returncode == 0:
+            done_ids.add(kng_id)
+            with open(progress_file, 'w', encoding='utf-8') as f:
+                json.dump({'done': list(done_ids)}, f, ensure_ascii=False)
+            log(f"  [OK] 进度已保存 ({len(done_ids)}/{total})")
+        else:
+            log(f"  [FAIL] {name}")
+            failed.append(name)
 
     log(f"\n{'='*60}")
-    log(f"完成: 视频 {stats['ok_video']}, 文档 {stats['ok_doc']}, "
-        f"跳过 {stats['skipped']}, 失败 {len(stats['failed'])}")
-    for f in stats['failed']:
+    log(f"完成: 成功 {len(done_ids)}, 失败 {len(failed)}")
+    for f in failed:
         log(f"  FAIL: {f}")
-    return stats
 
 
 # ──────── CLI ────────
@@ -879,12 +848,12 @@ def main():
     p_single.add_argument("--kng-id", required=True, help="课程 kngId")
     p_single.add_argument("--name", default="", help="课程名称")
 
-    # batch
-    p_batch = sub.add_parser("batch", help="批量下载")
-    p_batch.add_argument("--courses", type=Path, required=True,
-                         help="course_list.json 路径")
-    p_batch.add_argument("--start", type=int, default=0,
-                         help="起始索引 (跳过前 N 个)")
+    # run-all
+    p_run = sub.add_parser("run-all", help="顺序逐个下载 (每个课程独立进程)")
+    p_run.add_argument("--courses", type=Path, required=True,
+                       help="course_list.json 路径")
+    p_run.add_argument("--start", type=int, default=0,
+                       help="起始索引 (跳过前 N 个)")
 
     args = parser.parse_args()
 
@@ -902,9 +871,8 @@ def main():
         ok = asyncio.run(download_single_course(
             args.kng_id, args.name, args.output_dir, chrome_data))
         sys.exit(0 if ok else 1)
-    elif args.command == 'batch':
-        asyncio.run(download_batch(
-            args.courses, args.output_dir, chrome_data, args.start))
+    elif args.command == 'run-all':
+        run_all_sequential(args.courses, args.output_dir, args.start)
 
 
 if __name__ == "__main__":
