@@ -412,30 +412,71 @@ async def download_video(page, name: str, output_dir: Path) -> bool:
     duration = result.get('duration', 0)
     log(f"  视频时长: {duration:.0f}s = {duration/60:.1f}min")
 
-    # 等待播放完成
-    for i in range(int(duration) + 60):
+    # 等待播放完成 (长视频可能被平台暂停, 需要自动恢复)
+    stall_count = 0
+    last_time = 0.0
+    for i in range(int(duration) + 300):
         await page.wait_for_timeout(1000)
         try:
             status = await page.evaluate("""
                 () => {
                     const v = document.querySelector('video');
+                    if (!v) return { error: 'no video' };
                     return {
-                        currentTime: v?.currentTime || 0,
-                        duration: v?.duration || 0,
-                        paused: v?.paused || false,
-                        ended: v?.ended || false,
+                        currentTime: v.currentTime || 0,
+                        duration: v.duration || 0,
+                        paused: v.paused || false,
+                        ended: v.ended || false,
                         chunks: window.__yxt_recorder_chunks?.length || 0
                     };
                 }
             """)
+            ct = status.get('currentTime', 0)
+            dur = status.get('duration', 0)
+
             if i % 30 == 0:
-                ct = status.get('currentTime', 0)
-                dur = status.get('duration', 0)
                 pct = (ct / dur * 100) if dur > 0 else 0
                 log(f"  进度: {ct:.0f}/{dur:.0f}s ({pct:.0f}%) chunks={status.get('chunks', 0)}")
-            if status.get('ended') or status.get('paused'):
+
+            # 真正播放结束
+            if status.get('ended') or (dur > 0 and ct >= dur - 2):
                 log(f"  视频播放结束")
                 break
+
+            # 视频暂停 → 自动恢复 (平台弹窗/缓冲/反挂机)
+            if status.get('paused'):
+                log(f"  [!] 视频暂停, 尝试恢复...")
+                # 先尝试关闭可能的弹窗
+                await page.evaluate("""
+                    () => {
+                        // 关闭常见弹窗 (确认对话框、提示框等)
+                        const closeBtns = document.querySelectorAll(
+                            '[class*="close"], [class*="confirm"], [class*="ok"], ' +
+                            '[class*="dialog"] button, [class*="modal"] button, ' +
+                            '.el-dialog__close, .el-message-box__btns button'
+                        );
+                        for (const btn of closeBtns) {
+                            if (btn.offsetWidth > 0 && btn.offsetHeight > 0) {
+                                btn.click();
+                            }
+                        }
+                        // 恢复播放
+                        const v = document.querySelector('video');
+                        if (v && v.paused) v.play().catch(() => {});
+                    }
+                """)
+                await page.wait_for_timeout(2000)
+
+            # 检测播放卡住 (currentTime 不前进)
+            if abs(ct - last_time) < 0.5:
+                stall_count += 1
+                if stall_count >= 30:
+                    log(f"  [!] 播放卡住30秒, 尝试恢复...")
+                    await page.evaluate("() => { const v = document.querySelector('video'); if(v) v.play().catch(()=>{}); }")
+                    stall_count = 0
+            else:
+                stall_count = 0
+            last_time = ct
         except Exception:
             pass
 
