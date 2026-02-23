@@ -68,24 +68,25 @@ def process_chunks(model, chunks, filename, mode):
         time.sleep(1)  # Adjust this value as needed
 
 
-def translate(mode):
-    file_name = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        "working",
-        "input.md",
-    )
-    origin_content = read_file(file_name)
-    chunks = split_text_by_newline(origin_content)
-    process_chunks(
-        model,
-        chunks,
-        os.path.join(
+def translate(mode, input_file=None):
+    if input_file:
+        file_name = input_file
+        base, ext = os.path.splitext(file_name)
+        output_file = f"{base}_dual{ext}"
+    else:
+        file_name = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "working",
+            "input.md",
+        )
+        output_file = os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             "working",
             "output.md",
-        ),
-        mode,
-    )
+        )
+    origin_content = read_file(file_name)
+    chunks = split_text_by_newline(origin_content)
+    process_chunks(model, chunks, output_file, mode)
 
 
 def parse_arguments():
@@ -94,6 +95,7 @@ def parse_arguments():
     :return: 包含参数的命名空间
     """
     parser = argparse.ArgumentParser(description="翻译文本")
+    parser.add_argument("input_file", nargs="?", default=None, help="输入文件路径，输出文件自动添加 _dual 后缀")
     parser.add_argument("--mode", type=str, default="zh", help="处理模式")
     return parser.parse_args()
 
@@ -103,7 +105,7 @@ if __name__ == "__main__":
     mode = args.mode
     start_time = time.time()
     print("waiting...\n")
-    translate(mode)
+    translate(mode, args.input_file)
     end_time = time.time()
     elapsed_time = end_time - start_time
     if elapsed_time < 60:
