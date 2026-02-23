@@ -1,0 +1,1 @@
+使用脚本@scripts/translate_byline_deepseek.py翻译一个文档，文档的路径作为command的传入参数。翻译后的内容存入文件的路径是在源文件名后增加后缀`_dual`。
