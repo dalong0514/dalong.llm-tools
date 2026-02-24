@@ -49,6 +49,24 @@ def log(msg: str):
         print(msg.encode('utf-8', errors='replace').decode('utf-8'), flush=True)
 
 
+def _is_doc_image_url(url: str) -> bool:
+    """宽松匹配文档页面图片 URL"""
+    base = url.split('?')[0].lower()
+    img_exts = ('.jpg', '.jpeg', '.png', '.webp')
+    # 原始严格模式
+    if 'cdn-tce-file' in url and '/100100/' in url and base.endswith('.jpg'):
+        return True
+    # 宽松: 常见 CDN 域名 + 图片后缀
+    cdn_hints = ['cdn-tce-file', 'bcebos.com', 'bce.baidu', 'cdn.yunxuetang',
+                 'bos.cn', 'cdn-tce', 'baidubce.com']
+    if any(h in url for h in cdn_hints) and any(base.endswith(e) for e in img_exts):
+        return True
+    # 云学堂资源路径
+    if 'yunxuetang' in url and '/kng/' in url and any(base.endswith(e) for e in img_exts):
+        return True
+    return False
+
+
 # ──────── Chrome Profile ────────
 
 def find_chrome_profile() -> Path | None:
@@ -554,8 +572,7 @@ async def download_doc(page, kng_id: str, name: str, output_dir: Path) -> bool:
 
     def on_request(req):
         u = req.url
-        if ('cdn-tce-file' in u and '/100100/' in u
-                and u.split('?')[0].endswith('.jpg')):
+        if _is_doc_image_url(u):
             base = u.split('?')[0]
             if base not in img_set:
                 img_set.add(base)
@@ -846,6 +863,88 @@ async def _scroll_and_download_doc(page, on_request, doc_img_urls: list[str],
     return True
 
 
+# ──────── 截图兜底: 逐页截图生成 PDF ────────
+
+async def _detect_doc_viewer(page) -> dict | None:
+    """从 DOM 检测文档查看器 (页码指示器 N/M)"""
+    return await page.evaluate("""
+        () => {
+            // 查找页码指示器 (如 "1/26", "1 / 17")
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            let node;
+            while (node = walker.nextNode()) {
+                const text = node.textContent.trim();
+                const m = text.match(/^(\\d+)\\s*[/／]\\s*(\\d+)$/);
+                if (m && parseInt(m[2]) > 1 && parseInt(m[2]) < 2000) {
+                    return { totalPages: parseInt(m[2]), currentPage: parseInt(m[1]) };
+                }
+            }
+            return null;
+        }
+    """)
+
+
+async def _screenshot_doc_pages(page, name: str, output_dir: Path,
+                                total_pages: int) -> bool:
+    """逐页截图生成 PDF (兜底方案: 无法通过网络请求捕获图片时使用)"""
+    from PIL import Image
+
+    output_pdf = output_dir / f"{safe_name(name)}.pdf"
+    if output_pdf.exists() and output_pdf.stat().st_size > 1000:
+        log(f"  [SKIP] {output_pdf.name}")
+        return True
+
+    # 定位文档内容区域 (排除顶栏、侧边栏等)
+    content_clip = await page.evaluate("""
+        () => {
+            for (const sel of [
+                '.doc-preview-container', '.doc-content',
+                '[class*="doc-preview"]', '[class*="doc-container"]',
+                '[class*="preview-content"]', '[class*="kng-doc"]',
+                '[class*="viewer"]', '.main-content', '.el-main'
+            ]) {
+                const el = document.querySelector(sel);
+                if (el) {
+                    const r = el.getBoundingClientRect();
+                    if (r.width > 300 && r.height > 300) {
+                        return { x: r.x, y: r.y, width: r.width, height: r.height };
+                    }
+                }
+            }
+            return null;
+        }
+    """)
+
+    # 先翻到第 1 页
+    for _ in range(total_pages):
+        await page.keyboard.press('ArrowLeft')
+        await page.wait_for_timeout(150)
+    await page.wait_for_timeout(500)
+
+    images = []
+    for pg in range(total_pages):
+        await page.wait_for_timeout(400)
+        clip = content_clip if content_clip else None
+        shot = await page.screenshot(clip=clip, type='png')
+        images.append(Image.open(BytesIO(shot)).convert('RGB'))
+
+        if pg < total_pages - 1:
+            await page.keyboard.press('ArrowRight')
+            await page.wait_for_timeout(300)
+
+        if (pg + 1) % 10 == 0:
+            log(f"  截图进度: {pg + 1}/{total_pages}")
+
+    if not images:
+        log("  [ERR] 截图为空")
+        return False
+
+    output_pdf.parent.mkdir(parents=True, exist_ok=True)
+    images[0].save(str(output_pdf), save_all=True, append_images=images[1:])
+    log(f"  [OK] {output_pdf.name} ({len(images)} 页, {output_pdf.stat().st_size // 1024}KB)")
+    return True
+
+
 # ──────── 单课程下载 ────────
 
 async def download_single_course(kng_id: str, name: str, output_dir: Path,
@@ -864,7 +963,7 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
         u = req.url
         if ('m3u8' in u and ('streamobs' in u or 'yunxuetang' in u)):
             m3u8_detected = True
-        elif 'cdn-tce-file' in u and '/100100/' in u and u.split('?')[0].endswith('.jpg'):
+        elif _is_doc_image_url(u):
             img_detected = True
             base = u.split('?')[0]
             if base not in doc_img_set:
@@ -946,9 +1045,18 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
                     await page.wait_for_timeout(3000)
                     ok = await download_video(page, name or kng_id, output_dir)
                 else:
-                    log("[ERR] 无法检测课程类型")
-                    await page.screenshot(path=str(output_dir / f"debug_{kng_id[:8]}.png"))
-                    ok = False
+                    # 兜底: 通过 DOM 检测文档查看器 (页码指示器)
+                    doc_info = await _detect_doc_viewer(page)
+                    if doc_info and doc_info.get('totalPages', 0) > 0:
+                        tp = doc_info['totalPages']
+                        log(f"[类型] 文档 (DOM检测, {tp} 页, 截图模式)")
+                        ok = await _screenshot_doc_pages(
+                            page, name or kng_id, output_dir, tp)
+                    else:
+                        log("[ERR] 无法检测课程类型")
+                        await page.screenshot(
+                            path=str(output_dir / f"debug_{kng_id[:8]}.png"))
+                        ok = False
 
             await browser.close()
             return ok
