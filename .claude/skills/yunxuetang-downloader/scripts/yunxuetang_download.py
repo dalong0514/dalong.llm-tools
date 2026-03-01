@@ -1020,19 +1020,19 @@ async def download_single_course(kng_id: str, name: str, output_dir: Path,
                     log("  已点击「开始学习」")
                 await page.wait_for_timeout(5000)
 
-            # 根据检测结果下载
-            if img_detected:
-                log(f"[类型] 文档 (已捕获 {len(doc_img_urls)} 页)")
-                # listener 仍然挂着, 在当前页面滚动捕获更多图片
-                ok = await _scroll_and_download_doc(
-                    page, on_request, doc_img_urls, doc_img_set,
-                    name or kng_id, output_dir)
-            elif m3u8_detected:
+            # 根据检测结果下载 (m3u8 优先: 视频页面也会加载 CDN 图片导致 img_detected 误判)
+            if m3u8_detected:
                 page.remove_listener('request', on_request)
                 log(f"[类型] 视频 (检测到 m3u8)")
                 await click_play_button(page)
                 await page.wait_for_timeout(3000)
                 ok = await download_video(page, name or kng_id, output_dir)
+            elif img_detected:
+                log(f"[类型] 文档 (已捕获 {len(doc_img_urls)} 页)")
+                # listener 仍然挂着, 在当前页面滚动捕获更多图片
+                ok = await _scroll_and_download_doc(
+                    page, on_request, doc_img_urls, doc_img_set,
+                    name or kng_id, output_dir)
             else:
                 page.remove_listener('request', on_request)
                 # 检查是否有 video 元素
